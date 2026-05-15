@@ -1,4 +1,34 @@
-export default function AdminLoginPage() {
+import { redirect } from "next/navigation";
+import { getAdminSession, loginAction } from "../../lib/admin-auth";
+
+type AdminLoginPageProps = {
+  searchParams?: Promise<{
+    error?: string;
+  }>;
+};
+
+function getErrorMessage(error?: string) {
+  if (error === "config") {
+    return "Admin-login is nog niet geconfigureerd. Zet ADMIN_EMAIL, ADMIN_PASSWORD en ADMIN_SESSION_SECRET.";
+  }
+
+  if (error === "invalid") {
+    return "E-mailadres of wachtwoord klopt niet.";
+  }
+
+  return null;
+}
+
+export default async function AdminLoginPage({ searchParams }: AdminLoginPageProps) {
+  const session = await getAdminSession();
+
+  if (session) {
+    redirect("/dashboard");
+  }
+
+  const params = await searchParams;
+  const errorMessage = getErrorMessage(params?.error);
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
@@ -7,15 +37,17 @@ export default function AdminLoginPage() {
         <span>Log in om de beheeromgeving te openen.</span>
       </section>
 
-      <form className="admin-form">
+      {errorMessage ? <p className="admin-alert">{errorMessage}</p> : null}
+
+      <form className="admin-form" action={loginAction}>
         <label>
           E-mailadres
-          <input type="email" name="email" autoComplete="email" />
+          <input type="email" name="email" autoComplete="email" required />
         </label>
 
         <label>
           Wachtwoord
-          <input type="password" name="password" autoComplete="current-password" />
+          <input type="password" name="password" autoComplete="current-password" required />
         </label>
 
         <button className="admin-button" type="submit">

@@ -33,7 +33,19 @@ De database-baseline is gestart:
 - Lokale smoke-test is uitgevoerd op `http://localhost:3000/winkel` en een echte productdetailpagina.
 - Admin `/producten`, `/producten/nieuw`, `/producten/[id]` en `/producten/[id]/media` zijn gekoppeld aan remote Supabase catalogusdata.
 - Admin kan server-side producten opslaan en productfoto's uploaden naar `product-images` via een service-role server action.
+- Admin `/producten/[id]/varianten` beheert productgewichten, varianten, SKU's, prijzen en voorraadlabels.
+- Producten kunnen vanuit de detailpagina veilig verborgen of opnieuw zichtbaar gemaakt worden zonder hard delete.
 - Lokale smoke-test is uitgevoerd op `http://localhost:3001/producten` en een echte productdetailpagina.
+- Admin login is toegevoegd met een gesigneerde httpOnly sessie-cookie.
+- Admin routes worden beschermd via Next.js `proxy.ts`; zonder sessie redirect `/producten` naar `/login?next=%2Fproducten`.
+- Product write-actions vereisen server-side een geldige adminsessie voordat Supabase-mutaties of foto-uploads worden uitgevoerd.
+- Supabase security hardening is remote toegepast:
+  - `public.image_backup_products`, `public.image_backup_product_variants`, `public.backup_products_image` en `public.orders` hebben RLS aan.
+  - `anon` en `authenticated` hebben geen select-rechten op deze private tabellen.
+  - Alleen `service_role` heeft beheerpolicies voor deze private tabellen.
+  - `product-images` heeft geen brede `storage.objects` listing-policy.
+  - `public.rls_auto_enable()` is niet meer uitvoerbaar voor `anon` of `authenticated`.
+- Supabase security advisor-check geeft momenteel `0` lints terug.
 
 ## Empty-File Audit
 
@@ -56,7 +68,6 @@ Conclusie: de codebase is nu compile-stabiel voor de hoofdapps, maar nog niet fu
 Hoog risico:
 
 - Supabase branch `main` meldt remote `MIGRATIONS_FAILED`; lokale en remote migration history lopen niet gelijk.
-- Remote `public.image_backup_products` en `public.image_backup_product_variants` hebben RLS uit.
 - Remote `public.orders` gebruikt nog `stripe_payment_intent_id`, terwijl checkout richting Mollie moet.
 - Lege commerce- en validation-packages. Checkout, prijzen, voorraad en ordervalidatie missen daarmee nog veel kernlogica.
 - Lege worker-jobs. E-mail, voorraad, labels en cleanup draaien nog niet echt.
@@ -65,7 +76,8 @@ Hoog risico:
 Middel risico:
 
 - Storefront en admin gebruiken nog veel hardcoded demo-inhoud.
-- Actions en lib-bestanden bestaan, maar bevatten nog geen server actions of data-access.
+- Veel actions en lib-bestanden bestaan nog als placeholders buiten de inmiddels gekoppelde productbeheer-flow.
+- Admin login vereist nog productie-env vars: `ADMIN_EMAIL`, `ADMIN_PASSWORD` en `ADMIN_SESSION_SECRET`.
 - Integratiedocumentatie voor Mollie, PostNL, deployment en security ontbreekt nog.
 
 Laag risico:
@@ -117,12 +129,12 @@ Voor elke nieuwe stap:
 
 ## Eerstvolgende Aanbevolen Stap
 
-De beste volgende stap is admin catalogusbeheer afronden:
+De beste volgende stap is productbeheer functioneel testen met veilige testdata:
 
-- Voeg beheer toe voor productgewichten en varianten.
-- Voeg een veilige bevestigingsflow toe voor product verbergen/verwijderen.
-- Voeg admin-auth/rollen toe voordat write-actions publiek bereikbaar zijn.
-- Test product opslaan en foto-upload pas na een expliciete productie-data afspraak.
-- Houd image upload/write flows admin-only via service-role/server actions; public storefront leest alleen gepubliceerde productdata en publieke image URLs.
+- Zet `ADMIN_EMAIL`, `ADMIN_PASSWORD` en `ADMIN_SESSION_SECRET` in de admin runtime-omgeving.
+- Log lokaal in op de admin.
+- Maak of kies een expliciet testproduct.
+- Test product opslaan, gewicht toevoegen, variant toevoegen, foto uploaden en zichtbaar/verbergen.
+- Controleer daarna storefront `/winkel` en de productdetailpagina.
 
-Dit geeft sneller waarde dan willekeurig alle lege bestanden vullen, omdat productdata de basis vormt voor storefront, admin, cart en checkout.
+Daarna kunnen we de migration-history mismatch (`MIGRATIONS_FAILED`) en de resterende checkout/order-bouwschuld gericht aanpakken.

@@ -1,4 +1,8 @@
-export function AdminHeader() {
+import { getAdminSession, logoutAction } from "../../lib/admin-auth";
+
+export async function AdminHeader() {
+  const session = await getAdminSession();
+
   return (
     <header className="admin-header">
       <a href="/" className="admin-header__logo">
@@ -14,6 +18,14 @@ export function AdminHeader() {
         <a href="/zakelijk">Zakelijk</a>
         <a href="/instellingen">Instellingen</a>
       </nav>
+
+      {session ? (
+        <form action={logoutAction}>
+          <button className="admin-header__logout" type="submit">
+            Uitloggen
+          </button>
+        </form>
+      ) : null}
     </header>
   );
 }

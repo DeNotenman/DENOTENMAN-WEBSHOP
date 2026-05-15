@@ -1,5 +1,9 @@
 import { notFound } from "next/navigation";
-import { saveProductAction } from "../../../actions/product.actions";
+import {
+  hideProductAction,
+  saveProductAction,
+  showProductAction,
+} from "../../../actions/product.actions";
 import {
   formatAdminPrice,
   getAdminProduct,
@@ -64,6 +68,21 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           )}
         </article>
       </section>
+
+      <div className="admin-actions">
+        <a className="admin-button admin-button--secondary" href={`/producten/${product.id}/varianten`}>
+          Gewichten en varianten
+        </a>
+        <a className="admin-button admin-button--secondary" href={`/producten/${product.id}/media`}>
+          Media beheren
+        </a>
+        <form action={product.isActive ? hideProductAction : showProductAction}>
+          <input type="hidden" name="productId" value={product.id} />
+          <button className="admin-button admin-button--ghost" type="submit">
+            {product.isActive ? "Verbergen" : "Zichtbaar maken"}
+          </button>
+        </form>
+      </div>
 
       <form className="admin-form admin-form--wide" action={saveProductAction}>
         <input type="hidden" name="id" value={product.id} />

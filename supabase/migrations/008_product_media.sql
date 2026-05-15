@@ -21,8 +21,13 @@ create table if not exists public.image_backup_product_variants (
 );
 
 alter table public.backup_products_image enable row level security;
+alter table public.image_backup_products enable row level security;
+alter table public.image_backup_product_variants enable row level security;
 
--- SECURITY NOTE:
--- Remote currently has RLS disabled on image_backup_products and
--- image_backup_product_variants. Do not expose these backup tables to the
--- storefront. Enable RLS only after an admin/service-role policy is chosen.
+revoke all on table public.backup_products_image from anon, authenticated;
+revoke all on table public.image_backup_products from anon, authenticated;
+revoke all on table public.image_backup_product_variants from anon, authenticated;
+
+grant all on table public.backup_products_image to service_role;
+grant all on table public.image_backup_products to service_role;
+grant all on table public.image_backup_product_variants to service_role;

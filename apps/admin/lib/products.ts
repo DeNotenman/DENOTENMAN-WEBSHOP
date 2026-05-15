@@ -24,6 +24,18 @@ export type AdminProductWeight = {
   price: number;
 };
 
+export type AdminProductVariant = {
+  id: string;
+  productId: number;
+  variantId: string;
+  name: string;
+  price: number;
+  image: string | null;
+  sku: string | null;
+  stockStatus: string;
+  stockLabel: string;
+};
+
 type ProductRow = {
   id: number;
   name: string;
@@ -45,6 +57,18 @@ type WeightRow = {
   label: string;
   grams: number;
   price: number | string;
+};
+
+type VariantRow = {
+  id: string;
+  product_id: number;
+  variant_id: string;
+  name: string;
+  price: number | string;
+  image: string | null;
+  sku: string | null;
+  stock_status: string | null;
+  stock_label: string | null;
 };
 
 const productColumns =
@@ -74,6 +98,20 @@ function mapWeight(row: WeightRow): AdminProductWeight {
     label: row.label,
     grams: row.grams,
     price: Number(row.price),
+  };
+}
+
+function mapVariant(row: VariantRow): AdminProductVariant {
+  return {
+    id: row.id,
+    productId: row.product_id,
+    variantId: row.variant_id,
+    name: row.name,
+    price: Number(row.price),
+    image: row.image,
+    sku: row.sku,
+    stockStatus: row.stock_status ?? "in_stock",
+    stockLabel: row.stock_label ?? "Op voorraad",
   };
 }
 
@@ -138,6 +176,21 @@ export async function listProductWeights(productId: number) {
   return (data as WeightRow[]).map(mapWeight);
 }
 
+export async function listProductVariants(productId: number) {
+  const supabase = createAdminSupabaseClient();
+  const { data, error } = await supabase
+    .from("product_variants")
+    .select("id,product_id,variant_id,name,price,image,sku,stock_status,stock_label")
+    .eq("product_id", productId)
+    .order("name", { ascending: true });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data as VariantRow[]).map(mapVariant);
+}
+
 export async function getNextProductId() {
   const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
@@ -198,6 +251,76 @@ export async function upsertAdminProduct(input: AdminProduct) {
     },
     { onConflict: "id" },
   );
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function upsertProductWeight(input: {
+  productId: number;
+  label: string;
+  grams: number;
+  price: number;
+}) {
+  const supabase = createAdminSupabaseClient();
+  const { error } = await supabase.from("product_weights").upsert(
+    {
+      product_id: input.productId,
+      label: input.label,
+      grams: input.grams,
+      price: input.price,
+    },
+    { onConflict: "product_id,grams" },
+  );
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function deleteProductWeight(id: string) {
+  const supabase = createAdminSupabaseClient();
+  const { error } = await supabase.from("product_weights").delete().eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function upsertProductVariant(input: {
+  productId: number;
+  variantId: string;
+  name: string;
+  price: number;
+  image: string | null;
+  sku: string | null;
+  stockStatus: string;
+  stockLabel: string;
+}) {
+  const supabase = createAdminSupabaseClient();
+  const { error } = await supabase.from("product_variants").upsert(
+    {
+      product_id: input.productId,
+      variant_id: input.variantId,
+      name: input.name,
+      price: input.price,
+      image: input.image,
+      sku: input.sku,
+      stock_status: input.stockStatus,
+      stock_label: input.stockLabel,
+    },
+    { onConflict: "product_id,variant_id" },
+  );
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function deleteProductVariant(id: string) {
+  const supabase = createAdminSupabaseClient();
+  const { error } = await supabase.from("product_variants").delete().eq("id", id);
 
   if (error) {
     throw new Error(error.message);

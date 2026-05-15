@@ -58,6 +58,11 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Admin productbeheer gekoppeld aan dezelfde Supabase catalogus met productlijst, nieuw-productformulier, productdetailformulier en media-uploadformulier.
 - Server-side admin Supabase client toegevoegd op basis van de service-role key.
 - Server action toegevoegd voor product upsert en optionele upload naar storage bucket `product-images`.
+- Admin beheer toegevoegd voor productgewichten, varianten, SKU's, voorraadlabels en product zichtbaar/verbergen.
+- Admin login toegevoegd met gesigneerde httpOnly sessie-cookie op basis van `ADMIN_EMAIL`, `ADMIN_PASSWORD` en `ADMIN_SESSION_SECRET`.
+- Admin routebescherming toegevoegd via Next.js `proxy.ts`.
+- Server-side admin guard toegevoegd aan product write-actions voor productgegevens, media-upload, gewichten, varianten en zichtbaar/verbergen.
+- Supabase security migration toegevoegd voor private backup/order-tabellen, service-role policies en storage hardening.
 
 ### Gewijzigd
 
@@ -103,6 +108,14 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Storefront smoke-test succesvol uitgevoerd op `http://localhost:3000/winkel` en een echte productdetailpagina.
 - Admin productiebuild succesvol uitgevoerd met Supabase env vars uit `.env.prod`.
 - Admin smoke-test succesvol uitgevoerd op `http://localhost:3001/producten` en een echte productdetailpagina.
+- Admin typecheck dekt nu productbeheer voor basisgegevens, media, gewichten en varianten.
+- Admin typecheck en productiebuild succesvol uitgevoerd na login/proxy-beveiliging.
+- Admin runtime-smoke succesvol uitgevoerd: `/producten` redirect zonder sessie naar `/login?next=%2Fproducten`; `/login` geeft `200 OK`.
+- Remote Supabase security hardening toegepast op project `luablfcmhzykjnxmtlqh`.
+- Remote Supabase advisor-check uitgevoerd; security-lints staan op `0`.
+- Remote verificatie bevestigd: backup-tabellen en `orders` hebben RLS aan, geen anon/authenticated select-rechten en alleen service-role policies.
+- Remote storage verificatie bevestigd: `product-images` heeft geen brede `storage.objects` listing-policy; bucket blijft publiek voor directe object-URL's.
+- Remote functie `public.rls_auto_enable()` is niet meer uitvoerbaar voor `anon` of `authenticated`.
 - Typechecks succesvol uitgevoerd voor:
   - `pnpm --filter @denotenman/storefront typecheck`
   - `pnpm --filter @denotenman/admin typecheck`
@@ -112,11 +125,11 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 
 ### Bekende Bouwschuld
 
-- Supabase branch `main` meldt remote status `MIGRATIONS_FAILED`; lokale migration history en remote migration history moeten nog bewust worden gerepareerd.
-- `public.image_backup_products` en `public.image_backup_product_variants` hebben remote RLS uit; dit is een kritieke security finding en moet worden opgelost voordat deze tabellen ooit door de app worden gebruikt.
+- Supabase branch `main` meldde eerder remote status `MIGRATIONS_FAILED`; lokale migration history en remote migration history moeten nog bewust worden gerepareerd.
 - `public.orders` gebruikt remote nog `stripe_payment_intent_id`, terwijl de webshoprichting Mollie is.
 - `.env.prod` bevat een niet-standaard `NODE_ENV` waarde; Next.js waarschuwt hiervoor tijdens build.
-- Admin write/upload-flow is bewust niet tegen productie uitgevoerd tijdens verificatie, om geen echte catalogusdata te wijzigen.
+- Admin login vereist nog productie-instelling van `ADMIN_EMAIL`, `ADMIN_PASSWORD` en `ADMIN_SESSION_SECRET`.
+- Admin write/upload/delete-flow is bewust niet tegen productie uitgevoerd tijdens verificatie, om geen echte catalogusdata te wijzigen.
 - `packages/commerce`, `packages/validation`, `packages/mollie`, `packages/postnl`, `packages/email`, `packages/seo`, `packages/analytics`, `packages/media`, `packages/config` en `packages/ui` bevatten nog veel lege bronbestanden.
 - Storefront en admin bevatten nog veel hardcoded demo-inhoud.
 - Worker jobs, queues en cronbestanden zijn nog placeholders.
