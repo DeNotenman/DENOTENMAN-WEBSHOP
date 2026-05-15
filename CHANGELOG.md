@@ -77,6 +77,9 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Mobiel hamburger/flyout-menu toegevoegd aan de storefront header.
 - Responsieve typografie ingesteld via breakpoint-variabelen in plaats van viewport-geschaalde `clamp()` font sizes.
 - Assetlocaties vastgelegd voor logo, favicon, icons en moodboard.
+- Eigen De Notenman-logo, favicon en app-icon gekoppeld aan de storefront metadata, header en footer.
+- Dosis-fonts uit `apps/storefront/public/fonts` als globale storefront-typografie aangescherpt voor body, formulieren, knoppen en UI-elementen.
+- Herbruikbare storefront `Icon`-component toegevoegd en passende iconen toegepast op navigatie, hero-USP's, winkelwagen, checkout, productkaarten, zoekflow en accountacties.
 - Mollie-ready order draft migration toegevoegd met `order_items` en `payments`.
 - Storefront service-role order service toegevoegd voor server-side pending order drafts.
 - `@denotenman/mollie` gevuld met typed API-client, create-payment, get-payment, refund-helper, webhook-handler en statusmapping.

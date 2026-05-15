@@ -9,7 +9,9 @@ export const metadata: Metadata = {
   description:
     "Van markt tot webshop: De specialist in noten, pitten en gedroogd fruit.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/Favicon.png",
+    shortcut: "/Favicon.png",
+    apple: "/Notenman_onlynoot_icon.png",
   },
 };
 

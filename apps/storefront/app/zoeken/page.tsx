@@ -1,6 +1,8 @@
+import { Icon } from "../../components/ui/Icon";
+
 const results = [
-  { name: "Amandelen ongezouten", price: "€ 14,95", href: "/winkel/amandelen-ongezouten" },
-  { name: "Cashewnoten gebrand", price: "€ 16,95", href: "/winkel/cashewnoten-gebrand" },
+  { name: "Amandelen ongezouten", price: "EUR 14,95", href: "/winkel/amandelen-ongezouten" },
+  { name: "Cashewnoten gebrand", price: "EUR 16,95", href: "/winkel/cashewnoten-gebrand" },
 ];
 
 export default function SearchPage() {
@@ -20,6 +22,7 @@ export default function SearchPage() {
           </label>
 
           <button className="button button--primary" type="submit">
+            <Icon name="search-magnifier" />
             Zoeken
           </button>
         </form>
@@ -28,7 +31,10 @@ export default function SearchPage() {
           {results.map((product) => (
             <a key={product.name} href={product.href} className="dashboard-card">
               <h2>{product.name}</h2>
-              <p>{product.price}</p>
+              <p className="product-card__price">
+                <Icon name="shopping-bag" />
+                {product.price}
+              </p>
             </a>
           ))}
         </div>

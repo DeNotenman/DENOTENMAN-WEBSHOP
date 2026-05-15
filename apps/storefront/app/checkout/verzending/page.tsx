@@ -1,6 +1,7 @@
 import { saveShippingAction } from "../../../actions/checkout.actions";
 import { CheckoutLayout } from "../../../components/checkout/CheckoutLayout";
 import { ShippingMethods } from "../../../components/checkout/ShippingMethods";
+import { Icon } from "../../../components/ui/Icon";
 import { getCheckoutState } from "../../../lib/checkout";
 
 export default async function CheckoutShippingPage() {
@@ -17,6 +18,7 @@ export default async function CheckoutShippingPage() {
             <ShippingMethods checkout={checkout} />
 
             <button className="button button--primary" type="submit">
+              <Icon name="delivery-truck" />
               Verder naar betaling
             </button>
           </form>

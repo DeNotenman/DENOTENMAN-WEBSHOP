@@ -1,6 +1,7 @@
 import { prepareOrderDraftAction } from "../../../actions/checkout.actions";
 import { CheckoutLayout } from "../../../components/checkout/CheckoutLayout";
 import { OrderReview } from "../../../components/checkout/OrderReview";
+import { Icon } from "../../../components/ui/Icon";
 import { getCheckoutState } from "../../../lib/checkout";
 
 export default async function CheckoutReviewPage() {
@@ -21,17 +22,26 @@ export default async function CheckoutReviewPage() {
 
           <div className="invoice-panel">
             <div>
-              <span>Klant</span>
+              <span>
+                <Icon name="user-account-support" />
+                Klant
+              </span>
               <strong>{customerName || checkout.email || "Nog niet ingevuld"}</strong>
             </div>
 
             <div>
-              <span>Verzending</span>
+              <span>
+                <Icon name="delivery-truck" />
+                Verzending
+              </span>
               <strong>{checkout.shippingMethodId ?? "Nog niet gekozen"}</strong>
             </div>
 
             <div>
-              <span>Betaling</span>
+              <span>
+                <Icon name="credit-card" />
+                Betaling
+              </span>
               <strong>Mollie draft</strong>
             </div>
           </div>
@@ -40,6 +50,7 @@ export default async function CheckoutReviewPage() {
 
           <form action={prepareOrderDraftAction}>
             <button className="button button--primary" type="submit">
+              <Icon name="document-checkmark" />
               Bestelling als draft voorbereiden
             </button>
           </form>

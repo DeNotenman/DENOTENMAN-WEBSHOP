@@ -2,6 +2,7 @@ import { saveCheckoutDetailsAction } from "../../../actions/checkout.actions";
 import { AddressForm } from "../../../components/checkout/AddressForm";
 import { CheckoutLayout } from "../../../components/checkout/CheckoutLayout";
 import { CustomerForm } from "../../../components/checkout/CustomerForm";
+import { Icon } from "../../../components/ui/Icon";
 import { getCheckoutState } from "../../../lib/checkout";
 
 export default async function CheckoutDetailsPage() {
@@ -19,6 +20,7 @@ export default async function CheckoutDetailsPage() {
             <AddressForm checkout={checkout} />
 
             <button className="button button--primary" type="submit">
+              <Icon name="arrow-right-1" />
               Verder naar verzending
             </button>
           </form>

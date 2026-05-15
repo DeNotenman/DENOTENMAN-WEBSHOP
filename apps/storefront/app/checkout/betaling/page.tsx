@@ -1,6 +1,7 @@
 import { savePaymentAction } from "../../../actions/checkout.actions";
 import { CheckoutLayout } from "../../../components/checkout/CheckoutLayout";
 import { PaymentMethods } from "../../../components/checkout/PaymentMethods";
+import { Icon } from "../../../components/ui/Icon";
 
 export default function CheckoutPaymentPage() {
   return (
@@ -14,6 +15,7 @@ export default function CheckoutPaymentPage() {
             <PaymentMethods />
 
             <button className="button button--primary" type="submit">
+              <Icon name="credit-card" />
               Verder naar controleren
             </button>
           </form>

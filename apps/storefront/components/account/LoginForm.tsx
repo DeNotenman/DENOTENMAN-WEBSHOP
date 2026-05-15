@@ -1,3 +1,5 @@
+import { Icon } from "../ui/Icon";
+
 export function LoginForm() {
   return (
     <form className="auth-form">
@@ -12,6 +14,7 @@ export function LoginForm() {
       </label>
 
       <button className="button button--primary" type="submit">
+        <Icon name="login-enter" />
         Inloggen
       </button>
     </form>

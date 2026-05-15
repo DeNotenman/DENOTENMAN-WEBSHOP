@@ -1,3 +1,5 @@
+import { Icon } from "../ui/Icon";
+
 export function CouponForm() {
   return (
     <form className="auth-form">
@@ -7,6 +9,7 @@ export function CouponForm() {
       </label>
 
       <button className="button button--secondary" type="submit">
+        <Icon name="price-tag" />
         Toepassen
       </button>
     </form>
