@@ -1,20 +1,15 @@
-.table-wrap {
-  width: 100%;
-  overflow-x: auto;
-  border: 1px solid rgba(47, 79, 79, 0.18);
-  border-radius: 1rem;
-  background: #fff;
-}
+import type { ReactNode } from "react";
 
-.table-wrap table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 36rem;
-}
+type ModalProps = {
+  title: string;
+  children: ReactNode;
+};
 
-.table-wrap th,
-.table-wrap td {
-  padding: 0.85rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid rgba(47, 79, 79, 0.12);
+export function Modal({ title, children }: ModalProps) {
+  return (
+    <section className="modal-panel" role="dialog" aria-modal="true" aria-label={title}>
+      <h2>{title}</h2>
+      <div>{children}</div>
+    </section>
+  );
 }
