@@ -1,0 +1,11 @@
+-- Remote security finding:
+-- public.image_backup_products and public.image_backup_product_variants have
+-- RLS disabled. They should not be used by the storefront.
+--
+-- Recommended remediation after admin/service-role access is confirmed:
+--
+-- alter table public.image_backup_products enable row level security;
+-- alter table public.image_backup_product_variants enable row level security;
+--
+-- Then add admin/service-role-only policies or move these backups out of the
+-- exposed public schema.

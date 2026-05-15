@@ -1,0 +1,3 @@
+-- Remote has a public event trigger function named rls_auto_enable().
+-- The implementation body is intentionally not recreated here until it can be
+-- reviewed in full. Future schema work should keep RLS explicit in migrations.

@@ -1,0 +1,5 @@
+-- Remote baseline:
+-- public.orders has RLS enabled and no policies. Keep client access blocked.
+--
+-- Admin/customer order policies must be designed together with authentication
+-- and Mollie checkout before this table is exposed.
