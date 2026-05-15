@@ -256,3 +256,24 @@ button {
     display: flex;
   }
 }
+.admin-footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: 1.5rem 1rem;
+}
+
+.admin-footer__inner {
+  width: min(100%, var(--container));
+  margin-inline: auto;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.admin-footer p,
+.admin-footer span {
+  margin: 0;
+}
+
+.admin-footer p {
+  font-weight: 800;
+}

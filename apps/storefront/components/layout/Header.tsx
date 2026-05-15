@@ -7,8 +7,10 @@ export function Header() {
 
       <nav className="site-header__nav" aria-label="Hoofdnavigatie">
         <a href="/winkel">Winkel</a>
+        <a href="/zoeken">Zoeken</a>
+        <a href="/account">Account</a>
         <a href="/zakelijk">Zakelijk</a>
-        <a href="/winkelwagen">Winkelwagen</a>
+        <a href="/klantenservice">Klantenservice</a>
       </nav>
 
       <a href="/winkelwagen" className="site-header__cart" aria-label="Winkelwagen">

@@ -1,30 +1,22 @@
-"use client"; // This directive must be at the very top
+"use client";
 
-import { useEffect } from "react";
-
-export default function Error({
-  error,
+export default function ErrorPage({
   reset,
 }: {
-  error: Error & { digest?: string };
+  error: Error;
   reset: () => void;
 }) {
-  useEffect(() => {
-    // Optionally log the error to an error reporting service
-    console.error(error);
-  }, [error]);
-
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
-    </div>
+    <main className="business-page">
+      <section className="container auth-card">
+        <p className="business-hero__label">Foutmelding</p>
+        <h1>Er ging iets mis</h1>
+        <p>Probeer de pagina opnieuw te laden.</p>
+
+        <button className="button button--primary" type="button" onClick={reset}>
+          Opnieuw proberen
+        </button>
+      </section>
+    </main>
   );
 }

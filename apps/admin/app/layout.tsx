@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { AdminHeader } from "../components/layout/AdminHeader";
+import { AdminFooter } from "../components/layout/AdminFooter";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function AdminRootLayout({
         <div className="admin-shell">
           <AdminHeader />
           {children}
+          <AdminFooter />
         </div>
       </body>
     </html>

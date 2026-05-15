@@ -1,8 +1,11 @@
 export default function Loading() {
-  // You can add any UI inside here, including a Skeleton or Spinner.
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
-      <p>Loading...</p>
-    </div>
+    <main className="business-page">
+      <section className="container auth-card">
+        <p className="business-hero__label">Laden</p>
+        <h1>Even geduld</h1>
+        <p>De pagina wordt geladen.</p>
+      </section>
+    </main>
   );
 }
