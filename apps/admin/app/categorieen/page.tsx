@@ -1,30 +1,32 @@
-const categories = [
-  { name: "Noten", products: "24 producten", status: "Actief" },
-  { name: "Zaden", products: "12 producten", status: "Actief" },
-  { name: "Gedroogd fruit", products: "18 producten", status: "Actief" },
-];
-
-export default function AdminCategoriesPage() {
+export default function NewCategoryPage() {
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Catalogus</p>
-        <h1>Categorieën</h1>
-        <span>Beheer categorieën, zichtbaarheid, volgorde en SEO.</span>
+        <h1>Nieuwe categorie</h1>
+        <span>Voeg een nieuwe productcategorie toe aan de webshop.</span>
       </section>
 
-      <section className="admin-list">
-        {categories.map((category) => (
-          <a key={category.name} href="/categorieen/noten" className="admin-list-row">
-            <div>
-              <h2>{category.name}</h2>
-              <p>{category.products}</p>
-            </div>
+      <form className="admin-form">
+        <label>
+          Categorienaam
+          <input type="text" name="name" placeholder="Bijvoorbeeld: Noten" />
+        </label>
 
-            <strong>{category.status}</strong>
-          </a>
-        ))}
-      </section>
+        <label>
+          Slug
+          <input type="text" name="slug" placeholder="noten" />
+        </label>
+
+        <label>
+          Omschrijving
+          <textarea name="description" placeholder="Korte categorieomschrijving" />
+        </label>
+
+        <button className="admin-button" type="submit">
+          Categorie aanmaken
+        </button>
+      </form>
     </main>
   );
 }

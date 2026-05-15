@@ -509,3 +509,40 @@ textarea {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+.product-detail-page {
+  display: grid;
+  gap: 2rem;
+  padding-block: 3rem;
+}
+
+.product-media-placeholder {
+  min-height: 18rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1.5rem;
+  background: #fff;
+  border: 1px solid rgba(47, 79, 79, 0.18);
+  font-weight: 700;
+}
+
+.product-detail-content {
+  display: grid;
+  gap: 1rem;
+}
+
+.product-detail-content h1 {
+  margin: 0;
+  font-size: clamp(2.75rem, 10vw, 5rem);
+  line-height: 0.95;
+}
+
+.product-detail-price {
+  font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+  .product-detail-page {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
