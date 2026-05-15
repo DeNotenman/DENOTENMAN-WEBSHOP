@@ -1,31 +1,23 @@
+import { AddressForm } from "../../../components/checkout/AddressForm";
+import { CheckoutLayout } from "../../../components/checkout/CheckoutLayout";
+import { CustomerForm } from "../../../components/checkout/CustomerForm";
+
 export default function CheckoutDetailsPage() {
   return (
     <main className="business-page">
-      <section className="container auth-card">
-        <p className="business-hero__label">Checkout</p>
-        <h1>Gegevens</h1>
+      <CheckoutLayout>
+        <section className="auth-card">
+          <p className="business-hero__label">Checkout</p>
+          <h1>Gegevens</h1>
 
-        <form className="auth-form">
-          <label>
-            Naam
-            <input type="text" name="name" autoComplete="name" />
-          </label>
+          <CustomerForm />
+          <AddressForm />
 
-          <label>
-            E-mailadres
-            <input type="email" name="email" autoComplete="email" />
-          </label>
-
-          <label>
-            Adres
-            <input type="text" name="address" autoComplete="street-address" />
-          </label>
-
-          <button className="button button--primary" type="submit">
+          <a href="/checkout/verzending" className="button button--primary">
             Verder naar verzending
-          </button>
-        </form>
-      </section>
+          </a>
+        </section>
+      </CheckoutLayout>
     </main>
   );
 }

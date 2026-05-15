@@ -1,25 +1,21 @@
+import { CheckoutLayout } from "../../../components/checkout/CheckoutLayout";
+import { PaymentMethods } from "../../../components/checkout/PaymentMethods";
+
 export default function CheckoutPaymentPage() {
   return (
     <main className="business-page">
-      <section className="container auth-card">
-        <p className="business-hero__label">Checkout</p>
-        <h1>Betaling</h1>
+      <CheckoutLayout>
+        <section className="auth-card">
+          <p className="business-hero__label">Checkout</p>
+          <h1>Betaling</h1>
 
-        <form className="auth-form">
-          <label>
-            Betaalmethode
-            <select name="payment">
-              <option>iDEAL</option>
-              <option>Bancontact</option>
-              <option>Creditcard</option>
-            </select>
-          </label>
+          <PaymentMethods />
 
-          <button className="button button--primary" type="submit">
+          <a href="/checkout/controleren" className="button button--primary">
             Verder naar controleren
-          </button>
-        </form>
-      </section>
+          </a>
+        </section>
+      </CheckoutLayout>
     </main>
   );
 }

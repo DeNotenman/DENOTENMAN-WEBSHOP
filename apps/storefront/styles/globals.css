@@ -680,3 +680,54 @@ textarea {
 .product-reviews h3 {
   margin: 0;
 }
+.cart-page {
+  display: grid;
+  gap: 2rem;
+  padding-block: 3rem;
+}
+
+.cart-page h1 {
+  margin: 0;
+  font-size: clamp(2.75rem, 10vw, 5rem);
+  line-height: 0.95;
+}
+
+.cart-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .cart-layout {
+    grid-template-columns: 1fr 22rem;
+    align-items: start;
+  }
+}
+.checkout-layout {
+  display: grid;
+  gap: 2rem;
+  padding-block: 3rem;
+}
+
+@media (min-width: 900px) {
+  .checkout-layout {
+    grid-template-columns: 1fr 22rem;
+    align-items: start;
+  }
+}
+.account-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.account-nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(47, 79, 79, 0.18);
+  border-radius: 999px;
+  background: #fff;
+  padding-inline: 1rem;
+  font-weight: 700;
+}
