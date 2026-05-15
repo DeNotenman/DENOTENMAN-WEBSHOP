@@ -578,3 +578,105 @@ textarea {
     grid-template-columns: repeat(4, auto);
   }
 }
+.form-field {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 700;
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid rgba(47, 79, 79, 0.22);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--foreground);
+  padding-inline: 1rem;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+}
+
+.checkbox-field input {
+  min-height: auto;
+}
+
+.badge {
+  width: fit-content;
+  border-radius: 999px;
+  background: rgba(122, 154, 122, 0.18);
+  padding: 0.35rem 0.75rem;
+  font-weight: 700;
+}
+
+.alert {
+  border: 1px solid rgba(47, 79, 79, 0.18);
+  border-radius: 1rem;
+  background: #fff;
+  padding: 1rem;
+  font-weight: 700;
+}
+
+.skeleton {
+  min-height: 8rem;
+  border-radius: 1rem;
+  background: rgba(47, 79, 79, 0.12);
+}
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid rgba(47, 79, 79, 0.18);
+  border-radius: 1rem;
+  background: #fff;
+}
+
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 36rem;
+}
+
+.table-wrap th,
+.table-wrap td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(47, 79, 79, 0.12);
+}
+.modal-panel,
+.drawer-panel {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid rgba(47, 79, 79, 0.18);
+  border-radius: 1.25rem;
+  background: #fff;
+  padding: 1rem;
+}
+
+.modal-panel h2,
+.drawer-panel h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+.product-tabs,
+.product-reviews,
+.related-products {
+  display: grid;
+  gap: 1rem;
+  padding-block: 2rem;
+}
+
+.product-reviews h2,
+.related-products h2 {
+  margin: 0;
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  line-height: 0.95;
+}
+
+.product-reviews h3 {
+  margin: 0;
+}
