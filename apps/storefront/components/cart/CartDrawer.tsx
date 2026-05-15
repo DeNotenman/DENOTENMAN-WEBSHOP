@@ -1,16 +1,24 @@
+import { getCart } from "../../lib/cart";
 import { Drawer } from "../ui/Drawer";
 import { CartItem } from "./CartItem";
 import { CartTotals } from "./CartTotals";
 
-export function CartDrawer() {
+export async function CartDrawer() {
+  const cart = await getCart();
+
   return (
     <Drawer title="Winkelwagen">
       <div className="product-list">
-        <CartItem name="Amandelen ongezouten" quantity="1 × 1kg" total="€ 14,95" />
-        <CartItem name="Notenmix luxe" quantity="1 × 1kg" total="€ 18,95" />
+        {cart.items.length === 0 ? <p>Je winkelwagen is nog leeg.</p> : null}
+        {cart.items.map((item) => (
+          <CartItem
+            key={`${item.productId}-${item.variantId ?? "default"}-${item.weightId ?? "default"}`}
+            item={item}
+          />
+        ))}
       </div>
 
-      <CartTotals />
+      <CartTotals cart={cart} />
 
       <a href="/checkout" className="button button--primary">
         Naar de kassa

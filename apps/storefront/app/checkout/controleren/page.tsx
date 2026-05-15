@@ -1,7 +1,14 @@
+import { prepareOrderDraftAction } from "../../../actions/checkout.actions";
 import { CheckoutLayout } from "../../../components/checkout/CheckoutLayout";
 import { OrderReview } from "../../../components/checkout/OrderReview";
+import { getCheckoutState } from "../../../lib/checkout";
 
-export default function CheckoutReviewPage() {
+export default async function CheckoutReviewPage() {
+  const checkout = await getCheckoutState();
+  const customerName = [checkout.firstName, checkout.lastName]
+    .filter((part) => part && part !== "-")
+    .join(" ");
+
   return (
     <main className="business-page">
       <CheckoutLayout>
@@ -15,25 +22,27 @@ export default function CheckoutReviewPage() {
           <div className="invoice-panel">
             <div>
               <span>Klant</span>
-              <strong>Jan Jansen</strong>
+              <strong>{customerName || checkout.email || "Nog niet ingevuld"}</strong>
             </div>
 
             <div>
               <span>Verzending</span>
-              <strong>PostNL</strong>
+              <strong>{checkout.shippingMethodId ?? "Nog niet gekozen"}</strong>
             </div>
 
             <div>
               <span>Betaling</span>
-              <strong>iDEAL</strong>
+              <strong>Mollie draft</strong>
             </div>
           </div>
 
           <OrderReview />
 
-          <a href="/checkout/succes" className="button button--primary">
-            Bestelling plaatsen
-          </a>
+          <form action={prepareOrderDraftAction}>
+            <button className="button button--primary" type="submit">
+              Bestelling als draft voorbereiden
+            </button>
+          </form>
         </section>
       </CheckoutLayout>
     </main>

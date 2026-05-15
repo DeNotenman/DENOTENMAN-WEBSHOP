@@ -1,3 +1,4 @@
+import { savePaymentAction } from "../../../actions/checkout.actions";
 import { CheckoutLayout } from "../../../components/checkout/CheckoutLayout";
 import { PaymentMethods } from "../../../components/checkout/PaymentMethods";
 
@@ -9,11 +10,13 @@ export default function CheckoutPaymentPage() {
           <p className="business-hero__label">Checkout</p>
           <h1>Betaling</h1>
 
-          <PaymentMethods />
+          <form className="auth-form" action={savePaymentAction}>
+            <PaymentMethods />
 
-          <a href="/checkout/controleren" className="button button--primary">
-            Verder naar controleren
-          </a>
+            <button className="button button--primary" type="submit">
+              Verder naar controleren
+            </button>
+          </form>
         </section>
       </CheckoutLayout>
     </main>

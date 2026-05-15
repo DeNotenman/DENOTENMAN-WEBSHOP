@@ -1,14 +1,21 @@
 export function PaymentMethods() {
   return (
-    <form className="auth-form">
+    <>
       <label>
         Betaalmethode
         <select name="payment">
-          <option>iDEAL</option>
-          <option>Bancontact</option>
-          <option>Creditcard</option>
+          <option value="ideal">iDEAL via Mollie</option>
+          <option value="bancontact">Bancontact via Mollie</option>
+          <option value="creditcard">Creditcard via Mollie</option>
         </select>
       </label>
-    </form>
+
+      <label className="form-field">
+        <span>Voorwaarden</span>
+        <span>
+          <input type="checkbox" name="termsAccepted" required /> Ik ga akkoord met de voorwaarden.
+        </span>
+      </label>
+    </>
   );
 }

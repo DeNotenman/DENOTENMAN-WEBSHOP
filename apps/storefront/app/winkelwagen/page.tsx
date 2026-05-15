@@ -1,13 +1,11 @@
 import { CartItem } from "../../components/cart/CartItem";
 import { CartSummary } from "../../components/cart/CartSummary";
 import { CouponForm } from "../../components/cart/CouponForm";
+import { getCart } from "../../lib/cart";
 
-const items = [
-  { name: "Amandelen ongezouten", quantity: "1 × 1kg", total: "€ 14,95" },
-  { name: "Notenmix luxe", quantity: "1 × 1kg", total: "€ 18,95" },
-];
+export default async function CartPage() {
+  const cart = await getCart();
 
-export default function CartPage() {
   return (
     <main className="business-page">
       <section className="container cart-page">
@@ -19,14 +17,18 @@ export default function CartPage() {
 
         <div className="cart-layout">
           <div className="product-list">
-            {items.map((item) => (
-              <CartItem key={item.name} {...item} />
+            {cart.items.length === 0 ? <p>Je winkelwagen is nog leeg.</p> : null}
+            {cart.items.map((item) => (
+              <CartItem
+                key={`${item.productId}-${item.variantId ?? "default"}-${item.weightId ?? "default"}`}
+                item={item}
+              />
             ))}
 
             <CouponForm />
           </div>
 
-          <CartSummary />
+          <CartSummary cart={cart} />
         </div>
       </section>
     </main>

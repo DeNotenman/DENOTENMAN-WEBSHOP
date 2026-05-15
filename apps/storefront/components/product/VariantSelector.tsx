@@ -1,5 +1,8 @@
 type VariantSelectorProps = {
-  variants: string[];
+  variants: Array<{
+    id: string;
+    label: string;
+  }>;
 };
 
 export function VariantSelector({ variants }: VariantSelectorProps) {
@@ -10,9 +13,11 @@ export function VariantSelector({ variants }: VariantSelectorProps) {
   return (
     <label className="form-field">
       <span>Variant</span>
-      <select name="variant">
+      <select name="variantId">
         {variants.map((variant) => (
-          <option key={variant}>{variant}</option>
+          <option key={variant.id} value={variant.id}>
+            {variant.label}
+          </option>
         ))}
       </select>
     </label>

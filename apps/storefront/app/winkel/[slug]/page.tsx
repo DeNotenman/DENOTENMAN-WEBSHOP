@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { addToCartAction } from "../../../actions/cart.actions";
 import { AddToCartButton } from "../../../components/product/AddToCartButton";
 import { ProductGallery } from "../../../components/product/ProductGallery";
 import { ProductInfo } from "../../../components/product/ProductInfo";
@@ -49,15 +50,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
             stockLabel={stockLabel}
           />
 
-          <form className="auth-form">
-            <VariantSelector variants={product.variants.map((variant) => variant.name)} />
+          <form className="auth-form" action={addToCartAction}>
+            <input type="hidden" name="slug" value={product.slug} />
+            <VariantSelector
+              variants={product.variants.map((variant) => ({
+                id: variant.variantId,
+                label: variant.name,
+              }))}
+            />
 
             {product.weights.length > 0 && (
               <label className="form-field">
                 <span>Gewicht</span>
-                <select name="weight">
+                <select name="weightId">
                   {product.weights.map((weight) => (
-                    <option key={weight.id} value={weight.grams}>
+                    <option key={weight.id} value={weight.id}>
                       {weight.label} - {formatPrice(weight.price)}
                     </option>
                   ))}

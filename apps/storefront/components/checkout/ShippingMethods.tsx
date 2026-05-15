@@ -1,18 +1,20 @@
-export function ShippingMethods() {
+import type { CheckoutState } from "../../lib/checkout";
+
+export function ShippingMethods({ checkout }: { checkout: CheckoutState }) {
   return (
-    <form className="auth-form">
+    <>
       <label>
         Verzendmethode
-        <select name="shipping">
-          <option>PostNL pakket — € 6,95</option>
-          <option>Gratis verzending vanaf € 50</option>
+        <select name="shippingMethodId" defaultValue={checkout.shippingMethodId ?? "postnl"}>
+          <option value="postnl">PostNL pakket</option>
+          <option value="pickup">Afhalen op afspraak</option>
         </select>
       </label>
 
       <label>
         Bezorgopmerking
-        <textarea name="note" placeholder="Optioneel" />
+        <textarea name="note" placeholder="Optioneel" defaultValue={checkout.shippingNote ?? ""} />
       </label>
-    </form>
+    </>
   );
 }

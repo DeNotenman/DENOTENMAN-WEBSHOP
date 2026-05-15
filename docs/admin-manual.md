@@ -25,6 +25,9 @@ De eerste stabilisatiestap is afgerond:
 - Worker jobs, queues en cronbestanden hebben nu contracten en veilige dry-run handlers.
 - Tests bevatten eerste unit tests voor commerce en flowdoelen voor integratie/E2E.
 - Documentatie buiten deze admin manual is gevuld met architectuur-, security-, deployment- en integratierunbooks.
+- Storefront winkelwagen gebruikt nu een httpOnly cart-cookie en rekent totals via `@denotenman/commerce`.
+- Checkout gebruikt nu een httpOnly checkout-cookie en valideert gegevens via `@denotenman/validation`.
+- Checkout kan een order-draft voorbereiden zonder Mollie side effects.
 
 De database-baseline is gestart:
 
@@ -139,11 +142,11 @@ Voor elke nieuwe stap:
 
 ## Eerstvolgende Aanbevolen Stap
 
-De beste volgende stap is de checkout/cart-keten aansluiten op de nieuwe commerce- en validation-packages:
+De beste volgende stap is de order/payment-laag achter de bestaande checkout-draft zetten:
 
-- Storefront winkelwagen-actions koppelen aan `@denotenman/commerce`.
-- Checkout-validatie koppelen aan `@denotenman/validation`.
-- Order-draft server-side voorbereiden, nog zonder Mollie-payment side effect.
-- Daarna pas Mollie create/webhook bouwen.
+- Ontwerp een Mollie-gerichte `orders`/`payments` migration naast de bestaande remote baseline.
+- Maak server-side order create vanuit de gevalideerde checkout-draft.
+- Voeg Mollie payment create toe, zonder client-side secrets.
+- Voeg webhook/idempotency toe voordat echte betalingen live gaan.
 
 Parallel blijft de migration-history mismatch (`MIGRATIONS_FAILED`) een aparte Supabase onderhoudstaak.

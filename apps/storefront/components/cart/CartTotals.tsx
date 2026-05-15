@@ -1,19 +1,26 @@
-export function CartTotals() {
+import { formatCartPrice, type StorefrontCart } from "../../lib/cart";
+
+export function CartTotals({ cart }: { cart: StorefrontCart }) {
   return (
     <div className="invoice-panel">
       <div>
         <span>Subtotaal</span>
-        <strong>€ 33,90</strong>
+        <strong>{formatCartPrice(cart.subtotalCents)}</strong>
       </div>
 
       <div>
         <span>Verzending</span>
-        <strong>€ 6,95</strong>
+        <strong>{cart.shippingCents === 0 ? "Gratis" : formatCartPrice(cart.shippingCents)}</strong>
+      </div>
+
+      <div>
+        <span>Btw</span>
+        <strong>{formatCartPrice(cart.taxCents)}</strong>
       </div>
 
       <div>
         <span>Totaal</span>
-        <strong>€ 40,85</strong>
+        <strong>{formatCartPrice(cart.totalCents)}</strong>
       </div>
     </div>
   );

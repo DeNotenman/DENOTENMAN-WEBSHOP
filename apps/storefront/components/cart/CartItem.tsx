@@ -1,18 +1,43 @@
+import {
+  removeCartItemAction,
+  updateCartItemAction,
+} from "../../actions/cart.actions";
+import { formatCartPrice, type StorefrontCartItem } from "../../lib/cart";
+
 type CartItemProps = {
-  name: string;
-  quantity: string;
-  total: string;
+  item: StorefrontCartItem;
 };
 
-export function CartItem({ name, quantity, total }: CartItemProps) {
+export function CartItem({ item }: CartItemProps) {
   return (
     <article className="product-row">
       <div>
-        <h2>{name}</h2>
-        <p>{quantity}</p>
+        <h2>{item.name}</h2>
+        <p>
+          {item.quantity} x {item.weightLabel ?? "stuk"} - {formatCartPrice(item.unitPriceCents)}
+        </p>
       </div>
 
-      <strong>{total}</strong>
+      <strong>{formatCartPrice(item.unitPriceCents * item.quantity)}</strong>
+
+      <form action={updateCartItemAction} className="cart-inline-form">
+        <input type="hidden" name="productId" value={item.productId} />
+        <input type="hidden" name="variantId" value={item.variantId ?? ""} />
+        <input type="hidden" name="weightId" value={item.weightId ?? ""} />
+        <input type="number" name="quantity" min={0} defaultValue={item.quantity} aria-label="Aantal" />
+        <button className="button button--secondary" type="submit">
+          Bijwerken
+        </button>
+      </form>
+
+      <form action={removeCartItemAction}>
+        <input type="hidden" name="productId" value={item.productId} />
+        <input type="hidden" name="variantId" value={item.variantId ?? ""} />
+        <input type="hidden" name="weightId" value={item.weightId ?? ""} />
+        <button className="button button--secondary" type="submit">
+          Verwijderen
+        </button>
+      </form>
     </article>
   );
 }

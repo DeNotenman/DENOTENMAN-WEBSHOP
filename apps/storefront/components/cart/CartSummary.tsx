@@ -1,13 +1,14 @@
+import type { StorefrontCart } from "../../lib/cart";
 import { CartTotals } from "./CartTotals";
 
-export function CartSummary() {
+export function CartSummary({ cart }: { cart: StorefrontCart }) {
   return (
     <aside className="dashboard-card">
       <h2>Samenvatting</h2>
-      <CartTotals />
+      <CartTotals cart={cart} />
 
-      <a href="/checkout" className="button button--primary">
-        Naar de kassa
+      <a href={cart.items.length > 0 ? "/checkout" : "/winkel"} className="button button--primary">
+        {cart.items.length > 0 ? "Naar de kassa" : "Verder winkelen"}
       </a>
     </aside>
   );

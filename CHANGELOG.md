@@ -1,11 +1,7 @@
 # Changelog
-
 Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 
-## [Unreleased]
-
 ### Status
-
 - Project staat in scaffold- en stabilisatiefase.
 - Hoofdapps zijn typecheck-schoon:
   - `@denotenman/storefront`
@@ -16,7 +12,15 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Database basis is gestart met een remote Supabase baseline voor catalogusdata, RLS en product-query helpers.
 
 ### Toegevoegd
-
+- Eerste projectstructuur aangemaak
+- Monorepo-opzet toegevoegd.
+- Storefront-app toegevoegd.
+- Admin-app toegevoegd.
+- Worker-app toegevoegd.
+- Packages-structuur toegevoegd.
+- Supabase-structuur toegevoegd.
+- Basisdocumentatie toegevoegd.
+- Productie-env-bestand voorbereid.
 - B2B/Zakelijk-portaal aan storefront toegevoegd.
 - Zakelijke landingspagina toegevoegd (`/zakelijk`).
 - Zakelijke inlogpagina toegevoegd (`/zakelijk/inloggen`).
@@ -67,6 +71,9 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Worker job-, queue- en cron-contracten toegevoegd met veilige dry-run handlers.
 - Unit testinhoud toegevoegd voor pricing, cart, inventory, discounts en checkout.
 - Integratie- en E2E-testdoelen vastgelegd voor account, admin, cart, checkout, Mollie, order-flow, PostNL en product-flow.
+- Storefront cart-cookie en checkout-cookie toegevoegd voor winkelwagen en checkout-draft flow.
+- Storefront server actions toegevoegd voor toevoegen, bijwerken en verwijderen van winkelwagenregels.
+- Storefront checkout server actions toegevoegd voor gegevens, verzending, betaling en gevalideerde order-draft voorbereiding.
 
 ### Gewijzigd
 
@@ -86,7 +93,6 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Factuur-downloadknop toegevoegd op zakelijke factuurdetailpagina.
 
 ### Gerepareerd
-
 - Kapotte storefront `Modal.tsx` gerepareerd; verdwaalde CSS vervangen door een geldige React component.
 - Lege adminroute `apps/admin/app/categorieen/nieuw/page.tsx` gevuld met een geldige pagina-export.
 - Lege adminroute `apps/admin/app/instellingen/page.tsx` gevuld met een geldige instellingenindex.
@@ -95,7 +101,6 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - TypeScript build-info artifacts toegevoegd aan `.gitignore` via `*.tsbuildinfo`.
 
 ### Technisch
-
 - Root `package.json` hersteld zonder BOM-encoding.
 - `packageManager` toegevoegd voor Turborepo-workspace-resolutie.
 - Lege `package.json`-bestanden gevuld om `pnpm install` correct te laten draaien.
@@ -127,6 +132,8 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Package `tsconfig.json`-bestanden toegevoegd voor de gevulde gedeelde packages en worker.
 - Brede workspace typecheck succesvol uitgevoerd: `pnpm typecheck` met 14/14 packages/apps groen.
 - Unit tests succesvol uitgevoerd via worker `tsx` bin: 5 tests geslaagd voor cart, checkout, discounts, inventory en pricing.
+- Storefront cart/checkout browser-smoke succesvol uitgevoerd: product toevoegen, winkelwagen tonen, gegevens/verzending/betaling invullen en draft success bereiken.
+- Storefront typecheck en productiebuild succesvol uitgevoerd na cart/checkout-koppeling.
 - Typechecks succesvol uitgevoerd voor:
   - `pnpm --filter @denotenman/storefront typecheck`
   - `pnpm --filter @denotenman/admin typecheck`
@@ -135,7 +142,6 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
   - `pnpm --filter @denotenman/db typecheck`
 
 ### Bekende Bouwschuld
-
 - Supabase branch `main` meldde eerder remote status `MIGRATIONS_FAILED`; lokale migration history en remote migration history moeten nog bewust worden gerepareerd.
 - `public.orders` gebruikt remote nog `stripe_payment_intent_id`, terwijl de webshoprichting Mollie is.
 - `.env.prod` bevat een niet-standaard `NODE_ENV` waarde; Next.js waarschuwt hiervoor tijdens build.
@@ -147,17 +153,3 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Tests hebben eerste unitinhoud en flowdoelen, maar nog geen volledige runnerconfiguratie voor integratie/E2E.
 - Documentatie buiten `docs/admin-manual.md` is gevuld op hoofdlijnen, maar moet per integratie nog dieper worden uitgewerkt.
 - Remote Supabase-project lijkt voorbereid voor notenman.com, maar schema/data zijn vanuit deze changelog-update nog niet inhoudelijk gevalideerd.
-
-## [0.1.0] - 2026-05-14
-
-### Toegevoegd
-
-- Eerste projectstructuur aangemaakt.
-- Monorepo-opzet toegevoegd.
-- Storefront-app toegevoegd.
-- Admin-app toegevoegd.
-- Worker-app toegevoegd.
-- Packages-structuur toegevoegd.
-- Supabase-structuur toegevoegd.
-- Basisdocumentatie toegevoegd.
-- Productie-env-bestand voorbereid.

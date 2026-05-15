@@ -45,6 +45,12 @@ importers:
 
   apps/storefront:
     dependencies:
+      '@denotenman/commerce':
+        specifier: workspace:*
+        version: link:../../packages/commerce
+      '@denotenman/validation':
+        specifier: workspace:*
+        version: link:../../packages/validation
       '@supabase/supabase-js':
         specifier: latest
         version: 2.105.4

@@ -1,8 +1,12 @@
+import { saveCheckoutDetailsAction } from "../../../actions/checkout.actions";
 import { AddressForm } from "../../../components/checkout/AddressForm";
 import { CheckoutLayout } from "../../../components/checkout/CheckoutLayout";
 import { CustomerForm } from "../../../components/checkout/CustomerForm";
+import { getCheckoutState } from "../../../lib/checkout";
 
-export default function CheckoutDetailsPage() {
+export default async function CheckoutDetailsPage() {
+  const checkout = await getCheckoutState();
+
   return (
     <main className="business-page">
       <CheckoutLayout>
@@ -10,12 +14,14 @@ export default function CheckoutDetailsPage() {
           <p className="business-hero__label">Checkout</p>
           <h1>Gegevens</h1>
 
-          <CustomerForm />
-          <AddressForm />
+          <form className="auth-form" action={saveCheckoutDetailsAction}>
+            <CustomerForm checkout={checkout} />
+            <AddressForm checkout={checkout} />
 
-          <a href="/checkout/verzending" className="button button--primary">
-            Verder naar verzending
-          </a>
+            <button className="button button--primary" type="submit">
+              Verder naar verzending
+            </button>
+          </form>
         </section>
       </CheckoutLayout>
     </main>
