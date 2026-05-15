@@ -1,24 +1,35 @@
-export default function BrandDetailPage() {
+import { notFound } from "next/navigation";
+import { ProductGrid } from "../../../components/product/ProductGrid";
+import { getCategoryLinks, listProducts, listProductsByCategory } from "../../../lib/products";
+
+type CategoryPageProps = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { slug } = await params;
+  const [allProducts, products] = await Promise.all([
+    listProducts(),
+    listProductsByCategory(slug),
+  ]);
+  const category = getCategoryLinks(allProducts).find((item) => item.slug === slug);
+
+  if (!category) {
+    notFound();
+  }
+
   return (
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Merk</p>
-          <h1>De Notenman</h1>
-          <p>Producten uit de eigen selectie van De Notenman.</p>
+          <p className="business-hero__label">Categorie</p>
+          <h1>{category.label}</h1>
+          <p>Bekijk alle producten binnen deze categorie.</p>
         </div>
 
-        <div className="list-grid">
-          <a href="/winkel/amandelen-ongezouten" className="dashboard-card">
-            <h2>Amandelen ongezouten</h2>
-            <p>€ 14,95</p>
-          </a>
-
-          <a href="/winkel/notenmix-luxe" className="dashboard-card">
-            <h2>Notenmix luxe</h2>
-            <p>€ 18,95</p>
-          </a>
-        </div>
+        <ProductGrid products={products} />
       </section>
     </main>
   );

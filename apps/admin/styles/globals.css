@@ -131,6 +131,15 @@ button {
   max-width: 40rem;
 }
 
+.admin-form--wide {
+  max-width: 54rem;
+}
+
+.admin-form-grid {
+  display: grid;
+  gap: 1rem;
+}
+
 .admin-form label {
   display: grid;
   gap: 0.4rem;
@@ -152,6 +161,18 @@ button {
   min-height: 8rem;
   border-radius: 1rem;
   padding-block: 0.8rem;
+}
+
+.admin-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: fit-content;
+}
+
+.admin-checkbox input {
+  width: auto;
+  min-height: auto;
 }
 
 .admin-button {
@@ -194,12 +215,64 @@ button {
   margin-top: 0.5rem;
 }
 
+.admin-product-summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.admin-product-summary img,
+.admin-image-preview img {
+  display: block;
+  border-radius: 0.85rem;
+  object-fit: cover;
+  background: rgba(47, 79, 79, 0.08);
+}
+
+.admin-product-summary img {
+  width: 4.5rem;
+  height: 4.5rem;
+  flex: 0 0 auto;
+}
+
+.admin-image-preview {
+  width: min(100%, 32rem);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 0.75rem;
+}
+
+.admin-image-preview img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.admin-image-preview--large {
+  margin-bottom: 1.5rem;
+}
+
+.admin-plain-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
 @media (min-width: 768px) {
   .admin-main {
     padding-block: 8rem 3rem;
   }
 
   .admin-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-grid--two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 2rem;
+  }
+
+  .admin-form-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

@@ -54,6 +54,10 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Lokale Supabase baseline toegevoegd voor remote tabellen `products`, `product_variants`, `product_weights`, `orders` en image-backup tabellen.
 - Lokale policybestanden toegevoegd voor publieke catalogus-read policies en geblokkeerde ordertoegang.
 - `@denotenman/db` producttypes en queryhelpers toegevoegd voor storefront/admin catalogusgebruik.
+- Storefront winkeloverzicht, categoriepagina en productdetailpagina gekoppeld aan remote Supabase catalogusdata.
+- Admin productbeheer gekoppeld aan dezelfde Supabase catalogus met productlijst, nieuw-productformulier, productdetailformulier en media-uploadformulier.
+- Server-side admin Supabase client toegevoegd op basis van de service-role key.
+- Server action toegevoegd voor product upsert en optionele upload naar storage bucket `product-images`.
 
 ### Gewijzigd
 
@@ -95,6 +99,10 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Read-only Supabase audit uitgevoerd op project `luablfcmhzykjnxmtlqh`; remote project heet `nutty`, draait Postgres 17.6 en bevat 77 actieve producten, 129 varianten en 98 gewichten.
 - Remote Edge Functions vastgesteld: `products-sync-images` en `products-sync-images-invoke`, beide actief met JWT-verificatie.
 - Remote storage vastgesteld: buckets `Products` en `product-images`.
+- Storefront productiebuild succesvol uitgevoerd met Supabase env vars uit `.env.prod`.
+- Storefront smoke-test succesvol uitgevoerd op `http://localhost:3000/winkel` en een echte productdetailpagina.
+- Admin productiebuild succesvol uitgevoerd met Supabase env vars uit `.env.prod`.
+- Admin smoke-test succesvol uitgevoerd op `http://localhost:3001/producten` en een echte productdetailpagina.
 - Typechecks succesvol uitgevoerd voor:
   - `pnpm --filter @denotenman/storefront typecheck`
   - `pnpm --filter @denotenman/admin typecheck`
@@ -107,6 +115,8 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Supabase branch `main` meldt remote status `MIGRATIONS_FAILED`; lokale migration history en remote migration history moeten nog bewust worden gerepareerd.
 - `public.image_backup_products` en `public.image_backup_product_variants` hebben remote RLS uit; dit is een kritieke security finding en moet worden opgelost voordat deze tabellen ooit door de app worden gebruikt.
 - `public.orders` gebruikt remote nog `stripe_payment_intent_id`, terwijl de webshoprichting Mollie is.
+- `.env.prod` bevat een niet-standaard `NODE_ENV` waarde; Next.js waarschuwt hiervoor tijdens build.
+- Admin write/upload-flow is bewust niet tegen productie uitgevoerd tijdens verificatie, om geen echte catalogusdata te wijzigen.
 - `packages/commerce`, `packages/validation`, `packages/mollie`, `packages/postnl`, `packages/email`, `packages/seo`, `packages/analytics`, `packages/media`, `packages/config` en `packages/ui` bevatten nog veel lege bronbestanden.
 - Storefront en admin bevatten nog veel hardcoded demo-inhoud.
 - Worker jobs, queues en cronbestanden zijn nog placeholders.

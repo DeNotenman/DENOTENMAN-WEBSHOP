@@ -29,6 +29,11 @@ De database-baseline is gestart:
 - Lokale migrations beschrijven nu de bestaande remote catalogustabellen.
 - `packages/db` bevat eerste producttypes en queryhelpers voor storefront/admin gebruik.
 - `@denotenman/db`, `@denotenman/storefront` en `@denotenman/admin` typechecken succesvol na deze stap.
+- Storefront `/winkel`, `/categorie/[slug]` en `/winkel/[slug]` lezen nu remote Supabase catalogusdata.
+- Lokale smoke-test is uitgevoerd op `http://localhost:3000/winkel` en een echte productdetailpagina.
+- Admin `/producten`, `/producten/nieuw`, `/producten/[id]` en `/producten/[id]/media` zijn gekoppeld aan remote Supabase catalogusdata.
+- Admin kan server-side producten opslaan en productfoto's uploaden naar `product-images` via een service-role server action.
+- Lokale smoke-test is uitgevoerd op `http://localhost:3001/producten` en een echte productdetailpagina.
 
 ## Empty-File Audit
 
@@ -112,11 +117,12 @@ Voor elke nieuwe stap:
 
 ## Eerstvolgende Aanbevolen Stap
 
-De beste volgende stap is storefront/admin catalogus koppelen:
+De beste volgende stap is admin catalogusbeheer afronden:
 
-- Maak app-level Supabase clients voor server-side reads.
-- Koppel `/winkel`, `/categorie/[slug]` en `/winkel/[slug]` aan remote productdata.
-- Maak daarna admin productoverzicht en productformulieren op basis van dezelfde `packages/db` helpers.
+- Voeg beheer toe voor productgewichten en varianten.
+- Voeg een veilige bevestigingsflow toe voor product verbergen/verwijderen.
+- Voeg admin-auth/rollen toe voordat write-actions publiek bereikbaar zijn.
+- Test product opslaan en foto-upload pas na een expliciete productie-data afspraak.
 - Houd image upload/write flows admin-only via service-role/server actions; public storefront leest alleen gepubliceerde productdata en publieke image URLs.
 
 Dit geeft sneller waarde dan willekeurig alle lege bestanden vullen, omdat productdata de basis vormt voor storefront, admin, cart en checkout.

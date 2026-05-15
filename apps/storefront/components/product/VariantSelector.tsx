@@ -1,12 +1,19 @@
-export function VariantSelector() {
+type VariantSelectorProps = {
+  variants: string[];
+};
+
+export function VariantSelector({ variants }: VariantSelectorProps) {
+  if (variants.length === 0) {
+    return null;
+  }
+
   return (
     <label className="form-field">
       <span>Variant</span>
       <select name="variant">
-        <option>Ongezouten</option>
-        <option>Gezouten</option>
-        <option>Gebrand</option>
-        <option>Ongebrand</option>
+        {variants.map((variant) => (
+          <option key={variant}>{variant}</option>
+        ))}
       </select>
     </label>
   );

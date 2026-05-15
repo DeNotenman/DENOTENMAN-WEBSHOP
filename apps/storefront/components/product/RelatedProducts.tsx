@@ -1,10 +1,19 @@
+import type { StorefrontProduct } from "../../lib/products";
 import { ProductGrid } from "./ProductGrid";
 
-export function RelatedProducts() {
+type RelatedProductsProps = {
+  products: StorefrontProduct[];
+};
+
+export function RelatedProducts({ products }: RelatedProductsProps) {
+  if (products.length === 0) {
+    return null;
+  }
+
   return (
     <section className="related-products">
       <h2>Ook interessant</h2>
-      <ProductGrid />
+      <ProductGrid products={products} />
     </section>
   );
 }

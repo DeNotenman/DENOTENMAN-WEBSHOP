@@ -1,31 +1,23 @@
+import type { StorefrontProduct } from "../../lib/products";
+import { formatPrice } from "../../lib/products";
 import { ProductCard } from "./ProductCard";
 
-const products = [
-  {
-    name: "Amandelen ongezouten",
-    category: "Noten",
-    price: "€ 14,95",
-    href: "/winkel/amandelen-ongezouten",
-  },
-  {
-    name: "Cashewnoten gebrand",
-    category: "Noten",
-    price: "€ 16,95",
-    href: "/winkel/cashewnoten-gebrand",
-  },
-  {
-    name: "Notenmix luxe",
-    category: "Mixen",
-    price: "€ 18,95",
-    href: "/winkel/notenmix-luxe",
-  },
-];
+type ProductGridProps = {
+  products: StorefrontProduct[];
+};
 
-export function ProductGrid() {
+export function ProductGrid({ products }: ProductGridProps) {
   return (
     <div className="list-grid">
       {products.map((product) => (
-        <ProductCard key={product.href} {...product} />
+        <ProductCard
+          key={product.slug}
+          name={product.name}
+          category={product.categoryLabel}
+          price={formatPrice(product.basePrice)}
+          href={`/winkel/${product.slug}`}
+          image={product.image}
+        />
       ))}
     </div>
   );

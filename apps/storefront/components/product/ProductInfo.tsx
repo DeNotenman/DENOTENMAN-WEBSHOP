@@ -1,18 +1,32 @@
 import { ProductPrice } from "./ProductPrice";
 import { StockStatus } from "./StockStatus";
 
-export function ProductInfo() {
+type ProductInfoProps = {
+  category: string;
+  description?: string | null;
+  name: string;
+  origin?: string | null;
+  price: string;
+  stockLabel?: string;
+};
+
+export function ProductInfo({
+  category,
+  description,
+  name,
+  origin,
+  price,
+  stockLabel,
+}: ProductInfoProps) {
   return (
     <div className="product-detail-content">
-      <p className="business-hero__label">Product</p>
-      <h1>Amandelen ongezouten</h1>
-      <p>
-        Verse ongezouten amandelen, zorgvuldig geselecteerd en verpakt door
-        De Notenman.
-      </p>
+      <p className="business-hero__label">{category}</p>
+      <h1>{name}</h1>
+      {description && <p>{description}</p>}
+      {origin && <p>Herkomst: {origin}</p>}
 
-      <ProductPrice price="€ 14,95" />
-      <StockStatus />
+      <ProductPrice price={price} />
+      <StockStatus status={stockLabel} />
     </div>
   );
 }
