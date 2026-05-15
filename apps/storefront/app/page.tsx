@@ -1,43 +1,269 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import { Icon } from "../components/ui/Icon";
 
+const categories = [
+  {
+    href: "/categorie/noten",
+    icon: "acorn",
+    label: "Noten",
+    text: "Gebrand, ongebrand, naturel en gemixt.",
+    meta: "Voor borrel, keuken en voorraadkast",
+  },
+  {
+    href: "/categorie/pitten-zaden",
+    icon: "wheat-grain",
+    label: "Pitten en zaden",
+    text: "Voor ontbijt, bakkerij, salades en topping.",
+    meta: "Klein van stuk, groot in gebruik",
+  },
+  {
+    href: "/categorie/gedroogd-fruit",
+    icon: "apple-fruit",
+    label: "Gedroogd fruit",
+    text: "Zoet, fris en makkelijk mee te nemen.",
+    meta: "Los of in mixen",
+  },
+];
+
+const trustSignals = [
+  {
+    icon: "leaf-1",
+    label: "Dagvers geselecteerd",
+    text: "Kleine batches en een assortiment dat voelt als de marktkraam.",
+  },
+  {
+    icon: "delivery-truck",
+    label: "Aan huis of zaak",
+    text: "Bestel voor thuis, kantoor, horeca of wederverkoop.",
+  },
+  {
+    icon: "shield-1",
+    label: "Veilig bestellen",
+    text: "Duidelijke checkout en vertrouwde betaalstappen.",
+  },
+];
+
+const featuredProducts = [
+  {
+    href: "/winkel/amandelen-ongezouten",
+    icon: "acorn-1",
+    label: "Amandelen ongezouten",
+    text: "Naturel en knapperig.",
+    price: "EUR 14,95",
+  },
+  {
+    href: "/winkel/cashewnoten-gebrand",
+    icon: "acorn",
+    label: "Cashewnoten gebrand",
+    text: "Vol, rond en licht geroosterd.",
+    price: "EUR 16,95",
+  },
+  {
+    href: "/winkel/notenmix-luxe",
+    icon: "food-container",
+    label: "Notenmix luxe",
+    text: "Rijke mix voor borrel en voorraad.",
+    price: "EUR 18,95",
+  },
+];
+
+const journeySteps = [
+  {
+    label: "Vandaag iets nodig",
+    text: "Ga direct naar de winkel en kies uit noten, mixen, pitten, zaden en fruit.",
+  },
+  {
+    label: "Vaste voorraad",
+    text: "Gebruik categorieen en zoekfunctie om sneller opnieuw te bestellen.",
+  },
+];
+
+function getSiteBaseUrl() {
+  const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
+  if (rawSiteUrl) {
+    try {
+      return new URL(rawSiteUrl).origin;
+    } catch {
+      // Fall back to the public production URL when local env is unset or malformed.
+    }
+  }
+
+  return "https://denotenman.nl";
+}
+
+const siteBaseUrl = getSiteBaseUrl();
+
+function serializeJsonLd(data: Record<string, unknown>) {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteBaseUrl),
+  title: "De Notenman | Noten, pitten en gedroogd fruit online bestellen",
+  description:
+    "Bestel dagverse noten, pitten, zaden, mixen en gedroogd fruit bij De Notenman.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "De Notenman",
+    description:
+      "Van markt tot webshop: noten, pitten, zaden, mixen en gedroogd fruit.",
+    images: ["/Notenman_onlylogo.png"],
+  },
+};
+
 export default function HomePage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    name: "De Notenman",
+    url: siteBaseUrl,
+    image: `${siteBaseUrl}/Notenman_onlylogo.png`,
+    description:
+      "Specialist in noten, pitten, zaden, mixen en gedroogd fruit.",
+    sameAs: [],
+  };
+
   return (
-    <main>
-      <section className="home-hero">
-        <div className="container home-hero__inner">
-          <p className="home-hero__label">De Notenman</p>
+    <main className="landing-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
+      />
 
-          <h1>Van markt tot webshop.</h1>
+      <section className="landing-hero" aria-labelledby="landing-title">
+        <div className="container landing-hero__grid">
+          <div className="landing-hero__content">
+            <h1 id="landing-title">Dagverse noten, pitten en fruit.</h1>
+            <p className="landing-hero__lead">
+              Bestel noten, mixen, pitten, zaden en gedroogd fruit. Vers,
+              overzichtelijk en snel in je mand.
+            </p>
 
-          <p className="home-hero__text">
-            De specialist in noten, pitten en gedroogd fruit.
-          </p>
+            <div className="landing-hero__actions" aria-label="Belangrijkste acties">
+              <Link href="#marktfavorieten" className="button button--primary landing-button">
+                <Icon name="shopping-cart-1" />
+                Snel kopen
+              </Link>
+              <Link href="/winkel" className="button button--secondary landing-button">
+                <Icon name="shopping-bag" />
+                Naar de winkel
+              </Link>
+            </div>
 
-          <div className="home-hero__actions">
-            <a href="/winkel" className="button button--primary">
-              <Icon name="shopping-bag" />
-              Naar de winkel
-            </a>
-
-            <a href="/zakelijk" className="button button--secondary">
-              <Icon name="briefcase" />
-              Zakelijk bestellen
-            </a>
+            <dl className="landing-hero__facts" aria-label="Service samenvatting">
+              <div>
+                <dt>Assortiment</dt>
+                <dd>Noten, mixen, pitten, zaden en fruit</dd>
+              </div>
+              <div>
+                <dt>Bestemming</dt>
+                <dd>Thuis, kantoor en horeca</dd>
+              </div>
+            </dl>
           </div>
 
-          <div className="home-hero__usp" aria-label="Voordelen">
-            <span>
-              <Icon name="leaf-1" />
-              Dagvers assortiment
-            </span>
-            <span>
-              <Icon name="delivery-truck" />
-              Betrouwbare levering
-            </span>
-            <span>
-              <Icon name="shield-1" />
-              Veilig bestellen
-            </span>
+          <div className="landing-hero__showcase" aria-label="Uitgelicht assortiment">
+            <div id="marktfavorieten" className="landing-market-card">
+              <div className="landing-market-card__head">
+                <strong>Marktfavorieten</strong>
+              </div>
+
+              <div className="landing-market-card__products">
+                {featuredProducts.map((product) => (
+                  <Link key={product.href} href={product.href} className="landing-market-product">
+                    <span className="landing-market-product__icon">
+                      <Icon name={product.icon} />
+                    </span>
+                    <span>
+                      <strong>{product.label}</strong>
+                      <small>{product.text}</small>
+                    </span>
+                    <b>{product.price}</b>
+                  </Link>
+                ))}
+              </div>
+
+              <Link href="/winkel" className="landing-market-card__link">
+                Alle producten
+                <Icon name="arrow-right" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="landing-trust" aria-label="Waarom klanten kiezen voor De Notenman">
+        <ul className="container landing-trust__grid">
+          {trustSignals.map((signal) => (
+            <li key={signal.label} className="landing-trust__item">
+              <Icon name={signal.icon} />
+              <strong>{signal.label}</strong>
+              <span>{signal.text}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="landing-section" aria-labelledby="categories-title">
+        <div className="container landing-section__head">
+          <h2 id="categories-title">Shop per categorie</h2>
+          <Link href="/winkel" className="landing-text-link">
+            Alles bekijken
+            <Icon name="arrow-right" />
+          </Link>
+        </div>
+
+        <div className="container landing-category-grid">
+          {categories.map((category) => (
+            <Link key={category.href} href={category.href} className="landing-category">
+              <span className="landing-category__icon">
+                <Icon name={category.icon} />
+              </span>
+              <span className="landing-category__meta">{category.meta}</span>
+              <strong>{category.label}</strong>
+              <span>{category.text}</span>
+              <span className="landing-category__action">
+                Bekijk assortiment
+                <Icon name="arrow-right" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="landing-band" aria-labelledby="journey-title">
+        <div className="container landing-band__grid">
+          <div>
+            <h2 id="journey-title">Snel bestellen, makkelijk terugvinden.</h2>
+          </div>
+
+          <ol className="landing-steps">
+            {journeySteps.map((step) => (
+              <li key={step.label}>
+                <strong>{step.label}</strong>
+                <span>{step.text}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="landing-final" aria-labelledby="final-title">
+        <div className="container landing-final__inner">
+          <h2 id="final-title">Klaar om te bestellen?</h2>
+          <div className="landing-hero__actions">
+            <Link href="#marktfavorieten" className="button button--primary landing-button">
+              <Icon name="shopping-cart-1" />
+              Snel kopen
+            </Link>
+            <Link href="/winkel" className="button button--primary landing-button">
+              <Icon name="shopping-bag" />
+              Naar de winkel
+            </Link>
           </div>
         </div>
       </section>
