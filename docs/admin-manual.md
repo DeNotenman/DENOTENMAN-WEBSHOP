@@ -19,8 +19,12 @@ De eerste stabilisatiestap is afgerond:
 - `@denotenman/admin` typecheckt succesvol.
 - `@denotenman/storefront` typecheckt succesvol.
 - `@denotenman/worker` typecheckt succesvol.
-- Een representatieve package, `@denotenman/commerce`, typecheckt succesvol.
+- De volledige workspace typecheckt succesvol via `pnpm typecheck` met 14/14 packages/apps groen.
 - De eerder bekende blockers in `Modal.tsx`, `categorieen/nieuw`, `instellingen`, `CheckoutLayout` en `merken/[slug]` zijn hersteld.
+- `@denotenman/config`, `@denotenman/validation`, `@denotenman/commerce`, `@denotenman/media` en `@denotenman/analytics` hebben nu echte TypeScript exports en eigen `tsconfig.json`.
+- Worker jobs, queues en cronbestanden hebben nu contracten en veilige dry-run handlers.
+- Tests bevatten eerste unit tests voor commerce en flowdoelen voor integratie/E2E.
+- Documentatie buiten deze admin manual is gevuld met architectuur-, security-, deployment- en integratierunbooks.
 
 De database-baseline is gestart:
 
@@ -46,20 +50,26 @@ De database-baseline is gestart:
   - `product-images` heeft geen brede `storage.objects` listing-policy.
   - `public.rls_auto_enable()` is niet meer uitvoerbaar voor `anon` of `authenticated`.
 - Supabase security advisor-check geeft momenteel `0` lints terug.
+- Admin-login env vars staan lokaal in `.env.prod` voor verificatie.
+- Admin productbeheer is end-to-end getest via browser:
+  - Testproduct: `1077`, slug `codex-test-product-1778856205084`.
+  - Product is bewust verborgen (`is_active = false`) zodat het niet publiek in de winkel verschijnt.
+  - Foto-upload naar `product-images` is gelukt.
+  - Gewicht `100g test` en variant `Testvariant` zijn opgeslagen.
+  - Admin detailroute blijft beschermd en redirect zonder sessie naar login.
+  - Storefront `/winkel` toont het testproduct niet; `/winkel/codex-test-product-1778856205084` rendert als 404.
 
 ## Empty-File Audit
 
-Er zijn momenteel 283 lege bestanden buiten `node_modules`, `.next`, `.turbo` en `.git`. Dat is geen directe compile-fout, maar wel de belangrijkste bouwschuld.
+Er zijn momenteel 184 lege bestanden buiten `node_modules`, `.next`, `.turbo` en `.git`. Dat is geen directe compile-fout, maar blijft bouwschuld.
 
 Belangrijkste clusters:
 
 - `apps/storefront`: lege actions, libs en meerdere component-placeholders.
 - `apps/admin`: lege actions, libs en B2B component-placeholders.
-- `apps/worker`: lege queue-, job- en cron-bestanden.
-- `packages/*`: vrijwel alle package-sourcebestanden zijn nog leeg.
-- `supabase/migrations`, `supabase/policies`, `supabase/seed`: databasebestanden zijn nog leeg.
-- `docs/*` en `database-map/*`: documentatie is grotendeels leeg.
-- `tests/*`: testbestanden zijn aanwezig maar nog leeg.
+- `packages/mollie`, `packages/postnl`, `packages/email`, `packages/seo` en `packages/ui`: nog veel lege bronbestanden.
+- `database-map/*`: documentatie is grotendeels leeg.
+- Integratie- en E2E-tests hebben doelen, maar nog geen volledige runnerconfiguratie.
 
 Conclusie: de codebase is nu compile-stabiel voor de hoofdapps, maar nog niet functioneel compleet.
 
@@ -69,16 +79,16 @@ Hoog risico:
 
 - Supabase branch `main` meldt remote `MIGRATIONS_FAILED`; lokale en remote migration history lopen niet gelijk.
 - Remote `public.orders` gebruikt nog `stripe_payment_intent_id`, terwijl checkout richting Mollie moet.
-- Lege commerce- en validation-packages. Checkout, prijzen, voorraad en ordervalidatie missen daarmee nog veel kernlogica.
-- Lege worker-jobs. E-mail, voorraad, labels en cleanup draaien nog niet echt.
-- Lege tests. Er is nog geen regressiebewaking.
+- Mollie/PostNL/e-mail packages zijn nog grotendeels placeholders; checkout, verzending en e-mail draaien nog niet echt.
+- Worker handlers zijn nu contractueel gevuld, maar doen nog geen echte externe side effects.
+- Integratie/E2E tests zijn nog niet gekoppeld aan een runner en fixtures.
 
 Middel risico:
 
 - Storefront en admin gebruiken nog veel hardcoded demo-inhoud.
 - Veel actions en lib-bestanden bestaan nog als placeholders buiten de inmiddels gekoppelde productbeheer-flow.
 - Admin login vereist nog productie-env vars: `ADMIN_EMAIL`, `ADMIN_PASSWORD` en `ADMIN_SESSION_SECRET`.
-- Integratiedocumentatie voor Mollie, PostNL, deployment en security ontbreekt nog.
+- Integratiedocumentatie voor Mollie, PostNL, deployment en security bestaat nu op hoofdlijnen, maar moet bij implementatie worden verdiept.
 
 Laag risico:
 
@@ -129,12 +139,11 @@ Voor elke nieuwe stap:
 
 ## Eerstvolgende Aanbevolen Stap
 
-De beste volgende stap is productbeheer functioneel testen met veilige testdata:
+De beste volgende stap is de checkout/cart-keten aansluiten op de nieuwe commerce- en validation-packages:
 
-- Zet `ADMIN_EMAIL`, `ADMIN_PASSWORD` en `ADMIN_SESSION_SECRET` in de admin runtime-omgeving.
-- Log lokaal in op de admin.
-- Maak of kies een expliciet testproduct.
-- Test product opslaan, gewicht toevoegen, variant toevoegen, foto uploaden en zichtbaar/verbergen.
-- Controleer daarna storefront `/winkel` en de productdetailpagina.
+- Storefront winkelwagen-actions koppelen aan `@denotenman/commerce`.
+- Checkout-validatie koppelen aan `@denotenman/validation`.
+- Order-draft server-side voorbereiden, nog zonder Mollie-payment side effect.
+- Daarna pas Mollie create/webhook bouwen.
 
-Daarna kunnen we de migration-history mismatch (`MIGRATIONS_FAILED`) en de resterende checkout/order-bouwschuld gericht aanpakken.
+Parallel blijft de migration-history mismatch (`MIGRATIONS_FAILED`) een aparte Supabase onderhoudstaak.

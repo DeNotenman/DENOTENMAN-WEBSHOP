@@ -11,8 +11,8 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
   - `@denotenman/storefront`
   - `@denotenman/admin`
   - `@denotenman/worker`
-- Representatieve packagecheck uitgevoerd op `@denotenman/commerce`.
-- Er zijn nog 283 lege placeholderbestanden buiten `node_modules`, `.next`, `.turbo` en `.git`.
+- Workspace typecheck is groen voor alle 14 packages/apps.
+- Er zijn nog 184 lege placeholderbestanden buiten `node_modules`, `.next`, `.turbo` en `.git`.
 - Database basis is gestart met een remote Supabase baseline voor catalogusdata, RLS en product-query helpers.
 
 ### Toegevoegd
@@ -63,6 +63,10 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Admin routebescherming toegevoegd via Next.js `proxy.ts`.
 - Server-side admin guard toegevoegd aan product write-actions voor productgegevens, media-upload, gewichten, varianten en zichtbaar/verbergen.
 - Supabase security migration toegevoegd voor private backup/order-tabellen, service-role policies en storage hardening.
+- Echte TypeScript packagebasis toegevoegd voor `@denotenman/config`, `@denotenman/validation`, `@denotenman/commerce`, `@denotenman/media` en `@denotenman/analytics`.
+- Worker job-, queue- en cron-contracten toegevoegd met veilige dry-run handlers.
+- Unit testinhoud toegevoegd voor pricing, cart, inventory, discounts en checkout.
+- Integratie- en E2E-testdoelen vastgelegd voor account, admin, cart, checkout, Mollie, order-flow, PostNL en product-flow.
 
 ### Gewijzigd
 
@@ -116,6 +120,13 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Remote verificatie bevestigd: backup-tabellen en `orders` hebben RLS aan, geen anon/authenticated select-rechten en alleen service-role policies.
 - Remote storage verificatie bevestigd: `product-images` heeft geen brede `storage.objects` listing-policy; bucket blijft publiek voor directe object-URL's.
 - Remote functie `public.rls_auto_enable()` is niet meer uitvoerbaar voor `anon` of `authenticated`.
+- Admin-login env vars toegevoegd aan `.env.prod` voor lokale verificatie.
+- Admin productbeheer end-to-end getest via browser op `http://localhost:3001` met verborgen testproduct `1077` (`codex-test-product-1778856205084`).
+- Testproduct verificatie bevestigd: product opgeslagen, foto geupload naar `product-images`, gewicht `100g test` toegevoegd en variant `Testvariant` toegevoegd.
+- Storefront verificatie bevestigd: verborgen testproduct verschijnt niet in `/winkel` en de productdetailroute rendert als 404.
+- Package `tsconfig.json`-bestanden toegevoegd voor de gevulde gedeelde packages en worker.
+- Brede workspace typecheck succesvol uitgevoerd: `pnpm typecheck` met 14/14 packages/apps groen.
+- Unit tests succesvol uitgevoerd via worker `tsx` bin: 5 tests geslaagd voor cart, checkout, discounts, inventory en pricing.
 - Typechecks succesvol uitgevoerd voor:
   - `pnpm --filter @denotenman/storefront typecheck`
   - `pnpm --filter @denotenman/admin typecheck`
@@ -130,11 +141,11 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - `.env.prod` bevat een niet-standaard `NODE_ENV` waarde; Next.js waarschuwt hiervoor tijdens build.
 - Admin login vereist nog productie-instelling van `ADMIN_EMAIL`, `ADMIN_PASSWORD` en `ADMIN_SESSION_SECRET`.
 - Admin write/upload/delete-flow is bewust niet tegen productie uitgevoerd tijdens verificatie, om geen echte catalogusdata te wijzigen.
-- `packages/commerce`, `packages/validation`, `packages/mollie`, `packages/postnl`, `packages/email`, `packages/seo`, `packages/analytics`, `packages/media`, `packages/config` en `packages/ui` bevatten nog veel lege bronbestanden.
+- `packages/mollie`, `packages/postnl`, `packages/email`, `packages/seo` en `packages/ui` bevatten nog veel lege bronbestanden.
 - Storefront en admin bevatten nog veel hardcoded demo-inhoud.
-- Worker jobs, queues en cronbestanden zijn nog placeholders.
-- Tests zijn aanwezig als structuur, maar inhoudelijk nog niet gevuld.
-- Documentatie buiten `docs/admin-manual.md` is nog leeg.
+- Worker jobs, queues en cronbestanden hebben nu contracten/dry-run handlers, maar nog geen echte externe side effects.
+- Tests hebben eerste unitinhoud en flowdoelen, maar nog geen volledige runnerconfiguratie voor integratie/E2E.
+- Documentatie buiten `docs/admin-manual.md` is gevuld op hoofdlijnen, maar moet per integratie nog dieper worden uitgewerkt.
 - Remote Supabase-project lijkt voorbereid voor notenman.com, maar schema/data zijn vanuit deze changelog-update nog niet inhoudelijk gevalideerd.
 
 ## [0.1.0] - 2026-05-14
