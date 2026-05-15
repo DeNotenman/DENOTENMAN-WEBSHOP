@@ -95,6 +95,11 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Admin mediabibliotheek gekoppeld aan Supabase Storage bucket `product-images`.
 - Admin order-subpagina's voor verzending, factuur en retour tonen echte orderdata en geen voorbeeldrecords meer.
 - Admin Mollie/refunds-pagina's tonen echte configuratie/paymentdata zonder fake payment/refund records.
+- Admin B2B-pagina's tonen geen fictieve bedrijven/accounts/bestellijsten/offertes/staffels meer; zolang B2B-tabellen ontbreken tonen ze een expliciete "nog niet ingericht" status.
+- Admin zakelijke facturenpagina gebruikt echte orders als factuurbasis in plaats van fake facturen.
+- Admin instellingenpagina's voor algemeen, betalingen, verzending, gebruikers en rollen tonen echte server-side configuratiestatus zonder secrets.
+- Admin verzendingsoverzichten, labels, retouren en reviews tonen geen fake records meer; ontbrekende opslag/integraties worden expliciet gemarkeerd.
+- Admin product-SEO gebruikt echte productdata in plaats van vaste voorbeeldcontent.
 
 ### Gewijzigd
 
@@ -166,6 +171,8 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Unit-suite succesvol uitgevoerd via `tsx --test`: 8/8 tests geslaagd, inclusief Mollie status/idempotency tests.
 - Admin production build succesvol uitgevoerd na koppeling van dashboard, orders, payments, klanten, voorraad, categorieen en media aan echte Supabase-data.
 - Admin browser-smoke succesvol uitgevoerd op dashboard, bestellingen, orderdetail, verzending, factuur, retour, betalingen, Mollie, refunds, klanten, voorraad, categorieen en media.
+- Admin demo-data scan uitgevoerd; vaste voorbeeldnamen/orders/payments zijn verwijderd uit admin runtime-pagina's.
+- Admin browser-smoke succesvol uitgevoerd op B2B, instellingen, verzending, PostNL, labels, retouren en reviews na verwijderen van fake records.
 - Typechecks succesvol uitgevoerd voor:
   - `pnpm --filter @denotenman/storefront typecheck`
   - `pnpm --filter @denotenman/admin typecheck`
@@ -182,7 +189,7 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - `packages/postnl`, `packages/email`, `packages/seo` en `packages/ui` bevatten nog veel lege bronbestanden.
 - Mollie create-payment is veilig voorbereid, maar nog niet live getest met een echte Mollie test-key en publieke webhook-URL.
 - Storefront en admin bevatten nog veel hardcoded demo-inhoud.
-- Admin restmodules met resterende demo-inhoud: zakelijke B2B, CMS, marketing, kortingen, reviews, verzendingsoverzichten, audit-log en instellingen-subpagina's.
+- Admin restmodules met resterende productiewerkzaamheden: echte opslag/actions voor B2B, CMS, marketing, kortingen, reviews, shipment labels, retouren, audit-log en persistente instellingen.
 - Worker jobs, queues en cronbestanden hebben nu contracten/dry-run handlers, maar nog geen echte externe side effects.
 - Tests hebben eerste unitinhoud en flowdoelen, maar nog geen volledige runnerconfiguratie voor integratie/E2E.
 - Documentatie buiten `docs/admin-manual.md` is gevuld op hoofdlijnen, maar moet per integratie nog dieper worden uitgewerkt.

@@ -1,39 +1,19 @@
-const prices = [
-  {
-    product: "Amandelen ongezouten",
-    customer: "Voorbeeldbedrijf B.V.",
-    price: "€ 14,95",
-  },
-  {
-    product: "Cashewnoten gebrand",
-    customer: "Catering Van Dijk",
-    price: "€ 16,95",
-  },
-];
+import { getBusinessModuleStatus } from "../../../lib/business";
 
-export default function AdminBusinessPricesPage() {
+export default async function BusinessPricesPage() {
+  const status = await getBusinessModuleStatus();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Zakelijk</p>
-        <h1>Zakelijke prijzen</h1>
-        <span>
-          Beheer klantprijzen, prijsafspraken en afwijkende tarieven per
-          zakelijke klant.
-        </span>
+        <h1>Prijzen</h1>
+        <span>Klantprijzen en prijsafspraken vereisen een echte B2B-prijstabel.</span>
       </section>
 
-      <section className="admin-list">
-        {prices.map((item) => (
-          <article key={`${item.product}-${item.customer}`} className="admin-list-row">
-            <div>
-              <h2>{item.product}</h2>
-              <p>{item.customer}</p>
-            </div>
-
-            <strong>{item.price}</strong>
-          </article>
-        ))}
+      <section className="admin-card">
+        <h2>{status.configured ? "Actief" : "Nog niet ingericht"}</h2>
+        <p>{status.reason}</p>
       </section>
     </main>
   );

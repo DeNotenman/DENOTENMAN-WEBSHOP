@@ -1,46 +1,18 @@
-export default function NewBusinessAccountPage() {
+import { BusinessModuleNotice } from "../../../../components/b2b/BusinessModuleNotice";
+import { getBusinessModuleStatus } from "../../../../lib/business";
+
+export default async function NewBusinessAccountPage() {
+  const status = await getBusinessModuleStatus();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
-        <p>Zakelijk account</p>
+        <p>Zakelijk</p>
         <h1>Nieuw account</h1>
-        <span>
-          Maak een gebruiker aan en koppel deze aan een zakelijke klant.
-        </span>
+        <span>Accounts kunnen worden aangemaakt zodra B2B-opslag is ingericht.</span>
       </section>
 
-      <form className="admin-form">
-        <label>
-          Naam
-          <input type="text" name="name" placeholder="Naam contactpersoon" />
-        </label>
-
-        <label>
-          E-mailadres
-          <input type="email" name="email" placeholder="naam@bedrijf.nl" />
-        </label>
-
-        <label>
-          Zakelijke klant
-          <select name="customer">
-            <option>Voorbeeldbedrijf B.V.</option>
-            <option>Catering Van Dijk</option>
-          </select>
-        </label>
-
-        <label>
-          Rol
-          <select name="role">
-            <option>Inkoper</option>
-            <option>Beheerder</option>
-            <option>Alleen facturen</option>
-          </select>
-        </label>
-
-        <button className="admin-button" type="submit">
-          Account aanmaken
-        </button>
-      </form>
+      <BusinessModuleNotice status={status} />
     </main>
   );
 }

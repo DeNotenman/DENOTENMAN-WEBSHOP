@@ -1,37 +1,18 @@
-export default function AdminBusinessQuoteDetailPage() {
+import { BusinessModuleNotice } from "../../../../components/b2b/BusinessModuleNotice";
+import { getBusinessModuleStatus } from "../../../../lib/business";
+
+export default async function BusinessQuoteDetailPage() {
+  const status = await getBusinessModuleStatus();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Zakelijke offerte</p>
-        <h1>OFF-2026-001</h1>
-        <span>
-          Bekijk offertegegevens, producten, prijzen, klantinformatie en status.
-        </span>
+        <h1>Offertedetail</h1>
+        <span>Offertedetails worden actief zodra B2B-opslag is ingericht.</span>
       </section>
 
-      <section className="admin-grid">
-        <article className="admin-card">
-          <h2>Klant</h2>
-          <p>Voorbeeldbedrijf B.V.</p>
-          <p>inkoop@voorbeeldbedrijf.nl</p>
-        </article>
-
-        <article className="admin-card">
-          <h2>Status</h2>
-          <p>Concept</p>
-        </article>
-
-        <article className="admin-card">
-          <h2>Bedrag</h2>
-          <p>Subtotaal: € 202,48</p>
-          <p>BTW 21%: € 42,52</p>
-          <p>Totaal: € 245,00</p>
-        </article>
-      </section>
-
-      <button className="admin-button" type="button">
-        Offerte verzenden
-      </button>
+      <BusinessModuleNotice status={status} />
     </main>
   );
 }

@@ -1,29 +1,23 @@
-const methods = [
-  { name: "iDEAL", provider: "Mollie", status: "Actief" },
-  { name: "Bancontact", provider: "Mollie", status: "Actief" },
-  { name: "Creditcard", provider: "Mollie", status: "Actief" },
-];
+import { getAdminSettingsStatus } from "../../../lib/settings";
 
-export default function PaymentSettingsPage() {
+export default async function PaymentSettingsPage() {
+  const settings = await getAdminSettingsStatus();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Instellingen</p>
         <h1>Betalingen</h1>
-        <span>Beheer betaalmethodes, providers en betaalstatussen.</span>
+        <span>Server-side betaalconfiguratie zonder secrets te tonen.</span>
       </section>
 
-      <section className="admin-list">
-        {methods.map((method) => (
-          <article key={method.name} className="admin-list-row">
-            <div>
-              <h2>{method.name}</h2>
-              <p>{method.provider}</p>
-            </div>
-
-            <strong>{method.status}</strong>
-          </article>
-        ))}
+      <section className="admin-grid">
+        <article className="admin-card">
+          <h2>Mollie</h2>
+          <p>API key aanwezig: {settings.payments.mollieConfigured ? "Ja" : "Nee"}</p>
+          <p>Testbetalingen actief: {settings.payments.mollieTestPaymentsEnabled ? "Ja" : "Nee"}</p>
+          <p>Webhook: {settings.payments.webhookPath}</p>
+        </article>
       </section>
     </main>
   );

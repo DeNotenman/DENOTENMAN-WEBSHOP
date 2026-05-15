@@ -1,28 +1,30 @@
-const shipments = [
-  { id: "SHIP-2026-001", order: "ORD-2026-001", carrier: "PostNL", status: "Verzonden" },
-  { id: "SHIP-2026-002", order: "ORD-2026-003", carrier: "PostNL", status: "Label aangemaakt" },
-];
+import { formatAdminDate, listAdminOrders } from "../../lib/orders";
 
-export default function ShippingPage() {
+export default async function ShippingPage() {
+  const orders = (await listAdminOrders(100)).filter((order) =>
+    ["paid", "processing", "shipped"].includes(order.status),
+  );
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Verzending</p>
-        <h1>Verzendingen</h1>
-        <span>Bekijk labels, zendingen, retouren en track & trace-statussen.</span>
+        <h1>Verzendoverzicht</h1>
+        <span>Orders die klaar zijn voor verwerking of verzending.</span>
       </section>
 
       <section className="admin-list">
-        {shipments.map((shipment) => (
-          <article key={shipment.id} className="admin-list-row">
+        {orders.length === 0 ? <p>Geen orders klaar voor verzending.</p> : null}
+        {orders.map((order) => (
+          <a key={order.id} href={`/bestellingen/${order.id}/verzending`} className="admin-list-row">
             <div>
-              <h2>{shipment.id}</h2>
-              <p>{shipment.order}</p>
+              <h2>{order.orderNumber}</h2>
+              <p>{order.customerName ?? order.customerEmail ?? "Onbekende klant"}</p>
+              <p>{formatAdminDate(order.createdAt)}</p>
             </div>
-
-            <span>{shipment.carrier}</span>
-            <strong>{shipment.status}</strong>
-          </article>
+            <span>{order.paymentStatus}</span>
+            <strong>{order.status}</strong>
+          </a>
         ))}
       </section>
     </main>

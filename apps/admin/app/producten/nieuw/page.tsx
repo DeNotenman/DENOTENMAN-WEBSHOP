@@ -23,7 +23,7 @@ export default function NewProductPage() {
       <form className="admin-form admin-form--wide" action={saveProductAction}>
         <label>
           Productnaam
-          <input type="text" name="name" placeholder="Bijvoorbeeld: Amandelen ongezouten" required />
+          <input type="text" name="name" placeholder="Productnaam" required />
         </label>
 
         <label>

@@ -1,21 +1,18 @@
-const roles = [
-  { name: "Eigenaar", permissions: "Volledige toegang" },
-  { name: "Manager", permissions: "Producten, orders, klanten en marketing" },
-  { name: "Staff", permissions: "Orders, voorraad en klantenservice" },
-  { name: "Developer", permissions: "Technisch beheer en instellingen" },
-];
+import { getAdminSettingsStatus } from "../../../lib/settings";
 
-export default function RolesSettingsPage() {
+export default async function RolesSettingsPage() {
+  const settings = await getAdminSettingsStatus();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Instellingen</p>
         <h1>Rollen</h1>
-        <span>Beheer rechten en toegangsniveaus per rol.</span>
+        <span>Actieve rollen binnen de huidige admin-auth implementatie.</span>
       </section>
 
       <section className="admin-list">
-        {roles.map((role) => (
+        {settings.roles.map((role) => (
           <article key={role.name} className="admin-list-row">
             <div>
               <h2>{role.name}</h2>

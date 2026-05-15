@@ -1,28 +1,23 @@
-const methods = [
-  { name: "PostNL pakket", price: "€ 6,95", status: "Actief" },
-  { name: "Gratis verzending vanaf", price: "€ 50,00", status: "Actief" },
-];
+import { getAdminSettingsStatus } from "../../../lib/settings";
 
-export default function ShippingSettingsPage() {
+export default async function ShippingSettingsPage() {
+  const settings = await getAdminSettingsStatus();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Instellingen</p>
         <h1>Verzending</h1>
-        <span>Beheer verzendmethodes, tarieven en gratis verzending.</span>
+        <span>Server-side verzendconfiguratie zonder secrets te tonen.</span>
       </section>
 
-      <section className="admin-list">
-        {methods.map((method) => (
-          <article key={method.name} className="admin-list-row">
-            <div>
-              <h2>{method.name}</h2>
-              <p>{method.price}</p>
-            </div>
-
-            <strong>{method.status}</strong>
-          </article>
-        ))}
+      <section className="admin-grid">
+        <article className="admin-card">
+          <h2>PostNL</h2>
+          <p>API key aanwezig: {settings.shipping.postnlConfigured ? "Ja" : "Nee"}</p>
+          <p>Klantcode aanwezig: {settings.shipping.postnlCustomerCodeConfigured ? "Ja" : "Nee"}</p>
+          <p>Klantnummer aanwezig: {settings.shipping.postnlCustomerNumberConfigured ? "Ja" : "Nee"}</p>
+        </article>
       </section>
     </main>
   );

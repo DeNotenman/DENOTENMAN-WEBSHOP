@@ -10,11 +10,7 @@ export function Header() {
   return (
     <header className="site-header">
       <a href="/" className="site-header__brand" aria-label="De Notenman home">
-        {/* Later logo vervangen: plaats definitief logo op apps/storefront/public/logo.svg */}
-        <span className="site-header__logo-mark" aria-hidden="true">
-          DN
-        </span>
-        <span className="site-header__logo-text">De Notenman</span>
+        <img src="/apps/storefront/public/Notenman_onlylogo.png" alt="Notenman Logo" />
       </a>
 
       <nav className="site-header__nav" aria-label="Hoofdnavigatie">
@@ -27,7 +23,7 @@ export function Header() {
 
       <div className="site-header__actions">
         <a href="/winkelwagen" className="site-header__cart" aria-label="Winkelwagen">
-          Mand
+          Checkout
         </a>
 
         <details className="mobile-menu">
@@ -35,7 +31,7 @@ export function Header() {
             <span aria-hidden="true" />
             <span aria-hidden="true" />
             <span aria-hidden="true" />
-          </summary>
+          </summary> 
 
           <nav className="mobile-menu__panel" aria-label="Mobiele navigatie">
             <div className="mobile-menu__asset-note">

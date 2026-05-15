@@ -78,6 +78,11 @@ De database-baseline is gestart:
 - Admin orderstatus kan via beveiligde server action worden aangepast.
 - Admin order-subpagina's voor verzending, factuur en retour tonen echte orderdata en geen voorbeeldrecords meer.
 - Admin Mollie/refunds-pagina's tonen echte configuratie/paymentdata zonder fake records.
+- Admin B2B-pagina's tonen geen fictieve bedrijven/accounts/bestellijsten/offertes/staffels meer; zolang B2B-tabellen ontbreken tonen ze een expliciete "nog niet ingericht" status.
+- Admin zakelijke facturenpagina gebruikt echte orders als factuurbasis.
+- Admin instellingenpagina's tonen echte server-side configuratiestatus zonder secrets.
+- Admin verzendingsoverzichten, labels, retouren en reviews tonen geen fake records meer.
+- Admin product-SEO gebruikt echte productdata.
 
 ## Empty-File Audit
 
@@ -107,7 +112,7 @@ Hoog risico:
 Middel risico:
 
 - Storefront en admin gebruiken nog veel hardcoded demo-inhoud.
-- Admin restmodules met resterende demo-inhoud: zakelijke B2B, CMS, marketing, kortingen, reviews, verzendingsoverzichten, audit-log en instellingen-subpagina's.
+- Admin restmodules met resterende productiewerkzaamheden: echte opslag/actions voor B2B, CMS, marketing, kortingen, reviews, shipment labels, retouren, audit-log en persistente instellingen.
 - Veel actions en lib-bestanden bestaan nog als placeholders buiten de inmiddels gekoppelde productbeheer-flow.
 - Admin login vereist nog productie-env vars: `ADMIN_EMAIL`, `ADMIN_PASSWORD` en `ADMIN_SESSION_SECRET`.
 - Integratiedocumentatie voor Mollie, PostNL, deployment en security bestaat nu op hoofdlijnen, maar moet bij implementatie worden verdiept.

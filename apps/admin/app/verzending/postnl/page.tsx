@@ -1,29 +1,21 @@
-const shipments = [
-  { id: "SHIP-2026-001", order: "ORD-2026-001", carrier: "PostNL", status: "Verzonden" },
-  { id: "SHIP-2026-002", order: "ORD-2026-003", carrier: "PostNL", status: "Label aangemaakt" },
-];
+import { getAdminSettingsStatus } from "../../../lib/settings";
 
-export default function ShippingPage() {
+export default async function PostNlShippingPage() {
+  const settings = await getAdminSettingsStatus();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Verzending</p>
-        <h1>Verzendingen</h1>
-        <span>Bekijk labels, zendingen, retouren en track & trace-statussen.</span>
+        <h1>PostNL</h1>
+        <span>PostNL configuratiestatus zonder secrets te tonen.</span>
       </section>
 
-      <section className="admin-list">
-        {shipments.map((shipment) => (
-          <article key={shipment.id} className="admin-list-row">
-            <div>
-              <h2>{shipment.id}</h2>
-              <p>{shipment.order}</p>
-            </div>
-
-            <span>{shipment.carrier}</span>
-            <strong>{shipment.status}</strong>
-          </article>
-        ))}
+      <section className="admin-card">
+        <h2>Configuratie</h2>
+        <p>API key aanwezig: {settings.shipping.postnlConfigured ? "Ja" : "Nee"}</p>
+        <p>Klantcode aanwezig: {settings.shipping.postnlCustomerCodeConfigured ? "Ja" : "Nee"}</p>
+        <p>Klantnummer aanwezig: {settings.shipping.postnlCustomerNumberConfigured ? "Ja" : "Nee"}</p>
       </section>
     </main>
   );

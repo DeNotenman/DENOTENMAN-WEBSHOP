@@ -1,28 +1,15 @@
-const labels = [
-  { id: "LBL-2026-001", order: "ORD-2026-001", status: "Aangemaakt" },
-  { id: "LBL-2026-002", order: "ORD-2026-003", status: "Geprint" },
-];
-
 export default function ShippingLabelsPage() {
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Verzending</p>
         <h1>Labels</h1>
-        <span>Bekijk en beheer verzendlabels per bestelling.</span>
+        <span>Labelbeheer wordt actief zodra shipment-label opslag en PostNL labelgeneratie zijn gekoppeld.</span>
       </section>
 
-      <section className="admin-list">
-        {labels.map((label) => (
-          <article key={label.id} className="admin-list-row">
-            <div>
-              <h2>{label.id}</h2>
-              <p>{label.order}</p>
-            </div>
-
-            <strong>{label.status}</strong>
-          </article>
-        ))}
+      <section className="admin-card">
+        <h2>Nog niet ingericht</h2>
+        <p>Er worden geen voorbeeldlabels getoond. Koppel eerst echte shipment-label records.</p>
       </section>
     </main>
   );

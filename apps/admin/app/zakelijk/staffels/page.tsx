@@ -1,39 +1,19 @@
-const tiers = [
-  {
-    product: "Amandelen ongezouten",
-    tier: "Vanaf 10 kg",
-    discount: "8%",
-  },
-  {
-    product: "Cashewnoten gebrand",
-    tier: "Vanaf 15 kg",
-    discount: "10%",
-  },
-];
+import { getBusinessModuleStatus } from "../../../lib/business";
 
-export default function AdminBusinessPriceTiersPage() {
+export default async function BusinessPriceTiersPage() {
+  const status = await getBusinessModuleStatus();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Zakelijk</p>
-        <h1>Staffelprijzen</h1>
-        <span>
-          Beheer volumekortingen en staffels per product, categorie of zakelijke
-          klant.
-        </span>
+        <h1>Staffels</h1>
+        <span>Staffelprijzen worden pas actief zodra zakelijke prijstabellen zijn ingericht.</span>
       </section>
 
-      <section className="admin-list">
-        {tiers.map((tier) => (
-          <article key={`${tier.product}-${tier.tier}`} className="admin-list-row">
-            <div>
-              <h2>{tier.product}</h2>
-              <p>{tier.tier}</p>
-            </div>
-
-            <strong>{tier.discount}</strong>
-          </article>
-        ))}
+      <section className="admin-card">
+        <h2>{status.configured ? "Actief" : "Nog niet ingericht"}</h2>
+        <p>{status.reason}</p>
       </section>
     </main>
   );

@@ -1,46 +1,19 @@
-const orderLists = [
-  {
-    title: "Vaste bestellijst",
-    customer: "Voorbeeldbedrijf B.V.",
-    products: "12 producten",
-    status: "Actief",
-  },
-  {
-    title: "Weekaanvulling",
-    customer: "Catering Van Dijk",
-    products: "8 producten",
-    status: "Actief",
-  },
-];
+import { getBusinessModuleStatus } from "../../../lib/business";
 
-export default function AdminBusinessOrderListsPage() {
+export default async function AdminBusinessOrderListsPage() {
+  const status = await getBusinessModuleStatus();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Zakelijk</p>
         <h1>Bestellijsten</h1>
-        <span>
-          Zet producten klaar per zakelijke klant, zodat deze direct kan
-          bestellen en betalen.
-        </span>
+        <span>Zakelijke bestellijsten worden pas getoond zodra de B2B-tabellen bestaan.</span>
       </section>
 
-      <section className="admin-list">
-        {orderLists.map((list) => (
-          <a
-            key={list.title}
-            href="/zakelijk/bestellijsten/vaste-bestellijst"
-            className="admin-list-row"
-          >
-            <div>
-              <h2>{list.title}</h2>
-              <p>{list.customer}</p>
-            </div>
-
-            <span>{list.products}</span>
-            <strong>{list.status}</strong>
-          </a>
-        ))}
+      <section className="admin-card">
+        <h2>{status.configured ? "Actief" : "Nog niet ingericht"}</h2>
+        <p>{status.reason}</p>
       </section>
     </main>
   );

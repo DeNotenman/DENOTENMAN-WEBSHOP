@@ -1,44 +1,28 @@
-const invoices = [
-  {
-    id: "2026-001",
-    customer: "Voorbeeldbedrijf B.V.",
-    amount: "€ 184,50",
-    status: "Betaald",
-  },
-  {
-    id: "2026-002",
-    customer: "Catering Van Dijk",
-    amount: "€ 96,75",
-    status: "Open",
-  },
-];
+import { listBusinessInvoiceCandidates } from "../../../lib/business";
+import { formatAdminDate, formatAdminMoney } from "../../../lib/orders";
 
-export default function AdminBusinessInvoicesPage() {
+export default async function AdminBusinessInvoicesPage() {
+  const orders = await listBusinessInvoiceCandidates();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Zakelijk</p>
         <h1>Facturen</h1>
-        <span>
-          Bekijk facturen per zakelijke klant, betalingsstatussen en gekoppelde
-          bestellingen.
-        </span>
+        <span>Factuurbasis uit echte orders. Formele factuurnummers/PDF's volgen zodra factuur-opslag actief is.</span>
       </section>
 
       <section className="admin-list">
-        {invoices.map((invoice) => (
-          <a
-            key={invoice.id}
-            href={`/zakelijk/facturen/${invoice.id}`}
-            className="admin-list-row"
-          >
+        {orders.length === 0 ? <p>Geen orders beschikbaar als factuurbasis.</p> : null}
+        {orders.map((order) => (
+          <a key={order.id} href={`/bestellingen/${order.id}/factuur`} className="admin-list-row">
             <div>
-              <h2>Factuur {invoice.id}</h2>
-              <p>{invoice.customer}</p>
+              <h2>{order.orderNumber}</h2>
+              <p>{order.customerName ?? order.customerEmail}</p>
+              <p>{formatAdminDate(order.createdAt)}</p>
             </div>
-
-            <span>{invoice.amount}</span>
-            <strong>{invoice.status}</strong>
+            <span>{formatAdminMoney(order.totalCents)}</span>
+            <strong>{order.paymentStatus}</strong>
           </a>
         ))}
       </section>
