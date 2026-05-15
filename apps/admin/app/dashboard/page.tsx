@@ -5,6 +5,12 @@ const stats = [
   { label: "Zakelijke klanten", value: "24" },
 ];
 
+const actions = [
+  { label: "Nieuw product", href: "/producten/nieuw" },
+  { label: "Nieuwe zakelijke klant", href: "/zakelijk/klanten/nieuw" },
+  { label: "Nieuwe bestellijst", href: "/zakelijk/bestellijsten/nieuw" },
+];
+
 export default function AdminDashboardPage() {
   return (
     <main className="admin-main">
@@ -12,6 +18,14 @@ export default function AdminDashboardPage() {
         <p>Dashboard</p>
         <h1>Overzicht</h1>
         <span>Bekijk de belangrijkste webshopactiviteiten in één scherm.</span>
+      </section>
+
+      <section className="admin-actions">
+        {actions.map((action) => (
+          <a key={action.href} href={action.href} className="admin-button">
+            {action.label}
+          </a>
+        ))}
       </section>
 
       <section className="admin-grid">

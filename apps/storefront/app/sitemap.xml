@@ -1,0 +1,42 @@
+export async function GET() {
+  const baseUrl = "https://denotenman.com";
+
+  const routes = [
+    "",
+    "/winkel",
+    "/zoeken",
+    "/account",
+    "/zakelijk",
+    "/klantenservice",
+    "/over-ons",
+    "/privacyverklaring",
+    "/algemene-voorwaarden",
+    "/retourbeleid",
+    "/cookiebeleid",
+    "/blog",
+  ];
+
+  const urls = routes
+    .map((route) => {
+      return `
+        <url>
+          <loc>${baseUrl}${route}</loc>
+          <changefreq>weekly</changefreq>
+          <priority>${route === "" ? "1.0" : "0.7"}</priority>
+        </url>
+      `;
+    })
+    .join("");
+
+  return new Response(
+    `<?xml version="1.0" encoding="UTF-8"?>
+      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        ${urls}
+      </urlset>`,
+    {
+      headers: {
+        "Content-Type": "application/xml",
+      },
+    }
+  );
+}

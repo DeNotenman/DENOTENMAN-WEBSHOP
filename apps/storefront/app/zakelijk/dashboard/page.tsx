@@ -10,6 +10,23 @@ export default function BusinessDashboardPage() {
           </p>
         </div>
 
+        <div className="invoice-panel">
+          <div>
+            <span>Open bestellijsten</span>
+            <strong>2</strong>
+          </div>
+
+          <div>
+            <span>Open facturen</span>
+            <strong>1</strong>
+          </div>
+
+          <div>
+            <span>Laatste bestelling</span>
+            <strong>ORD-2026-001</strong>
+          </div>
+        </div>
+
         <div className="dashboard-grid">
           <a href="/zakelijk/bestellijsten" className="dashboard-card">
             <h2>Bestellijsten</h2>

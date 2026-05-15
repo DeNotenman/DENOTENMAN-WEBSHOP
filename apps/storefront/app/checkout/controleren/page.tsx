@@ -13,6 +13,23 @@ export default function CheckoutReviewPage() {
           <p>Controleer je bestelling voordat je betaalt.</p>
         </div>
 
+        <div className="invoice-panel">
+          <div>
+            <span>Klant</span>
+            <strong>Jan Jansen</strong>
+          </div>
+
+          <div>
+            <span>Verzending</span>
+            <strong>PostNL</strong>
+          </div>
+
+          <div>
+            <span>Betaling</span>
+            <strong>iDEAL</strong>
+          </div>
+        </div>
+
         <div className="product-list">
           {items.map((item) => (
             <article key={item.name} className="product-row">
@@ -44,7 +61,7 @@ export default function CheckoutReviewPage() {
         </div>
 
         <a href="/checkout/succes" className="button button--primary">
-          Betalen
+          Bestelling plaatsen
         </a>
       </section>
     </main>
