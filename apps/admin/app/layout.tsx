@@ -1,6 +1,9 @@
+import type { ReactNode } from "react";
+import type { Metadata } from "next";
+import { AdminHeader } from "../components/layout/AdminHeader";
 import "../styles/globals.css";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Admin | De Notenman",
   description: "Beheeromgeving voor De Notenman.",
 };
@@ -8,12 +11,15 @@ export const metadata = {
 export default function AdminRootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <html lang="nl" suppressHydrationWarning>
       <body>
-        <div className="admin-shell">{children}</div>
+        <div className="admin-shell">
+          <AdminHeader />
+          {children}
+        </div>
       </body>
     </html>
   );

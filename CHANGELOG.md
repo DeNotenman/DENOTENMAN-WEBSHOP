@@ -20,6 +20,10 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Zakelijke gegevenspagina toegevoegd (`/zakelijk/gegevens`).
 - Adminroutes toegevoegd voor zakelijke klanten, accounts, bestellijsten, offertes, prijzen, staffels, assortiment, facturen en instellingen.
 - Admin-detailpagina’s toegevoegd voor zakelijke klanten, accounts, bestellijsten, offertes en facturen.
+- Admin CSS-import hersteld via `apps/admin/app/layout.tsx`.
+- Admin stylesheet opnieuw opgebouwd in `apps/admin/styles/globals.css`.
+- Admin styling mobile-first hersteld voor zakelijke pagina’s.
+- Admin layout en styling geforceerd herschreven zonder BOM-encoding.
 - Zakelijke bestelomgeving opgenomen als volwaardig onderdeel van de webshop.
 - Basisnavigatie/Header toegevoegd aan storefront.
 - Mobile-first globale storefront-styling toegevoegd.
