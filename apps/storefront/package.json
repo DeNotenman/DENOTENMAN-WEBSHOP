@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@denotenman/commerce": "workspace:*",
+    "@denotenman/mollie": "workspace:*",
     "@denotenman/validation": "workspace:*",
     "@supabase/supabase-js": "latest",
     "next": "latest",

@@ -1,24 +1,28 @@
-const settings = [
-  { title: "Algemeen", text: "Webshopgegevens, naam en basisinstellingen.", href: "/instellingen/algemeen" },
-  { title: "BTW", text: "Belastingtarieven en factuurregels.", href: "/instellingen/btw" },
-  { title: "Verzending", text: "Verzendmethodes en tarieven.", href: "/instellingen/verzending" },
-  { title: "Betalingen", text: "Betaalmethodes en koppelingen.", href: "/instellingen/betalingen" },
-];
+import { formatAdminDate, formatAdminMoney, listAdminOrders } from "../../lib/orders";
 
-export default function SettingsPage() {
+export default async function AdminOrdersPage() {
+  const orders = await listAdminOrders();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
-        <p>Instellingen</p>
-        <h1>Webshopinstellingen</h1>
-        <span>Beheer algemene instellingen, btw, verzending, betalingen en gebruikers.</span>
+        <p>Bestellingen</p>
+        <h1>Orderbeheer</h1>
+        <span>Bekijk en verwerk echte bestellingen uit Supabase.</span>
       </section>
 
-      <section className="admin-grid">
-        {settings.map((setting) => (
-          <a key={setting.href} href={setting.href} className="admin-card admin-link-card">
-            <h2>{setting.title}</h2>
-            <p>{setting.text}</p>
+      <section className="admin-list">
+        {orders.length === 0 ? <p>Er zijn nog geen bestellingen geplaatst.</p> : null}
+        {orders.map((order) => (
+          <a key={order.id} href={`/bestellingen/${order.id}`} className="admin-list-row">
+            <div>
+              <h2>{order.orderNumber}</h2>
+              <p>{order.customerName ?? order.customerEmail ?? "Onbekende klant"}</p>
+              <p>{formatAdminDate(order.createdAt)}</p>
+            </div>
+
+            <span>{formatAdminMoney(order.totalCents)}</span>
+            <strong>{order.status} / {order.paymentStatus}</strong>
           </a>
         ))}
       </section>

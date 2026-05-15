@@ -1,28 +1,28 @@
-const refunds = [
-  { id: "REF-2026-001", order: "ORD-2026-002", amount: "€ 12,95", status: "Verwerkt" },
-  { id: "REF-2026-002", order: "ORD-2026-004", amount: "€ 24,50", status: "In behandeling" },
-];
+import { listAdminPayments } from "../../../lib/orders";
 
-export default function RefundsPage() {
+export default async function RefundsPage() {
+  const payments = await listAdminPayments();
+  const refundablePayments = payments.filter((payment) => payment.status === "paid");
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Betalingen</p>
         <h1>Refunds</h1>
-        <span>Bekijk en beheer terugbetalingen via Mollie.</span>
+        <span>Refund-kandidaten op basis van echte betaalde payments. Terugbetaling uitvoeren volgt na Mollie test/live-validatie.</span>
       </section>
 
       <section className="admin-list">
-        {refunds.map((refund) => (
-          <article key={refund.id} className="admin-list-row">
+        {refundablePayments.length === 0 ? <p>Geen betaalde payments beschikbaar voor refunds.</p> : null}
+        {refundablePayments.map((payment) => (
+          <a key={payment.id} href={`/bestellingen/${payment.orderId}`} className="admin-list-row">
             <div>
-              <h2>{refund.id}</h2>
-              <p>{refund.order}</p>
+              <h2>{payment.orderNumber}</h2>
+              <p>{payment.providerPaymentId ?? "Geen provider payment id"}</p>
             </div>
-
-            <span>{refund.amount}</span>
-            <strong>{refund.status}</strong>
-          </article>
+            <span>{payment.customer}</span>
+            <strong>{payment.status}</strong>
+          </a>
         ))}
       </section>
     </main>

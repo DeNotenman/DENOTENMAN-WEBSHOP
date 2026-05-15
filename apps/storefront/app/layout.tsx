@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "De Notenman",
   description:
     "Van markt tot webshop: De specialist in noten, pitten en gedroogd fruit.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

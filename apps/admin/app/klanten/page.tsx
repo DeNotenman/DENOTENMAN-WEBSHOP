@@ -1,27 +1,29 @@
-const customers = [
-  { name: "Jan Jansen", email: "jan@example.com", type: "Particulier" },
-  { name: "Voorbeeldbedrijf B.V.", email: "inkoop@voorbeeldbedrijf.nl", type: "Zakelijk" },
-  { name: "Sanne van Dijk", email: "sanne@example.com", type: "Particulier" },
-];
+import { listAdminCustomers } from "../../lib/customers";
+import { formatAdminDate, formatAdminMoney } from "../../lib/orders";
 
-export default function AdminCustomersPage() {
+export default async function AdminCustomersPage() {
+  const customers = await listAdminCustomers();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Klanten</p>
         <h1>Klantenoverzicht</h1>
-        <span>Bekijk klanten, accountgegevens, bestellingen en klanttype.</span>
+        <span>Klanten afgeleid uit echte orderdata, zonder fictieve records.</span>
       </section>
 
       <section className="admin-list">
+        {customers.length === 0 ? <p>Er zijn nog geen klanten met orders.</p> : null}
         {customers.map((customer) => (
-          <a key={customer.email} href="/klanten/voorbeeld-klant" className="admin-list-row">
+          <a key={customer.email} href={`/klanten/${customer.id}`} className="admin-list-row">
             <div>
               <h2>{customer.name}</h2>
               <p>{customer.email}</p>
+              <p>Laatste order: {formatAdminDate(customer.latestOrderAt)}</p>
             </div>
 
-            <strong>{customer.type}</strong>
+            <span>{formatAdminMoney(customer.totalCents)}</span>
+            <strong>{customer.orderCount} orders</strong>
           </a>
         ))}
       </section>

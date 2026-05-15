@@ -48,6 +48,9 @@ importers:
       '@denotenman/commerce':
         specifier: workspace:*
         version: link:../../packages/commerce
+      '@denotenman/mollie':
+        specifier: workspace:*
+        version: link:../../packages/mollie
       '@denotenman/validation':
         specifier: workspace:*
         version: link:../../packages/validation

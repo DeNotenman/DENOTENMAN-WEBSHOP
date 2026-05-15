@@ -28,6 +28,18 @@ De eerste stabilisatiestap is afgerond:
 - Storefront winkelwagen gebruikt nu een httpOnly cart-cookie en rekent totals via `@denotenman/commerce`.
 - Checkout gebruikt nu een httpOnly checkout-cookie en valideert gegevens via `@denotenman/validation`.
 - Checkout kan een order-draft voorbereiden zonder Mollie side effects.
+- Checkout kan optioneel een Mollie testbetaling aanmaken en naar de Mollie checkout URL redirecten zodra `MOLLIE_ENABLE_PAYMENTS=true` staat en de API key met `test_` begint.
+- Zonder die expliciete test-gate blijft checkout veilig in draftmodus.
+- Mollie webhooks zijn beschermd tegen dubbele statusupdates en late non-terminal downgrades.
+- De checkout succespagina toont server-side de actuele orderstatus en betaalstatus uit Supabase.
+- Supabase heeft nu een Mollie-ready order draft basis:
+  - `orders` is uitgebreid met ordernummer, cents-totalen, checkout-state en paymentstatus.
+  - `order_items` bevat genormaliseerde orderregels.
+  - `payments` bevat draft/payment records voor de latere Mollie-koppeling.
+  - Browserrollen blijven geblokkeerd; service-role beheert deze private tabellen.
+- Checkout draft smoke-test heeft testorder `DNM-20260515-65641` aangemaakt met status `pending` en paymentstatus `draft`.
+- Mollie-disabled smoke-test heeft testorder `DNM-20260515-66974` aangemaakt met status `pending`, paymentstatus `draft`, provider `mollie` en zonder provider payment id.
+- Succespagina smoke-test toont voor `DNM-20260515-66974` remote status `pending` en betaalstatus `draft`.
 
 De database-baseline is gestart:
 
@@ -61,6 +73,11 @@ De database-baseline is gestart:
   - Gewicht `100g test` en variant `Testvariant` zijn opgeslagen.
   - Admin detailroute blijft beschermd en redirect zonder sessie naar login.
   - Storefront `/winkel` toont het testproduct niet; `/winkel/codex-test-product-1778856205084` rendert als 404.
+- Admin dashboard, bestellingen, betalingen, klanten, voorraad, categorieen en media zijn nu gekoppeld aan echte Supabase-data.
+- Admin orderdetail toont echte klantgegevens, orderregels, betalingen en totalen.
+- Admin orderstatus kan via beveiligde server action worden aangepast.
+- Admin order-subpagina's voor verzending, factuur en retour tonen echte orderdata en geen voorbeeldrecords meer.
+- Admin Mollie/refunds-pagina's tonen echte configuratie/paymentdata zonder fake records.
 
 ## Empty-File Audit
 
@@ -70,7 +87,7 @@ Belangrijkste clusters:
 
 - `apps/storefront`: lege actions, libs en meerdere component-placeholders.
 - `apps/admin`: lege actions, libs en B2B component-placeholders.
-- `packages/mollie`, `packages/postnl`, `packages/email`, `packages/seo` en `packages/ui`: nog veel lege bronbestanden.
+- `packages/postnl`, `packages/email`, `packages/seo` en `packages/ui`: nog veel lege bronbestanden.
 - `database-map/*`: documentatie is grotendeels leeg.
 - Integratie- en E2E-tests hebben doelen, maar nog geen volledige runnerconfiguratie.
 
@@ -81,14 +98,16 @@ Conclusie: de codebase is nu compile-stabiel voor de hoofdapps, maar nog niet fu
 Hoog risico:
 
 - Supabase branch `main` meldt remote `MIGRATIONS_FAILED`; lokale en remote migration history lopen niet gelijk.
-- Remote `public.orders` gebruikt nog `stripe_payment_intent_id`, terwijl checkout richting Mollie moet.
-- Mollie/PostNL/e-mail packages zijn nog grotendeels placeholders; checkout, verzending en e-mail draaien nog niet echt.
+- Remote `public.orders` bevat nog legacy kolom `stripe_payment_intent_id`; deze is nullable gemaakt, maar pas later opruimen na volledige Mollie-livegang.
+- Mollie is technisch voorbereid voor create-payment, webhookstatus en refund-helper, maar nog niet live getest met een echte Mollie test-key en publieke webhook-URL.
+- PostNL/e-mail packages zijn nog grotendeels placeholders; verzending en e-mail draaien nog niet echt.
 - Worker handlers zijn nu contractueel gevuld, maar doen nog geen echte externe side effects.
 - Integratie/E2E tests zijn nog niet gekoppeld aan een runner en fixtures.
 
 Middel risico:
 
 - Storefront en admin gebruiken nog veel hardcoded demo-inhoud.
+- Admin restmodules met resterende demo-inhoud: zakelijke B2B, CMS, marketing, kortingen, reviews, verzendingsoverzichten, audit-log en instellingen-subpagina's.
 - Veel actions en lib-bestanden bestaan nog als placeholders buiten de inmiddels gekoppelde productbeheer-flow.
 - Admin login vereist nog productie-env vars: `ADMIN_EMAIL`, `ADMIN_PASSWORD` en `ADMIN_SESSION_SECRET`.
 - Integratiedocumentatie voor Mollie, PostNL, deployment en security bestaat nu op hoofdlijnen, maar moet bij implementatie worden verdiept.
@@ -142,11 +161,21 @@ Voor elke nieuwe stap:
 
 ## Eerstvolgende Aanbevolen Stap
 
-De beste volgende stap is de order/payment-laag achter de bestaande checkout-draft zetten:
+De beste volgende stap voor de adminomgeving is de resterende adminmodules productieklaar maken:
 
-- Ontwerp een Mollie-gerichte `orders`/`payments` migration naast de bestaande remote baseline.
-- Maak server-side order create vanuit de gevalideerde checkout-draft.
-- Voeg Mollie payment create toe, zonder client-side secrets.
-- Voeg webhook/idempotency toe voordat echte betalingen live gaan.
+- Zakelijk/B2B vervangen door echte Supabase-tabellen of expliciete "nog niet ingericht" beheerstatus.
+- CMS/marketing/kortingen/reviews voorzien van echte opslag, actions en validatie.
+- Verzendingsoverzichten koppelen aan PostNL/shipment-tabellen zodra het shipment-schema staat.
+- Instellingen-subpagina's opslaan in een echte `admin_settings`/configuratietabel.
+- Audit-log koppelen aan echte admin actions.
+
+De beste volgende stap voor Mollie blijft testmodus end-to-end activeren:
+
+- Zet een echte Mollie test-key in `MOLLIE_API_KEY`.
+- Zet lokaal of op preview `MOLLIE_ENABLE_PAYMENTS=true`.
+- Gebruik een publieke URL voor de webhook, bijvoorbeeld Vercel preview of tijdelijk via tunnel.
+- Doorloop checkout en controleer dat `payments.provider_payment_id`, `payments.checkout_url` en Mollie redirect gevuld worden.
+- Laat Mollie webhook terugkomen en controleer dat `payments.status`, `orders.payment_status` en `orders.status` worden bijgewerkt.
+- Voeg daarna webhook event-logging en integratietests toe voordat live keys gebruikt worden.
 
 Parallel blijft de migration-history mismatch (`MIGRATIONS_FAILED`) een aparte Supabase onderhoudstaak.

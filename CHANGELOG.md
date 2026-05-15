@@ -74,6 +74,27 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Storefront cart-cookie en checkout-cookie toegevoegd voor winkelwagen en checkout-draft flow.
 - Storefront server actions toegevoegd voor toevoegen, bijwerken en verwijderen van winkelwagenregels.
 - Storefront checkout server actions toegevoegd voor gegevens, verzending, betaling en gevalideerde order-draft voorbereiding.
+- Mobiel hamburger/flyout-menu toegevoegd aan de storefront header.
+- Responsieve typografie ingesteld via breakpoint-variabelen in plaats van viewport-geschaalde `clamp()` font sizes.
+- Assetlocaties vastgelegd voor logo, favicon, icons en moodboard.
+- Mollie-ready order draft migration toegevoegd met `order_items` en `payments`.
+- Storefront service-role order service toegevoegd voor server-side pending order drafts.
+- `@denotenman/mollie` gevuld met typed API-client, create-payment, get-payment, refund-helper, webhook-handler en statusmapping.
+- Storefront checkout kan na order-draft optioneel een Mollie payment aanmaken en redirecten naar de Mollie checkout URL.
+- Mollie webhookroute toegevoegd op `/api/mollie/webhook` voor server-side statusverwerking naar `payments` en `orders`.
+- Veilige Mollie test-gate toegevoegd: echte payment-aanmaak gebeurt alleen met `MOLLIE_ENABLE_PAYMENTS=true` en een `test_` API key.
+- Mollie webhookstatus beschermd tegen onnodige dubbele updates en late non-terminal downgrades.
+- Checkout succespagina toont nu server-side de actuele orderstatus en betaalstatus uit Supabase wanneer een ordernummer beschikbaar is.
+- Unit tests toegevoegd voor Mollie statusmapping, orderstatusmapping en webhook idempotency-bescherming.
+- Admin dashboard gekoppeld aan echte Supabase-data voor orders, betalingen, voorraad en actieve producten.
+- Admin orderbeheer gekoppeld aan echte `orders`, `order_items` en `payments`, inclusief statuswijziging via beveiligde server action.
+- Admin betalingenoverzicht gekoppeld aan echte `payments` records.
+- Admin klantenoverzicht afgeleid uit echte orderdata in plaats van fictieve klantrecords.
+- Admin voorraadpagina gekoppeld aan echte `product_variants` voorraadlabels en SKU's.
+- Admin categorieoverzicht gekoppeld aan echte productcategorieen uit Supabase.
+- Admin mediabibliotheek gekoppeld aan Supabase Storage bucket `product-images`.
+- Admin order-subpagina's voor verzending, factuur en retour tonen echte orderdata en geen voorbeeldrecords meer.
+- Admin Mollie/refunds-pagina's tonen echte configuratie/paymentdata zonder fake payment/refund records.
 
 ### Gewijzigd
 
@@ -134,6 +155,17 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 - Unit tests succesvol uitgevoerd via worker `tsx` bin: 5 tests geslaagd voor cart, checkout, discounts, inventory en pricing.
 - Storefront cart/checkout browser-smoke succesvol uitgevoerd: product toevoegen, winkelwagen tonen, gegevens/verzending/betaling invullen en draft success bereiken.
 - Storefront typecheck en productiebuild succesvol uitgevoerd na cart/checkout-koppeling.
+- Storefront mobiele navigatie smoke-test succesvol uitgevoerd op 390px breedte; hamburger zichtbaar, desktopnavigatie verborgen en flyout opent viewportbreed.
+- Remote Supabase order/payment migration toegepast en read-only geverifieerd.
+- Checkout draft browser-smoke succesvol uitgevoerd; testorder `DNM-20260515-65641` is aangemaakt met 1 orderregel en 1 draft-payment.
+- Supabase security advisor blijft `0` lints na order/payment migration.
+- Storefront typecheck, workspace typecheck en productiebuild succesvol uitgevoerd na Mollie package/webhook-koppeling.
+- Mollie-disabled checkout browser-smoke succesvol uitgevoerd; testorder `DNM-20260515-66974` is aangemaakt als `pending` met `payment_status=draft`, zonder Mollie provider payment id of checkout URL.
+- Supabase read-only verificatie bevestigd voor testorder `DNM-20260515-66974`: payment provider `mollie`, status `draft`, `provider_payment_id = null`.
+- Storefront succespagina smoke-test bevestigd op mobiel: testorder `DNM-20260515-66974` toont remote orderstatus `pending` en betaalstatus `draft`.
+- Unit-suite succesvol uitgevoerd via `tsx --test`: 8/8 tests geslaagd, inclusief Mollie status/idempotency tests.
+- Admin production build succesvol uitgevoerd na koppeling van dashboard, orders, payments, klanten, voorraad, categorieen en media aan echte Supabase-data.
+- Admin browser-smoke succesvol uitgevoerd op dashboard, bestellingen, orderdetail, verzending, factuur, retour, betalingen, Mollie, refunds, klanten, voorraad, categorieen en media.
 - Typechecks succesvol uitgevoerd voor:
   - `pnpm --filter @denotenman/storefront typecheck`
   - `pnpm --filter @denotenman/admin typecheck`
@@ -143,12 +175,14 @@ Alle belangrijke wijzigingen aan de DENOTENMAN WEBSHOP worden hier bijgehouden.
 
 ### Bekende Bouwschuld
 - Supabase branch `main` meldde eerder remote status `MIGRATIONS_FAILED`; lokale migration history en remote migration history moeten nog bewust worden gerepareerd.
-- `public.orders` gebruikt remote nog `stripe_payment_intent_id`, terwijl de webshoprichting Mollie is.
+- `public.orders` bevat nog legacy kolom `stripe_payment_intent_id`; deze is nullable gemaakt, maar kan later pas worden opgeschoond na volledige Mollie-livegang.
 - `.env.prod` bevat een niet-standaard `NODE_ENV` waarde; Next.js waarschuwt hiervoor tijdens build.
 - Admin login vereist nog productie-instelling van `ADMIN_EMAIL`, `ADMIN_PASSWORD` en `ADMIN_SESSION_SECRET`.
 - Admin write/upload/delete-flow is bewust niet tegen productie uitgevoerd tijdens verificatie, om geen echte catalogusdata te wijzigen.
-- `packages/mollie`, `packages/postnl`, `packages/email`, `packages/seo` en `packages/ui` bevatten nog veel lege bronbestanden.
+- `packages/postnl`, `packages/email`, `packages/seo` en `packages/ui` bevatten nog veel lege bronbestanden.
+- Mollie create-payment is veilig voorbereid, maar nog niet live getest met een echte Mollie test-key en publieke webhook-URL.
 - Storefront en admin bevatten nog veel hardcoded demo-inhoud.
+- Admin restmodules met resterende demo-inhoud: zakelijke B2B, CMS, marketing, kortingen, reviews, verzendingsoverzichten, audit-log en instellingen-subpagina's.
 - Worker jobs, queues en cronbestanden hebben nu contracten/dry-run handlers, maar nog geen echte externe side effects.
 - Tests hebben eerste unitinhoud en flowdoelen, maar nog geen volledige runnerconfiguratie voor integratie/E2E.
 - Documentatie buiten `docs/admin-manual.md` is gevuld op hoofdlijnen, maar moet per integratie nog dieper worden uitgewerkt.

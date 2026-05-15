@@ -36,6 +36,25 @@ export type AdminProductVariant = {
   stockLabel: string;
 };
 
+export type AdminCategorySummary = {
+  id: string;
+  label: string;
+  productCount: number;
+  activeProductCount: number;
+};
+
+export type AdminInventoryItem = {
+  productId: number;
+  productName: string;
+  productSlug: string;
+  variantId: string;
+  variantName: string;
+  sku: string | null;
+  stockStatus: string;
+  stockLabel: string;
+  isActive: boolean;
+};
+
 type ProductRow = {
   id: number;
   name: string;
@@ -144,6 +163,88 @@ export async function listAdminProducts() {
   }
 
   return (data as ProductRow[]).map(mapProduct);
+}
+
+export async function listAdminCategories(): Promise<AdminCategorySummary[]> {
+  const products = await listAdminProducts();
+  const categories = new Map<string, AdminCategorySummary>();
+
+  for (const product of products) {
+    const id = product.category || "overig";
+    const current =
+      categories.get(id) ??
+      ({
+        id,
+        label: product.categoryLabel ?? id,
+        productCount: 0,
+        activeProductCount: 0,
+      } satisfies AdminCategorySummary);
+
+    current.productCount += 1;
+    current.activeProductCount += product.isActive ? 1 : 0;
+
+    if (!current.label && product.categoryLabel) {
+      current.label = product.categoryLabel;
+    }
+
+    categories.set(id, current);
+  }
+
+  return Array.from(categories.values()).sort((left, right) =>
+    left.label.localeCompare(right.label, "nl"),
+  );
+}
+
+export async function getAdminCategory(id: string) {
+  const categories = await listAdminCategories();
+  return categories.find((category) => category.id === id) ?? null;
+}
+
+export async function listProductsByAdminCategory(id: string) {
+  const products = await listAdminProducts();
+  return products.filter((product) => product.category === id);
+}
+
+export async function listInventoryItems(): Promise<AdminInventoryItem[]> {
+  const [products, variants] = await Promise.all([
+    listAdminProducts(),
+    (async () => {
+      const supabase = createAdminSupabaseClient();
+      const { data, error } = await supabase
+        .from("product_variants")
+        .select("id,product_id,variant_id,name,sku,stock_status,stock_label")
+        .order("product_id", { ascending: true });
+
+      if (error) throw new Error(error.message);
+      return data as Array<{
+        product_id: number;
+        variant_id: string;
+        name: string;
+        sku: string | null;
+        stock_status: string | null;
+        stock_label: string | null;
+      }>;
+    })(),
+  ]);
+  const productsById = new Map(products.map((product) => [product.id, product]));
+
+  return variants
+    .map((variant) => {
+      const product = productsById.get(variant.product_id);
+
+      return {
+        productId: variant.product_id,
+        productName: product?.name ?? `Product ${variant.product_id}`,
+        productSlug: product?.slug ?? String(variant.product_id),
+        variantId: variant.variant_id,
+        variantName: variant.name,
+        sku: variant.sku,
+        stockStatus: variant.stock_status ?? "in_stock",
+        stockLabel: variant.stock_label ?? "Op voorraad",
+        isActive: product?.isActive ?? false,
+      };
+    })
+    .sort((left, right) => left.productName.localeCompare(right.productName, "nl"));
 }
 
 export async function getAdminProduct(id: number) {

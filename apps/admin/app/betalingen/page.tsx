@@ -1,29 +1,39 @@
-const payments = [
-  { id: "PAY-2026-001", customer: "Voorbeeldbedrijf B.V.", amount: "€ 184,50", status: "Betaald" },
-  { id: "PAY-2026-002", customer: "Piet Particulier", amount: "€ 42,95", status: "Open" },
-  { id: "PAY-2026-003", customer: "Catering Van Dijk", amount: "€ 96,75", status: "In behandeling" },
-];
+import { formatAdminDate, formatAdminMoney, listAdminPayments } from "../../lib/orders";
 
-export default function PaymentsPage() {
+export default async function PaymentsPage() {
+  const payments = await listAdminPayments();
+
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>Betalingen</p>
         <h1>Betalingsoverzicht</h1>
-        <span>Bekijk betalingen, statussen en gekoppelde bestellingen.</span>
+        <span>Echte payment records uit Supabase, gekoppeld aan orders.</span>
+      </section>
+
+      <section className="admin-actions">
+        <a href="/betalingen/mollie" className="admin-button admin-button--secondary">
+          Mollie status
+        </a>
+        <a href="/betalingen/refunds" className="admin-button admin-button--secondary">
+          Refunds
+        </a>
       </section>
 
       <section className="admin-list">
+        {payments.length === 0 ? <p>Er zijn nog geen betalingen.</p> : null}
         {payments.map((payment) => (
-          <article key={payment.id} className="admin-list-row">
+          <a key={payment.id} href={`/bestellingen/${payment.orderId}`} className="admin-list-row">
             <div>
-              <h2>{payment.id}</h2>
+              <h2>{payment.orderNumber}</h2>
               <p>{payment.customer}</p>
+              <p>{payment.providerPaymentId ?? "Nog geen Mollie payment id"}</p>
+              <p>{formatAdminDate(payment.updatedAt ?? payment.createdAt)}</p>
             </div>
 
-            <span>{payment.amount}</span>
+            <span>{formatAdminMoney(payment.amountCents)}</span>
             <strong>{payment.status}</strong>
-          </article>
+          </a>
         ))}
       </section>
     </main>

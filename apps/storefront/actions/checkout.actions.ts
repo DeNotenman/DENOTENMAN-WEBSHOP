@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { validateAddressInput, validateCheckoutInput } from "@denotenman/validation";
 import { getCart } from "../lib/cart";
 import { getCheckoutState, updateCheckoutState } from "../lib/checkout";
+import { createPendingOrderWithOptionalMolliePayment } from "../lib/orders";
 
 function getString(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -83,6 +84,13 @@ export async function prepareOrderDraftAction() {
   });
 
   if (cart.items.length === 0) throw new Error("Winkelwagen is leeg.");
+  const draft = await createPendingOrderWithOptionalMolliePayment(cart, checkout);
 
-  redirect("/checkout/succes?draft=1");
+  if (draft.checkoutUrl) {
+    redirect(draft.checkoutUrl);
+  }
+
+  redirect(
+    `/checkout/succes?draft=1&mollie=disabled&order=${encodeURIComponent(draft.orderNumber)}`,
+  );
 }
