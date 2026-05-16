@@ -2,10 +2,12 @@ import { Icon } from "../ui/Icon";
 import { addToCartAction, buyNowAction, quickAddToCartAction } from "../../actions/cart.actions";
 import type { StorefrontProduct } from "../../lib/products";
 import { formatPrice } from "../../lib/products";
+import { ProductImage } from "./ProductImage";
 
 type ProductCardProps = {
   product: StorefrontProduct;
   price: string;
+  fallbackImage?: string | null;
   relatedProducts: StorefrontProduct[];
 };
 
@@ -21,30 +23,64 @@ function getSeoDescription(product: StorefrontProduct) {
   return `${product.name} van De Notenman is zorgvuldig geselecteerd voor smaak, versheid en kwaliteit. Bestel ${product.name.toLowerCase()} eenvoudig online in handige besteleenheden voor thuis, horeca of zakelijke voorraad.`;
 }
 
-export function ProductCard({ product, price, relatedProducts }: ProductCardProps) {
+function getUsableImage(image: string | null) {
+  if (!image) return null;
+  if (image.startsWith("/assets/")) return null;
+  if (image.includes("Gember-Uitgelekt-800x800.jpg")) return null;
+  return image;
+}
+
+export function ProductCard({ product, price, fallbackImage = null, relatedProducts }: ProductCardProps) {
   const stockLabel = getStockLabel(product);
   const defaultWeight = product.weights[0];
   const defaultVariant = product.variants[0];
   const popoutId = `product-popout-${product.slug}`;
+  const hasNewBadge = product.badge?.toLowerCase().includes("nieuw") ?? false;
+  const image = getUsableImage(product.image) ?? getUsableImage(defaultVariant?.image ?? null) ?? fallbackImage;
 
   return (
-    <article className="product-card-shell">
-      <button className="dashboard-card product-card" type="button" popoverTarget={popoutId}>
-        <span className="product-card__media">
-          {product.image ? <img className="product-card-image" src={product.image} alt="" /> : null}
+    <article className="product-card-shell product-card">
+      {hasNewBadge ? <span className="product-card__badge">Nieuw</span> : null}
+
+      <div className="product-card__media">
+        <ProductImage alt="" className="product-card-image" src={image} fallbackSrc={fallbackImage} />
+        <span className="product-card__quick-actions" aria-label={`${product.name} acties`}>
+          <button type="button" aria-label={`${product.name} bewaren`}>
+            <Icon name="heart-outline" />
+          </button>
+          <button
+            className="product-card__inspect"
+            type="button"
+            popoverTarget={popoutId}
+            aria-label={`${product.name} snel bekijken`}
+          >
+            <span aria-hidden="true" />
+          </button>
         </span>
-        <span className="product-card__body">
-          <span className="business-hero__label product-card__category">
-            <Icon name="leaf-1" />
-            {product.categoryLabel}
-          </span>
-          <span className="product-card__name">{product.name}</span>
-          <span className="product-card__price">
-            <Icon name="shopping-bag" />
-            {price}
-          </span>
-        </span>
+      </div>
+
+      <button className="product-card__open" type="button" popoverTarget={popoutId}>
+        <span className="product-card__name">{product.name}</span>
+        <span className="product-card__category">{product.categoryLabel}</span>
       </button>
+
+      <div className="product-card__footer">
+        <span className="product-card__price">
+          <span>{price}</span>
+          <small>
+            {defaultWeight?.label ?? product.unit ?? "per stuk"}
+          </small>
+        </span>
+        <form action={quickAddToCartAction}>
+          <input type="hidden" name="slug" value={product.slug} />
+          <input type="hidden" name="quantity" value="1" />
+          {defaultWeight && <input type="hidden" name="weightId" value={defaultWeight.id} />}
+          {defaultVariant && <input type="hidden" name="variantId" value={defaultVariant.variantId} />}
+          <button className="product-card__cart" type="submit" aria-label={`${product.name} toevoegen aan winkelwagen`}>
+            <Icon name="bag-plus" />
+          </button>
+        </form>
+      </div>
 
       <div
         className="product-popout"
@@ -64,7 +100,7 @@ export function ProductCard({ product, price, relatedProducts }: ProductCardProp
         </button>
 
         <div className="product-popout__media">
-          {product.image ? <img src={product.image} alt={product.name} /> : null}
+          <ProductImage alt={product.name} src={image} fallbackSrc={fallbackImage} />
         </div>
 
         <div className="product-popout__content">
@@ -144,7 +180,7 @@ export function ProductCard({ product, price, relatedProducts }: ProductCardProp
                 {relatedProducts.map((relatedProduct) => (
                   <article key={relatedProduct.slug} className="product-popout__related-card">
                     <span className="product-popout__related-image">
-                      {relatedProduct.image ? <img src={relatedProduct.image} alt="" /> : null}
+                      <ProductImage alt="" src={getUsableImage(relatedProduct.image) ?? fallbackImage} />
                     </span>
                     <strong>{relatedProduct.name}</strong>
                     <span>{formatPrice(relatedProduct.weights[0]?.price ?? relatedProduct.basePrice)}</span>

@@ -3,7 +3,6 @@ import { Icon } from "../ui/Icon";
 const navItems = [
   { href: "/winkel", label: "Winkel", icon: "shopping-bag" },
   { href: "/zoeken", label: "Zoeken", icon: "search-location" },
-  { href: "/zakelijk", label: "Zakelijk", icon: "briefcase" },
   { href: "/klantenservice", label: "Klantenservice", icon: "user-support" },
 ];
 

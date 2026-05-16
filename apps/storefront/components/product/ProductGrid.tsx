@@ -7,12 +7,20 @@ import { ProductCard } from "./ProductCard";
 
 type ProductGridProps = {
   activeCategory?: string;
+  productLimit?: number;
   products: StorefrontProduct[];
   showFilters?: boolean;
 };
 
 function getProductPrice(product: StorefrontProduct) {
   return product.weights[0]?.price ?? product.basePrice;
+}
+
+function getUsableImage(image: string | null) {
+  if (!image) return null;
+  if (image.startsWith("/assets/")) return null;
+  if (image.includes("Gember-Uitgelekt-800x800.jpg")) return null;
+  return image;
 }
 
 function getStockState(product: StorefrontProduct) {
@@ -42,7 +50,12 @@ function getSearchText(product: StorefrontProduct) {
     .toLowerCase();
 }
 
-export function ProductGrid({ activeCategory = "all", products, showFilters = false }: ProductGridProps) {
+export function ProductGrid({
+  activeCategory = "all",
+  productLimit,
+  products,
+  showFilters = false,
+}: ProductGridProps) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState(activeCategory);
   const [stock, setStock] = useState("all");
@@ -50,11 +63,8 @@ export function ProductGrid({ activeCategory = "all", products, showFilters = fa
   const [price, setPrice] = useState("all");
   const [sort, setSort] = useState("popular");
 
-  const categories = useMemo(
-    () =>
-      [...new Map(products.map((product) => [product.category, product.categoryLabel])).entries()].sort(
-        ([, left], [, right]) => left.localeCompare(right, "nl"),
-      ),
+  const firstFallbackImage = useMemo(
+    () => getUsableImage(products.find((product) => getUsableImage(product.image))?.image ?? null),
     [products],
   );
   const units = useMemo(
@@ -68,7 +78,19 @@ export function ProductGrid({ activeCategory = "all", products, showFilters = fa
       ].sort((left, right) => left.localeCompare(right, "nl")),
     [products],
   );
+  const fallbackImagesByCategory = useMemo(() => {
+    const images = new Map<string, string>();
 
+    for (const product of products) {
+      const image = getUsableImage(product.image);
+
+      if (image && !images.has(product.category)) {
+        images.set(product.category, image);
+      }
+    }
+
+    return images;
+  }, [products]);
   const filteredProducts = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
@@ -100,58 +122,15 @@ export function ProductGrid({ activeCategory = "all", products, showFilters = fa
     <section className="product-browser">
       {showFilters && (
         <div className="product-browser__filters" aria-label="Producten zoeken en filteren">
-          <label className="product-browser__search">
-            <span>Zoeken</span>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Zoek op product, categorie, herkomst of besteleenheid"
-            />
-          </label>
-
-          <div className="product-browser__controls">
-            <label>
-              <span>Categorie</span>
-              <select value={category} onChange={(event) => setCategory(event.target.value)}>
-                <option value="all">Alle categorieen</option>
-                {categories.map(([slug, label]) => (
-                  <option key={slug} value={slug}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label>
-              <span>Voorraad</span>
-              <select value={stock} onChange={(event) => setStock(event.target.value)}>
-                <option value="all">Alles</option>
-                <option value="in">Op voorraad</option>
-                <option value="out">Niet op voorraad</option>
-              </select>
-            </label>
-
-            <label>
-              <span>Besteleenheid</span>
-              <select value={unit} onChange={(event) => setUnit(event.target.value)}>
-                <option value="all">Alle eenheden</option>
-                {units.map((unitLabel) => (
-                  <option key={unitLabel} value={unitLabel}>
-                    {unitLabel}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label>
-              <span>Prijs</span>
-              <select value={price} onChange={(event) => setPrice(event.target.value)}>
-                <option value="all">Alle prijzen</option>
-                <option value="under-3">Onder EUR 3</option>
-                <option value="3-5">EUR 3 tot EUR 5</option>
-                <option value="over-5">Boven EUR 5</option>
-              </select>
+          <div className="product-browser__compact-controls">
+            <label className="product-browser__search">
+              <span>Zoeken</span>
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Zoek product"
+              />
             </label>
 
             <label>
@@ -163,6 +142,42 @@ export function ProductGrid({ activeCategory = "all", products, showFilters = fa
                 <option value="price-desc">Prijs hoog-laag</option>
               </select>
             </label>
+
+            <details className="product-browser__advanced">
+              <summary>Filters</summary>
+              <div className="product-browser__advanced-panel">
+                <label>
+                  <span>Voorraad</span>
+                  <select value={stock} onChange={(event) => setStock(event.target.value)}>
+                    <option value="all">Alles</option>
+                    <option value="in">Op voorraad</option>
+                    <option value="out">Niet op voorraad</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Eenheid</span>
+                  <select value={unit} onChange={(event) => setUnit(event.target.value)}>
+                    <option value="all">Alle eenheden</option>
+                    {units.map((unitLabel) => (
+                      <option key={unitLabel} value={unitLabel}>
+                        {unitLabel}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label>
+                  <span>Prijs</span>
+                  <select value={price} onChange={(event) => setPrice(event.target.value)}>
+                    <option value="all">Alle prijzen</option>
+                    <option value="under-3">Onder EUR 3</option>
+                    <option value="3-5">EUR 3 tot EUR 5</option>
+                    <option value="over-5">Boven EUR 5</option>
+                  </select>
+                </label>
+              </div>
+            </details>
           </div>
 
           <div className="product-browser__meta">
@@ -179,14 +194,14 @@ export function ProductGrid({ activeCategory = "all", products, showFilters = fa
                 setSort("popular");
               }}
             >
-              Reset filters
+              Reset
             </button>
           </div>
         </div>
       )}
 
       <div className="product-grid">
-        {filteredProducts.map((product) => {
+        {filteredProducts.slice(0, productLimit).map((product) => {
           const relatedProducts = products
             .filter((item) => item.slug !== product.slug && item.category === product.category)
             .slice(0, 8);
@@ -196,6 +211,7 @@ export function ProductGrid({ activeCategory = "all", products, showFilters = fa
               key={product.slug}
               product={product}
               price={formatPrice(getProductPrice(product))}
+              fallbackImage={fallbackImagesByCategory.get(product.category) ?? firstFallbackImage}
               relatedProducts={relatedProducts}
             />
           );
