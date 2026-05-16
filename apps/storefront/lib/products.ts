@@ -12,6 +12,8 @@ export type StorefrontProduct = {
   unit: string | null;
   badge: string | null;
   origin: string | null;
+  variants: StorefrontProductVariant[];
+  weights: StorefrontProductWeight[];
 };
 
 export type StorefrontProductVariant = {
@@ -34,10 +36,7 @@ export type StorefrontProductWeight = {
   price: number;
 };
 
-export type StorefrontProductDetail = StorefrontProduct & {
-  variants: StorefrontProductVariant[];
-  weights: StorefrontProductWeight[];
-};
+export type StorefrontProductDetail = StorefrontProduct;
 
 type ProductRow = {
   id: number;
@@ -112,6 +111,8 @@ function mapProduct(row: ProductRow): StorefrontProduct {
     unit: row.unit,
     badge: row.badge,
     origin: row.origin,
+    variants: [],
+    weights: [],
   };
 }
 
@@ -146,6 +147,56 @@ export function formatPrice(value: number) {
   }).format(value);
 }
 
+async function attachPurchaseOptions(products: StorefrontProduct[]) {
+  if (products.length === 0) {
+    return products;
+  }
+
+  const supabase = getSupabaseClient();
+  const productIds = products.map((product) => product.id);
+  const [variantsResult, weightsResult] = await Promise.all([
+    supabase
+      .from("product_variants")
+      .select("id,product_id,variant_id,name,price,image,sku,stock_status,stock_label")
+      .in("product_id", productIds)
+      .order("name", { ascending: true }),
+    supabase
+      .from("product_weights")
+      .select("id,product_id,label,grams,price")
+      .in("product_id", productIds)
+      .order("grams", { ascending: true }),
+  ]);
+
+  if (variantsResult.error) {
+    throw new Error(variantsResult.error.message);
+  }
+
+  if (weightsResult.error) {
+    throw new Error(weightsResult.error.message);
+  }
+
+  const variantsByProduct = new Map<number, StorefrontProductVariant[]>();
+  const weightsByProduct = new Map<number, StorefrontProductWeight[]>();
+
+  for (const variant of (variantsResult.data as VariantRow[]).map(mapVariant)) {
+    const variants = variantsByProduct.get(variant.productId) ?? [];
+    variants.push(variant);
+    variantsByProduct.set(variant.productId, variants);
+  }
+
+  for (const weight of (weightsResult.data as WeightRow[]).map(mapWeight)) {
+    const weights = weightsByProduct.get(weight.productId) ?? [];
+    weights.push(weight);
+    weightsByProduct.set(weight.productId, weights);
+  }
+
+  return products.map((product) => ({
+    ...product,
+    variants: variantsByProduct.get(product.id) ?? [],
+    weights: weightsByProduct.get(product.id) ?? [],
+  }));
+}
+
 export async function listProducts() {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
@@ -159,7 +210,7 @@ export async function listProducts() {
     throw new Error(error.message);
   }
 
-  return (data as ProductRow[]).map(mapProduct);
+  return attachPurchaseOptions((data as ProductRow[]).map(mapProduct));
 }
 
 export async function listProductsByCategory(category: string) {
@@ -175,7 +226,7 @@ export async function listProductsByCategory(category: string) {
     throw new Error(error.message);
   }
 
-  return (data as ProductRow[]).map(mapProduct);
+  return attachPurchaseOptions((data as ProductRow[]).map(mapProduct));
 }
 
 export async function getProductBySlug(slug: string): Promise<StorefrontProductDetail | null> {

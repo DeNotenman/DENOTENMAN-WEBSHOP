@@ -1,6 +1,17 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 const SESSION_COOKIE = "denotenman_admin_session";
+const MIN_ADMIN_SESSION_SECRET_LENGTH = 32;
+const UNSAFE_PRODUCTION_MARKERS = [
+  "changeme",
+  "change-me",
+  "demo",
+  "example",
+  "local",
+  "placeholder",
+  "rotate-before-production",
+  "test",
+];
 
 function base64UrlToText(value: string) {
   const base64 = value.replace(/-/g, "+").replace(/_/g, "/");
@@ -23,11 +34,28 @@ async function signPayload(payload: string, secret: string) {
   return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
 }
 
+function hasUnsafeProductionMarker(value: string) {
+  const normalizedValue = value.toLowerCase();
+  return UNSAFE_PRODUCTION_MARKERS.some((marker) => normalizedValue.includes(marker));
+}
+
+function hasValidSessionSecret(secret?: string) {
+  if (!secret) {
+    return false;
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    return true;
+  }
+
+  return secret.length >= MIN_ADMIN_SESSION_SECRET_LENGTH && !hasUnsafeProductionMarker(secret);
+}
+
 async function hasValidSession(request: NextRequest) {
   const secret = process.env.ADMIN_SESSION_SECRET;
   const token = request.cookies.get(SESSION_COOKIE)?.value;
 
-  if (!secret || !token) {
+  if (!hasValidSessionSecret(secret) || !token) {
     return false;
   }
 

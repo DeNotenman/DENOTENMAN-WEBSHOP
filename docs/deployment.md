@@ -24,6 +24,12 @@ Server-only:
 - `ADMIN_SESSION_SECRET`
 - Integratiegeheimen voor Mollie, PostNL en mail wanneer die flows actief worden.
 
+Admin login:
+
+- Gebruik in productie een uniek admin-e-mailadres, een wachtwoord van minimaal 16 tekens en een willekeurige `ADMIN_SESSION_SECRET` van minimaal 32 tekens.
+- Tijdelijke waarden met markers zoals `local`, `test`, `demo`, `example`, `placeholder` of `rotate-before-production` worden in productie geweigerd.
+- Genereer de session secret bijvoorbeeld met `openssl rand -base64 48` of via de secret-generator van het hostingplatform.
+
 ## Checks Voor Deploy
 
 1. `pnpm typecheck`

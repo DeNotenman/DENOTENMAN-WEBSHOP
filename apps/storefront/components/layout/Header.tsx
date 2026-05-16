@@ -5,7 +5,12 @@ const navItems = [
   { href: "/zoeken", label: "Zoeken", icon: "search-location" },
   { href: "/zakelijk", label: "Zakelijk", icon: "briefcase" },
   { href: "/klantenservice", label: "Klantenservice", icon: "user-support" },
-  { href: "/account", label: "Account", icon: "user-account-support" },
+];
+
+const actionItems = [
+  { href: "/account", label: "My account", icon: "user-circle", modifier: "account" },
+  { href: "/winkelwagen", label: "Winkelwagen", icon: "shopping-cart-1", modifier: "cart" },
+  { href: "/checkout", label: "Afrekenen", icon: "credit-card", modifier: "checkout" },
 ];
 
 export function Header() {
@@ -25,10 +30,17 @@ export function Header() {
       </nav>
 
       <div className="site-header__actions">
-        <a href="/winkelwagen" className="site-header__cart" aria-label="Winkelwagen">
-          <Icon name="shopping-cart-1" />
-          Mand
-        </a>
+        {actionItems.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className={`site-header__action site-header__action--${item.modifier}`}
+            aria-label={item.label}
+            title={item.label}
+          >
+            <Icon name={item.icon} />
+          </a>
+        ))}
 
         <details className="mobile-menu">
           <summary className="mobile-menu__button" aria-label="Menu openen">
@@ -38,16 +50,21 @@ export function Header() {
           </summary>
 
           <nav className="mobile-menu__panel" aria-label="Mobiele navigatie">
+            <div className="mobile-menu__quick-actions" aria-label="Snelle acties">
+              {actionItems.map((item) => (
+                <a key={item.href} href={item.href}>
+                  <Icon name={item.icon} />
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
             {navItems.map((item) => (
               <a key={item.href} href={item.href}>
                 <Icon name={item.icon} />
                 {item.label}
               </a>
             ))}
-            <a href="/winkelwagen">
-              <Icon name="shopping-cart-1" />
-              Winkelwagen
-            </a>
           </nav>
         </details>
       </div>

@@ -17,7 +17,13 @@ function getNumber(formData: FormData, key: string) {
   return value;
 }
 
-export async function addToCartAction(formData: FormData) {
+export type InlineCartState = {
+  checkout: boolean;
+  message: string;
+  status: "idle" | "success" | "error";
+};
+
+async function addCartItemFromForm(formData: FormData) {
   const slug = getString(formData, "slug");
   const quantity = getNumber(formData, "quantity");
   const weightId = getString(formData, "weightId") || null;
@@ -54,7 +60,46 @@ export async function addToCartAction(formData: FormData) {
 
   await setCartItems(items);
   revalidatePath("/winkelwagen");
+}
+
+export async function addToCartAction(formData: FormData) {
+  await addCartItemFromForm(formData);
   redirect("/winkelwagen");
+}
+
+export async function quickAddToCartAction(formData: FormData) {
+  await addCartItemFromForm(formData);
+}
+
+export async function buyNowAction(formData: FormData) {
+  await addCartItemFromForm(formData);
+  redirect("/checkout");
+}
+
+export async function inlineAddToCartAction(
+  _previousState: InlineCartState,
+  formData: FormData,
+): Promise<InlineCartState> {
+  const intent = getString(formData, "intent");
+
+  try {
+    await addCartItemFromForm(formData);
+
+    return {
+      checkout: intent === "checkout",
+      message:
+        intent === "checkout"
+          ? "Toegevoegd. Je kunt veilig verder naar afrekenen."
+          : "Toegevoegd aan je winkelwagen.",
+      status: "success",
+    };
+  } catch (error) {
+    return {
+      checkout: false,
+      message: error instanceof Error ? error.message : "Toevoegen is niet gelukt.",
+      status: "error",
+    };
+  }
 }
 
 export async function updateCartItemAction(formData: FormData) {

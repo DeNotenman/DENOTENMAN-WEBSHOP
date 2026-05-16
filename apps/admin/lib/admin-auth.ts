@@ -8,6 +8,18 @@ import { redirect } from "next/navigation";
 
 const SESSION_COOKIE = "denotenman_admin_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 8;
+const MIN_ADMIN_PASSWORD_LENGTH = 16;
+const MIN_ADMIN_SESSION_SECRET_LENGTH = 32;
+const UNSAFE_PRODUCTION_MARKERS = [
+  "changeme",
+  "change-me",
+  "demo",
+  "example",
+  "local",
+  "placeholder",
+  "rotate-before-production",
+  "test",
+];
 
 type AdminSessionPayload = {
   email: string;
@@ -43,6 +55,29 @@ function safeEqual(left: string, right: string) {
   const rightBuffer = Buffer.from(right);
 
   return leftBuffer.length === rightBuffer.length && timingSafeEqual(leftBuffer, rightBuffer);
+}
+
+function hasUnsafeProductionMarker(value: string) {
+  const normalizedValue = value.toLowerCase();
+  return UNSAFE_PRODUCTION_MARKERS.some((marker) => normalizedValue.includes(marker));
+}
+
+function hasValidAdminConfig(email?: string, password?: string, secret?: string) {
+  if (!email || !password || !secret) {
+    return false;
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    return true;
+  }
+
+  return (
+    password.length >= MIN_ADMIN_PASSWORD_LENGTH &&
+    secret.length >= MIN_ADMIN_SESSION_SECRET_LENGTH &&
+    !hasUnsafeProductionMarker(email) &&
+    !hasUnsafeProductionMarker(password) &&
+    !hasUnsafeProductionMarker(secret)
+  );
 }
 
 function createSessionToken(email: string) {
@@ -100,7 +135,7 @@ export async function loginAction(formData: FormData) {
   const configuredPassword = process.env.ADMIN_PASSWORD;
   const configuredSecret = process.env.ADMIN_SESSION_SECRET;
 
-  if (!configuredEmail || !configuredPassword || !configuredSecret) {
+  if (!hasValidAdminConfig(configuredEmail, configuredPassword, configuredSecret)) {
     redirect("/login?error=config");
   }
 
