@@ -3082,10 +3082,7 @@ body:has(.landing-page) .site-header__nav a .ui-icon {
   align-items: end;
   overflow: hidden;
   padding-block: clamp(6.25rem, 10vw, 7.5rem) clamp(1.6rem, 4vw, 2.5rem);
-  background:
-    linear-gradient(90deg, rgba(251, 247, 238, 0.98) 0%, rgba(251, 247, 238, 0.76) 44%, rgba(251, 247, 238, 0.2) 100%),
-    url("/images/herobakground.png") center / cover no-repeat,
-    var(--landing-paper);
+  background: var(--landing-paper);
   border-bottom: 1px solid var(--landing-line);
 }
 
@@ -3100,88 +3097,106 @@ body:has(.landing-page) .site-header__nav a .ui-icon {
   margin: 0;
   max-width: 13ch;
   color: var(--landing-ink);
-  font-size: clamp(2.45rem, 6vw, 4.75rem);
+  font-size: clamp(2rem, 4.6vw, 3.65rem);
   font-weight: 800;
-  line-height: 0.96;
+  line-height: 1;
 }
 
-.landing-market-map-blinkers {
+.landing-market-map-layer {
   position: absolute;
   inset: 0;
   z-index: 1;
-  width: 100%;
-  height: 100%;
+  overflow: hidden;
+  background:
+    url("/images/herobakground.png") var(--market-map-position, 50% 50%) / cover no-repeat,
+    var(--landing-paper);
   pointer-events: none;
 }
 
+.landing-market-map-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(251, 247, 238, 0.98) 0%, rgba(251, 247, 238, 0.76) 44%, rgba(251, 247, 238, 0.2) 100%);
+}
+
 .landing-market-map-blinker {
-  transform-box: fill-box;
-  transform-origin: center;
+  position: absolute;
+  left: var(--market-marker-x, 50%);
+  top: var(--market-marker-y, 50%);
+  z-index: 2;
+  width: 2rem;
+  height: 2rem;
+  transform: translate(-50%, -50%);
 }
 
 .landing-market-map-blinker__halo {
-  fill: rgba(199, 58, 47, 0.16);
-  opacity: 0.78;
-  transform-box: fill-box;
-  transform-origin: center;
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: rgba(199, 58, 47, 0.16);
   animation: market-map-halo 1.8s ease-in-out infinite;
 }
 
 .landing-market-map-blinker__ring {
-  fill: rgba(255, 253, 248, 0.88);
-  stroke: #c73a2f;
-  stroke-width: 6;
-  paint-order: stroke fill;
-  transform-box: fill-box;
-  transform-origin: center;
-  filter: drop-shadow(0 2px 3px rgba(37, 63, 61, 0.22));
+  position: absolute;
+  inset: 0.32rem;
+  border: 0.22rem solid #c73a2f;
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.88);
+  box-shadow: 0 2px 3px rgba(37, 63, 61, 0.22);
   animation: market-map-ring 1.8s ease-in-out infinite;
 }
 
 .landing-market-map-blinker__core {
-  fill: #c73a2f;
+  position: absolute;
+  inset: 0.78rem;
+  border-radius: 999px;
+  background: #c73a2f;
 }
 
 .landing-market-presence {
   --market-live: #c73a2f;
   display: grid;
-  gap: 0.42rem;
+  gap: 0.34rem;
   width: min(100%, 34rem);
-  margin-top: 0.55rem;
+  margin-top: 0.44rem;
 }
 
 .landing-market-presence__label,
 .landing-market-presence__days {
   margin: 0;
   color: rgba(37, 63, 61, 0.78);
-  font-size: 0.82rem;
+  font-size: 0.68rem;
   font-weight: 800;
   line-height: 1.2;
 }
 
 .landing-market-presence__label {
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.035em;
 }
 
 .landing-market-presence__locations {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.42rem;
+  gap: 0.32rem;
 }
 
 .landing-market-presence__location {
-  min-height: 2rem;
+  min-height: 1.58rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.38rem;
+  gap: 0.28rem;
   border: 1px solid rgba(37, 63, 61, 0.18);
   border-radius: 999px;
-  padding: 0.32rem 0.62rem;
+  padding: 0.2rem 0.46rem;
   background: rgba(255, 253, 248, 0.76);
   color: var(--landing-ink);
   font: inherit;
-  font-size: 0.86rem;
+  font-size: 0.7rem;
   font-weight: 800;
   line-height: 1;
   cursor: pointer;
@@ -3209,8 +3224,8 @@ body:has(.landing-page) .site-header__nav a .ui-icon {
 }
 
 .landing-market-presence__lamp {
-  width: 0.48rem;
-  height: 0.48rem;
+  width: 0.4rem;
+  height: 0.4rem;
   flex: 0 0 auto;
   border-radius: 999px;
   background: transparent;
@@ -3225,8 +3240,8 @@ body:has(.landing-page) .site-header__nav a .ui-icon {
 }
 
 .landing-market-presence__days {
-  min-height: 1rem;
-  font-size: 0.78rem;
+  min-height: 0.8rem;
+  font-size: 0.64rem;
 }
 
 .landing-shop {
@@ -3304,27 +3319,46 @@ body:has(.landing-page) .site-header__nav a .ui-icon {
 
 @media (max-width: 620px) {
   .landing-hero {
-    min-height: 15rem;
-    background-position: center;
+    min-height: 14.25rem;
+    padding-block: 5.4rem 1.15rem;
   }
 
   .landing-hero h1 {
-    font-size: clamp(2.2rem, 11vw, 3.2rem);
+    max-width: 14ch;
+    font-size: clamp(1.65rem, 8vw, 2.3rem);
+    line-height: 1.02;
   }
 
   .landing-market-presence {
     width: min(100%, 21rem);
-    gap: 0.36rem;
+    gap: 0.22rem;
+    margin-top: 0.28rem;
+  }
+
+  .landing-market-presence__label {
+    font-size: 0.56rem;
+    letter-spacing: 0.03em;
   }
 
   .landing-market-presence__locations {
-    gap: 0.35rem;
+    gap: 0.22rem;
   }
 
   .landing-market-presence__location {
-    min-height: 1.9rem;
-    padding-inline: 0.52rem;
-    font-size: 0.78rem;
+    min-height: 1.38rem;
+    gap: 0.22rem;
+    padding: 0.15rem 0.34rem;
+    font-size: 0.56rem;
+  }
+
+  .landing-market-presence__lamp {
+    width: 0.32rem;
+    height: 0.32rem;
+  }
+
+  .landing-market-presence__days {
+    min-height: 0.68rem;
+    font-size: 0.54rem;
   }
 }
 
@@ -4145,4 +4179,61 @@ body:has(.landing-page) .site-header__nav a .ui-icon {
   .product-card-shell.product-card > .product-card__media {
     width: min(100%, 11rem);
   }
+}
+
+/* Quick-view icon: keep product photos clean until hover, focus, or touch. */
+.product-card-shell.product-card .product-card__quick-actions {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  gap: 0;
+  opacity: 0;
+  pointer-events: auto;
+  transform: scale(0.96);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.product-card-shell.product-card .product-card__media:hover .product-card__quick-actions,
+.product-card-shell.product-card .product-card__media:focus-within .product-card__quick-actions,
+.product-card-shell.product-card .product-card__media:active .product-card__quick-actions,
+.product-card-shell.product-card .product-card__quick-actions:active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.product-card-shell.product-card .product-card__quick-actions button:not(.product-card__inspect) {
+  display: none;
+}
+
+.product-card-shell.product-card .product-card__inspect {
+  width: 2.45rem;
+  height: 2.45rem;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.96);
+  color: var(--foreground);
+  box-shadow:
+    0 0.45rem 1rem rgba(47, 79, 79, 0.16),
+    inset 0 0 0 1px rgba(203, 184, 153, 0.3);
+  cursor: pointer;
+  padding: 0;
+  pointer-events: auto;
+}
+
+.product-card-shell.product-card .product-card__inspect-icon {
+  width: 1.28rem;
+  height: 1.28rem;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
+.product-card-shell.product-card .product-card__inspect span,
+.product-card-shell.product-card .product-card__inspect span::after {
+  display: none;
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import type { CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type MarketLocation = {
   name: string;
@@ -47,14 +48,11 @@ function getAmsterdamDayIndex() {
 }
 
 export function MarketPresence() {
-  const [today, setToday] = useState<number | null>(null);
+  const [today, setToday] = useState(getAmsterdamDayIndex);
   const [selectedName, setSelectedName] = useState<string | null>(null);
 
   const activeLocation = useMemo(
-    () =>
-      today === null
-        ? null
-        : MARKET_LOCATIONS.find((location) => location.days.includes(today)) ?? null,
+    () => MARKET_LOCATIONS.find((location) => location.days.includes(today)) ?? null,
     [today],
   );
 
@@ -104,13 +102,16 @@ export function MarketPresence() {
 }
 
 export function MarketMapBlinkers() {
-  const [today, setToday] = useState<number | null>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [today, setToday] = useState(getAmsterdamDayIndex);
+  const [mapStyle, setMapStyle] = useState<CSSProperties>({
+    "--market-map-position": "50% 50%",
+    "--market-marker-x": "50%",
+    "--market-marker-y": "50%",
+  } as CSSProperties);
 
   const activeLocation = useMemo(
-    () =>
-      today === null
-        ? null
-        : MARKET_LOCATIONS.find((location) => location.days.includes(today)) ?? null,
+    () => MARKET_LOCATIONS.find((location) => location.days.includes(today)) ?? null,
     [today],
   );
 
@@ -118,24 +119,57 @@ export function MarketMapBlinkers() {
     setToday(getAmsterdamDayIndex());
   }, []);
 
+  useEffect(() => {
+    const mapElement = mapRef.current;
+
+    if (!mapElement || !activeLocation) return;
+
+    const updateMarkerPosition = () => {
+      const { width, height } = mapElement.getBoundingClientRect();
+
+      if (!width || !height) return;
+
+      const isMobileHero = width <= 620;
+      const focusX = isMobileHero ? activeLocation.x : 50;
+      const focusY = isMobileHero ? activeLocation.y : 50;
+      const scale = Math.max(width / MAP_SIZE.width, height / MAP_SIZE.height);
+      const renderedWidth = MAP_SIZE.width * scale;
+      const renderedHeight = MAP_SIZE.height * scale;
+      const offsetX = (width - renderedWidth) * (focusX / 100);
+      const offsetY = (height - renderedHeight) * (focusY / 100);
+      const markerX = offsetX + renderedWidth * (activeLocation.x / 100);
+      const markerY = offsetY + renderedHeight * (activeLocation.y / 100);
+
+      setMapStyle({
+        "--market-map-position": `${focusX}% ${focusY}%`,
+        "--market-marker-x": `${markerX}px`,
+        "--market-marker-y": `${markerY}px`,
+      } as CSSProperties);
+    };
+
+    updateMarkerPosition();
+
+    const resizeObserver = new ResizeObserver(updateMarkerPosition);
+    resizeObserver.observe(mapElement);
+
+    return () => resizeObserver.disconnect();
+  }, [activeLocation]);
+
   if (!activeLocation) return null;
 
-  const cx = (activeLocation.x / 100) * MAP_SIZE.width;
-  const cy = (activeLocation.y / 100) * MAP_SIZE.height;
-
   return (
-    <svg
-      className="landing-market-map-blinkers"
-      viewBox={`0 0 ${MAP_SIZE.width} ${MAP_SIZE.height}`}
-      preserveAspectRatio="xMidYMid slice"
+    <div
+      className="landing-market-map-layer"
+      data-location={activeLocation.name}
+      ref={mapRef}
+      style={mapStyle}
       aria-hidden="true"
-      focusable="false"
     >
-      <g className="landing-market-map-blinker" transform={`translate(${cx} ${cy})`}>
-        <circle className="landing-market-map-blinker__halo" r="21" />
-        <circle className="landing-market-map-blinker__ring" r="13" />
-        <circle className="landing-market-map-blinker__core" r="5" />
-      </g>
-    </svg>
+      <span className="landing-market-map-blinker">
+        <span className="landing-market-map-blinker__halo" />
+        <span className="landing-market-map-blinker__ring" />
+        <span className="landing-market-map-blinker__core" />
+      </span>
+    </div>
   );
 }

@@ -62,7 +62,6 @@ export default async function HomePage() {
       <section className="landing-hero" aria-labelledby="landing-title">
         <MarketMapBlinkers />
         <div className="container landing-hero__inner">
-          <p className="landing-kicker">De Notenman</p>
           <h1 id="landing-title">Dagvers van markt tot webshop</h1>
           <MarketPresence />
         </div>

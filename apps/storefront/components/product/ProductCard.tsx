@@ -44,17 +44,14 @@ export function ProductCard({ product, price, fallbackImage = null, relatedProdu
 
       <div className="product-card__media">
         <ProductImage alt="" className="product-card-image" src={image} fallbackSrc={fallbackImage} />
-        <span className="product-card__quick-actions" aria-label={`${product.name} acties`}>
-          <button type="button" aria-label={`${product.name} bewaren`}>
-            <Icon name="heart-outline" />
-          </button>
+        <span className="product-card__quick-actions" aria-label={`${product.name} snel bekijken`}>
           <button
             className="product-card__inspect"
             type="button"
             popoverTarget={popoutId}
             aria-label={`${product.name} snel bekijken`}
           >
-            <span aria-hidden="true" />
+            <Icon name="search_loop" className="product-card__inspect-icon" />
           </button>
         </span>
       </div>
