@@ -3,7 +3,6 @@ export default function BusinessPaymentPage() {
     <main className="business-page">
       <section className="container invoice-detail">
         <div>
-          <p className="business-hero__label">Zakelijke betaling</p>
           <h1>Bestelling afronden</h1>
           <p>
             Controleer de zakelijke bestelling en ga door naar de beveiligde

@@ -3,7 +3,6 @@ export default function BlogPostPage() {
     <main className="business-page">
       <article className="container list-page">
         <div>
-          <p className="business-hero__label">Blog</p>
           <h1>Waarom ongebrande noten populair zijn</h1>
           <p>
             Ongebrande noten behouden hun pure smaak en natuurlijke structuur.

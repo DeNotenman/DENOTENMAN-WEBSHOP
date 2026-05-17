@@ -3,7 +3,6 @@ export default function BusinessDashboardPage() {
     <main className="business-page">
       <section className="container dashboard-page">
         <div>
-          <p className="business-hero__label">Mijn zakelijke omgeving</p>
           <h1>Dashboard</h1>
           <p>
             Bekijk bestellijsten, bestellingen, facturen en accountgegevens.

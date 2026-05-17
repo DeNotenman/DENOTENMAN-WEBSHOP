@@ -2,7 +2,6 @@ export default function ForgotPasswordPage() {
   return (
     <main className="business-page">
       <section className="container auth-card">
-        <p className="business-hero__label">Account</p>
         <h1>Wachtwoord vergeten</h1>
         <p>Vul je e-mailadres in om een resetlink te ontvangen.</p>
 

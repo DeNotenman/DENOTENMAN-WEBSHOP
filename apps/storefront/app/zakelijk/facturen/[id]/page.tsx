@@ -3,7 +3,6 @@ export default function BusinessInvoiceDetailPage() {
     <main className="business-page">
       <section className="container invoice-detail">
         <div>
-          <p className="business-hero__label">Factuur</p>
           <h1>Factuur 2026-001</h1>
           <p>Bekijk factuurregels, betalingsstatus en gekoppelde bestelling.</p>
         </div>

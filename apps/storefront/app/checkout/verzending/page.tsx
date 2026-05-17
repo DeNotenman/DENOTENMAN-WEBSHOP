@@ -11,14 +11,13 @@ export default async function CheckoutShippingPage() {
     <main className="business-page">
       <CheckoutLayout>
         <section className="auth-card">
-          <p className="business-hero__label">Checkout</p>
           <h1>Verzending</h1>
 
           <form className="auth-form" action={saveShippingAction}>
             <ShippingMethods checkout={checkout} />
 
             <button className="button button--primary" type="submit">
-              <Icon name="delivery-truck" />
+              <Icon name="truck_icon" />
               Verder naar betaling
             </button>
           </form>

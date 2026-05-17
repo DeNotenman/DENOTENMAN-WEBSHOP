@@ -8,7 +8,6 @@ export default function WishlistPage() {
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Mijn account</p>
           <h1>Verlanglijst</h1>
           <p>Bekijk je bewaarde producten.</p>
         </div>

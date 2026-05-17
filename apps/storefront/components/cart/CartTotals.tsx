@@ -6,7 +6,7 @@ export function CartTotals({ cart }: { cart: StorefrontCart }) {
     <div className="invoice-panel">
       <div>
         <span>
-          <Icon name="shopping-bag" />
+          <Icon name="medium_bag" />
           Subtotaal
         </span>
         <strong>{formatCartPrice(cart.subtotalCents)}</strong>
@@ -14,7 +14,7 @@ export function CartTotals({ cart }: { cart: StorefrontCart }) {
 
       <div>
         <span>
-          <Icon name="delivery-truck" />
+          <Icon name="truck_icon" />
           Verzending
         </span>
         <strong>{cart.shippingCents === 0 ? "Gratis" : formatCartPrice(cart.shippingCents)}</strong>
@@ -22,7 +22,7 @@ export function CartTotals({ cart }: { cart: StorefrontCart }) {
 
       <div>
         <span>
-          <Icon name="document-page-1" />
+          <Icon name="Mail" />
           Btw
         </span>
         <strong>{formatCartPrice(cart.taxCents)}</strong>
@@ -30,7 +30,7 @@ export function CartTotals({ cart }: { cart: StorefrontCart }) {
 
       <div>
         <span>
-          <Icon name="credit-card" />
+          <Icon name="creditcard" />
           Totaal
         </span>
         <strong>{formatCartPrice(cart.totalCents)}</strong>

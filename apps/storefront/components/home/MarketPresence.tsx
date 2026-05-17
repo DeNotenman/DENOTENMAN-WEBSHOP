@@ -70,7 +70,6 @@ export function MarketPresence() {
 
   return (
     <section className="landing-market-presence" aria-label="Marktlocaties van De Notenman">
-      <p className="landing-market-presence__label">Vandaag op de markt</p>
       <div className="landing-market-presence__locations" role="list">
         {MARKET_LOCATIONS.map((location) => {
           const isActive = activeLocation?.name === location.name;

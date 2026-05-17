@@ -21,7 +21,6 @@ export default function BusinessOrderListDetailPage() {
     <main className="business-page">
       <section className="container orderlist-detail">
         <div>
-          <p className="business-hero__label">Bestellijst</p>
           <h1>Vaste bestellijst</h1>
           <p>Controleer de producten en plaats direct je zakelijke bestelling.</p>
         </div>

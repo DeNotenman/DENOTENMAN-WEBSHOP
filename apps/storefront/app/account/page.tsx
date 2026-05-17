@@ -3,7 +3,6 @@ export default function AccountPage() {
     <main className="business-page">
       <section className="container dashboard-page">
         <div>
-          <p className="business-hero__label">Mijn account</p>
           <h1>Account</h1>
           <p>Bekijk bestellingen, adressen, gegevens en verlanglijst.</p>
         </div>

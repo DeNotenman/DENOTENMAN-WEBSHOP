@@ -3,7 +3,6 @@ export default function ReturnsInfoPage() {
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Klantenservice</p>
           <h1>Retourneren</h1>
           <p>
             Bekijk de voorwaarden voor retourneren en neem contact op bij vragen

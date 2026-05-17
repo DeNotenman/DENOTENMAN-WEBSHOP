@@ -3,7 +3,6 @@ export default function PaymentInfoPage() {
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Klantenservice</p>
           <h1>Betalen</h1>
           <p>Betaal veilig via Mollie met de beschikbare betaalmethodes.</p>
         </div>

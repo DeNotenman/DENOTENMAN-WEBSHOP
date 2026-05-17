@@ -8,7 +8,7 @@ export async function CheckoutSummary() {
   return (
     <aside className="dashboard-card">
       <h2 className="section-title-with-icon">
-        <Icon name="shopping-cart-1" />
+        <Icon name="shopping-basket" />
         Samenvatting
       </h2>
       <CartTotals cart={cart} />

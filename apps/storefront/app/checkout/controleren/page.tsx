@@ -15,7 +15,6 @@ export default async function CheckoutReviewPage() {
       <CheckoutLayout>
         <section className="invoice-detail">
           <div>
-            <p className="business-hero__label">Checkout</p>
             <h1>Controleren</h1>
             <p>Controleer je bestelling voordat je betaalt.</p>
           </div>
@@ -23,7 +22,7 @@ export default async function CheckoutReviewPage() {
           <div className="invoice-panel">
             <div>
               <span>
-                <Icon name="user-account-support" />
+                <Icon name="customer_service" />
                 Klant
               </span>
               <strong>{customerName || checkout.email || "Nog niet ingevuld"}</strong>
@@ -31,7 +30,7 @@ export default async function CheckoutReviewPage() {
 
             <div>
               <span>
-                <Icon name="delivery-truck" />
+                <Icon name="truck_icon" />
                 Verzending
               </span>
               <strong>{checkout.shippingMethodId ?? "Nog niet gekozen"}</strong>
@@ -39,7 +38,7 @@ export default async function CheckoutReviewPage() {
 
             <div>
               <span>
-                <Icon name="credit-card" />
+                <Icon name="creditcard" />
                 Betaling
               </span>
               <strong>Mollie draft</strong>
@@ -50,7 +49,7 @@ export default async function CheckoutReviewPage() {
 
           <form action={prepareOrderDraftAction}>
             <button className="button button--primary" type="submit">
-              <Icon name="document-checkmark" />
+              <Icon name="Submit_cart" />
               Bestelling als draft voorbereiden
             </button>
           </form>

@@ -2,7 +2,6 @@ export default function BusinessPage() {
   return (
     <main className="business-page">
       <section className="container business-hero">
-        <p className="business-hero__label">Zakelijk bestellen</p>
 
         <h1>Een eigen bestelomgeving voor zakelijke klanten.</h1>
 

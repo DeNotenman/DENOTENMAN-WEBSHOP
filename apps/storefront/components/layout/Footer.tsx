@@ -10,10 +10,10 @@ export function Footer() {
         </div>
 
         <nav className="site-footer__nav" aria-label="Footer navigatie">
-          <a href="/klantenservice"><Icon name="user-support" />Klantenservice</a>
-          <a href="/privacyverklaring"><Icon name="shield-1" />Privacy</a>
-          <a href="/algemene-voorwaarden"><Icon name="document-page-1" />Voorwaarden</a>
-          <a href="/zakelijk"><Icon name="briefcase" />Zakelijk</a>
+          <a href="/klantenservice"><Icon name="customer_service" />Klantenservice</a>
+          <a href="/privacyverklaring"><Icon name="question-square" />Privacy</a>
+          <a href="/algemene-voorwaarden"><Icon name="Mail" />Voorwaarden</a>
+          <a href="/zakelijk"><Icon name="webshop" />Zakelijk</a>
         </nav>
       </div>
     </footer>

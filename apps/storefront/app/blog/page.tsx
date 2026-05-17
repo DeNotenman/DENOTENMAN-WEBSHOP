@@ -16,7 +16,6 @@ export default function BlogPage() {
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Blog</p>
           <h1>Artikelen</h1>
           <p>Lees meer over noten, zaden, gedroogd fruit en zakelijk bestellen.</p>
         </div>

@@ -21,7 +21,6 @@ export default function BusinessOrderDetailPage() {
     <main className="business-page">
       <section className="container invoice-detail">
         <div>
-          <p className="business-hero__label">Bestelling</p>
           <h1>ORD-2026-001</h1>
           <p>Bekijk producten, status, betaling en gekoppelde factuur.</p>
         </div>

@@ -9,7 +9,7 @@ export function CouponForm() {
       </label>
 
       <button className="button button--secondary" type="submit">
-        <Icon name="price-tag" />
+        <Icon name="discount" />
         Toepassen
       </button>
     </form>

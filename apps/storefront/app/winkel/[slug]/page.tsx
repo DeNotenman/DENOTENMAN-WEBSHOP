@@ -115,7 +115,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         <div className="product-detail-content">
           <ProductInfo
-            category={product.categoryLabel}
             description={product.description}
             name={product.name}
             origin={product.origin}

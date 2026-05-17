@@ -19,9 +19,6 @@ export default async function CheckoutSuccessPage({ searchParams }: CheckoutSucc
   return (
     <main className="business-page">
       <section className="container auth-card">
-        <p className="business-hero__label">
-          {currentPaymentStatus === "paid" ? "Betaling ontvangen" : isDraft ? "Order draft" : "Bestelling geplaatst"}
-        </p>
         <h1>{currentPaymentStatus === "paid" ? "Bedankt" : isDraft ? "Klaar voor Mollie" : "Bestelling ontvangen"}</h1>
         <p>
           {currentPaymentStatus === "paid"

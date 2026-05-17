@@ -6,7 +6,6 @@ import { ProductImage } from "./ProductImage";
 
 type ProductCardProps = {
   product: StorefrontProduct;
-  price: string;
   fallbackImage?: string | null;
   relatedProducts: StorefrontProduct[];
 };
@@ -30,10 +29,38 @@ function getUsableImage(image: string | null) {
   return image;
 }
 
-export function ProductCard({ product, price, fallbackImage = null, relatedProducts }: ProductCardProps) {
+function getStartingWeight(product: StorefrontProduct) {
+  return product.weights.reduce<StorefrontProduct["weights"][number] | undefined>((lowestWeight, weight) => {
+    if (!lowestWeight || weight.price < lowestWeight.price) {
+      return weight;
+    }
+
+    return lowestWeight;
+  }, undefined);
+}
+
+function getStartingPrice(product: StorefrontProduct) {
+  return getStartingWeight(product)?.price ?? product.variants[0]?.price ?? product.basePrice;
+}
+
+function getStartingUnitLabel(product: StorefrontProduct, weight: StorefrontProduct["weights"][number] | undefined) {
+  if (weight) {
+    return `per ${weight.label}`;
+  }
+
+  if (product.unit?.toLowerCase().startsWith("per ")) {
+    return product.unit;
+  }
+
+  return `per ${product.unit ?? "stuk"}`;
+}
+
+export function ProductCard({ product, fallbackImage = null, relatedProducts }: ProductCardProps) {
   const stockLabel = getStockLabel(product);
-  const defaultWeight = product.weights[0];
+  const defaultWeight = getStartingWeight(product);
   const defaultVariant = product.variants[0];
+  const displayedPrice = formatPrice(getStartingPrice(product));
+  const displayedUnit = getStartingUnitLabel(product, defaultWeight);
   const popoutId = `product-popout-${product.slug}`;
   const hasNewBadge = product.badge?.toLowerCase().includes("nieuw") ?? false;
   const image = getUsableImage(product.image) ?? getUsableImage(defaultVariant?.image ?? null) ?? fallbackImage;
@@ -58,15 +85,15 @@ export function ProductCard({ product, price, fallbackImage = null, relatedProdu
 
       <button className="product-card__open" type="button" popoverTarget={popoutId}>
         <span className="product-card__name">{product.name}</span>
-        <span className="product-card__category">{product.categoryLabel}</span>
       </button>
 
       <div className="product-card__footer">
         <span className="product-card__price">
-          <span>{price}</span>
-          <small>
-            {defaultWeight?.label ?? product.unit ?? "per stuk"}
-          </small>
+          <span className="product-card__price-main">
+            <small className="product-card__price-prefix">Vanaf</small>
+            {displayedPrice}
+          </span>
+          <small className="product-card__price-unit">{displayedUnit}</small>
         </span>
         <form action={quickAddToCartAction}>
           <input type="hidden" name="slug" value={product.slug} />
@@ -74,7 +101,7 @@ export function ProductCard({ product, price, fallbackImage = null, relatedProdu
           {defaultWeight && <input type="hidden" name="weightId" value={defaultWeight.id} />}
           {defaultVariant && <input type="hidden" name="variantId" value={defaultVariant.variantId} />}
           <button className="product-card__cart" type="submit" aria-label={`${product.name} toevoegen aan winkelwagen`}>
-            <Icon name="bag-plus" />
+            <Icon name="shopping-basket" />
           </button>
         </form>
       </div>
@@ -93,7 +120,7 @@ export function ProductCard({ product, price, fallbackImage = null, relatedProdu
           popoverTargetAction="hide"
           aria-label="Sluiten"
         >
-          x
+          <Icon name="x" />
         </button>
 
         <div className="product-popout__media">
@@ -101,21 +128,34 @@ export function ProductCard({ product, price, fallbackImage = null, relatedProdu
         </div>
 
         <div className="product-popout__content">
-          <p className="business-hero__label">{product.categoryLabel}</p>
-          <h2>{product.name}</h2>
-          <p>{getSeoDescription(product)}</p>
+          <div className="product-popout__summary">
+            <h2>{product.name}</h2>
+            <p>{getSeoDescription(product)}</p>
+          </div>
 
           <dl className="product-popout__facts">
             <div>
-              <dt>Voorraad</dt>
+              <dt>
+                <Icon name="Submit_cart" />
+                Voorraad
+              </dt>
               <dd>{stockLabel}</dd>
             </div>
             <div>
-              <dt>Vanaf</dt>
-              <dd>{price}</dd>
+              <dt>
+                <Icon name="discount" />
+                Vanaf
+              </dt>
+              <dd>
+                {displayedPrice}
+                <small>{displayedUnit}</small>
+              </dd>
             </div>
             <div>
-              <dt>Besteleenheden</dt>
+              <dt>
+                <Icon name="Small_bowl" />
+                Besteleenheden
+              </dt>
               <dd>
                 {product.weights.length > 0
                   ? product.weights.map((weight) => weight.label).join(", ")
@@ -160,11 +200,11 @@ export function ProductCard({ product, price, fallbackImage = null, relatedProdu
 
             <div className="product-popout__ctas">
               <button className="button button--primary" type="submit">
-                <Icon name="shopping-cart-1" />
+                <Icon name="Submit_cart" />
                 In winkelwagen
               </button>
               <button className="button button--secondary" type="submit" formAction={buyNowAction}>
-                <Icon name="credit-card" />
+                <Icon name="creditcard" />
                 Gelijk bestellen
               </button>
             </div>
@@ -174,30 +214,37 @@ export function ProductCard({ product, price, fallbackImage = null, relatedProdu
             <section className="product-popout__related" aria-label="Vaak samen gekocht">
               <h3>Vaak samen gekocht</h3>
               <div className="product-popout__slider">
-                {relatedProducts.map((relatedProduct) => (
-                  <article key={relatedProduct.slug} className="product-popout__related-card">
-                    <span className="product-popout__related-image">
-                      <ProductImage alt="" src={getUsableImage(relatedProduct.image) ?? fallbackImage} />
-                    </span>
-                    <strong>{relatedProduct.name}</strong>
-                    <span>{formatPrice(relatedProduct.weights[0]?.price ?? relatedProduct.basePrice)}</span>
-                    <form action={quickAddToCartAction}>
-                      <input type="hidden" name="slug" value={relatedProduct.slug} />
-                      <input type="hidden" name="quantity" value="1" />
-                      {relatedProduct.weights[0] && (
-                        <input type="hidden" name="weightId" value={relatedProduct.weights[0].id} />
-                      )}
-                      {relatedProduct.variants[0] && (
-                        <input
-                          type="hidden"
-                          name="variantId"
-                          value={relatedProduct.variants[0].variantId}
-                        />
-                      )}
-                      <button type="submit">Snel toevoegen</button>
-                    </form>
-                  </article>
-                ))}
+                {relatedProducts.map((relatedProduct) => {
+                  const relatedStartingWeight = getStartingWeight(relatedProduct);
+
+                  return (
+                    <article key={relatedProduct.slug} className="product-popout__related-card">
+                      <span className="product-popout__related-image">
+                        <ProductImage alt="" src={getUsableImage(relatedProduct.image) ?? fallbackImage} />
+                      </span>
+                      <strong>{relatedProduct.name}</strong>
+                      <span>{formatPrice(getStartingPrice(relatedProduct))}</span>
+                      <form action={quickAddToCartAction}>
+                        <input type="hidden" name="slug" value={relatedProduct.slug} />
+                        <input type="hidden" name="quantity" value="1" />
+                        {relatedStartingWeight && (
+                          <input type="hidden" name="weightId" value={relatedStartingWeight.id} />
+                        )}
+                        {relatedProduct.variants[0] && (
+                          <input
+                            type="hidden"
+                            name="variantId"
+                            value={relatedProduct.variants[0].variantId}
+                          />
+                        )}
+                        <button type="submit">
+                          <Icon name="plus_icon" />
+                          Snel toevoegen
+                        </button>
+                      </form>
+                    </article>
+                  );
+                })}
               </div>
             </section>
           )}

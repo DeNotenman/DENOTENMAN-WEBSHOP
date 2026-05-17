@@ -2,7 +2,6 @@ export default function BusinessLoginPage() {
   return (
     <main className="business-page">
       <section className="container auth-card">
-        <p className="business-hero__label">Zakelijke toegang</p>
 
         <h1>Inloggen</h1>
 

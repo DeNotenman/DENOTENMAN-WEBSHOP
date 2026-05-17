@@ -8,7 +8,6 @@ export default function BrandsPage() {
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Merken</p>
           <h1>Merken</h1>
           <p>Bekijk merken en productlijnen binnen de webshop.</p>
         </div>

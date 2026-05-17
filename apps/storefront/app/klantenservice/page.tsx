@@ -11,7 +11,6 @@ export default function CustomerServicePage() {
     <main className="business-page">
       <section className="container dashboard-page">
         <div>
-          <p className="business-hero__label">Klantenservice</p>
           <h1>Waarmee kunnen we helpen?</h1>
           <p>Vind snel informatie over contact, verzending, retouren en betalen.</p>
         </div>

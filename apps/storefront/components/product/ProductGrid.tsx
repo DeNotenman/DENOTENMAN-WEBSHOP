@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import type { StorefrontProduct } from "../../lib/products";
-import { formatPrice } from "../../lib/products";
 import { ProductCard } from "./ProductCard";
 
 type ProductGridProps = {
@@ -13,7 +12,10 @@ type ProductGridProps = {
 };
 
 function getProductPrice(product: StorefrontProduct) {
-  return product.weights[0]?.price ?? product.basePrice;
+  return product.weights.reduce(
+    (lowestPrice, weight) => Math.min(lowestPrice, weight.price),
+    product.weights[0]?.price ?? product.variants[0]?.price ?? product.basePrice,
+  );
 }
 
 function getUsableImage(image: string | null) {
@@ -210,7 +212,6 @@ export function ProductGrid({
             <ProductCard
               key={product.slug}
               product={product}
-              price={formatPrice(getProductPrice(product))}
               fallbackImage={fallbackImagesByCategory.get(product.category) ?? firstFallbackImage}
               relatedProducts={relatedProducts}
             />

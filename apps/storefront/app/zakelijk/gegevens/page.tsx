@@ -2,7 +2,6 @@ export default function BusinessAccountDetailsPage() {
   return (
     <main className="business-page">
       <section className="container auth-card">
-        <p className="business-hero__label">Accountgegevens</p>
 
         <h1>Gegevens</h1>
 

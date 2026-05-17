@@ -12,7 +12,6 @@ export default async function CheckoutDetailsPage() {
     <main className="business-page">
       <CheckoutLayout>
         <section className="auth-card">
-          <p className="business-hero__label">Checkout</p>
           <h1>Gegevens</h1>
 
           <form className="auth-form" action={saveCheckoutDetailsAction}>
@@ -20,7 +19,7 @@ export default async function CheckoutDetailsPage() {
             <AddressForm checkout={checkout} />
 
             <button className="button button--primary" type="submit">
-              <Icon name="arrow-right-1" />
+              <Icon name="angle-double-right" />
               Verder naar verzending
             </button>
           </form>

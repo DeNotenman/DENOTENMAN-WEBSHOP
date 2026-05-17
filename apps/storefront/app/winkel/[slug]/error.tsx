@@ -9,7 +9,6 @@ export default function ProductErrorPage({
   return (
     <main className="business-page">
       <section className="container auth-card">
-        <p className="business-hero__label">Product</p>
         <h1>Product niet geladen</h1>
         <p>Probeer het product opnieuw te laden.</p>
 

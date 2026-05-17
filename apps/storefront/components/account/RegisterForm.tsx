@@ -19,7 +19,7 @@ export function RegisterForm() {
       </label>
 
       <button className="button button--primary" type="submit">
-        <Icon name="user-plus" />
+        <Icon name="my account" />
         Account aanmaken
       </button>
     </form>

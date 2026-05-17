@@ -3,7 +3,6 @@ export default function ShippingInfoPage() {
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Klantenservice</p>
           <h1>Verzenden</h1>
           <p>
             Bestellingen worden zorgvuldig verpakt en verzonden via PostNL.

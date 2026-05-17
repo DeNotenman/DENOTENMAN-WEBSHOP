@@ -9,7 +9,6 @@ export default function ErrorPage({
   return (
     <main className="business-page">
       <section className="container auth-card">
-        <p className="business-hero__label">Foutmelding</p>
         <h1>Er ging iets mis</h1>
         <p>Probeer de pagina opnieuw te laden.</p>
 

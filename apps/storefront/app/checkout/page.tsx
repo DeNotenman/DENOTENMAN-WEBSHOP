@@ -3,7 +3,6 @@ export default function CheckoutPage() {
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Checkout</p>
           <h1>Afrekenen</h1>
           <p>Vul je gegevens in en rond je bestelling veilig af.</p>
         </div>

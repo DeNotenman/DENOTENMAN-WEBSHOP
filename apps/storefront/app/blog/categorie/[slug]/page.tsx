@@ -14,7 +14,6 @@ export default function BlogCategoryPage() {
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Blogcategorie</p>
           <h1>Noten</h1>
           <p>Artikelen over noten, kwaliteit, gebruik en bewaren.</p>
         </div>

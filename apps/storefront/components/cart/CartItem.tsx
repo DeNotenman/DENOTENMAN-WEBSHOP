@@ -27,7 +27,7 @@ export function CartItem({ item }: CartItemProps) {
         <input type="hidden" name="weightId" value={item.weightId ?? ""} />
         <input type="number" name="quantity" min={0} defaultValue={item.quantity} aria-label="Aantal" />
         <button className="button button--secondary" type="submit">
-          <Icon name="refresh-arrows" />
+          <Icon name="chevron-double-up" />
           Bijwerken
         </button>
       </form>
@@ -37,7 +37,7 @@ export function CartItem({ item }: CartItemProps) {
         <input type="hidden" name="variantId" value={item.variantId ?? ""} />
         <input type="hidden" name="weightId" value={item.weightId ?? ""} />
         <button className="button button--secondary" type="submit">
-          <Icon name="trash-bin" />
+          <Icon name="x" />
           Verwijderen
         </button>
       </form>

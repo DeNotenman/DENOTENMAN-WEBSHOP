@@ -1,15 +1,15 @@
 import { Icon } from "../ui/Icon";
 
 const navItems = [
-  { href: "/winkel", label: "Winkel", icon: "shopping-bag" },
+  { href: "/winkel", label: "Winkel", icon: "medium_bag" },
   { href: "/zoeken", label: "Zoeken", icon: "search-location" },
-  { href: "/klantenservice", label: "Klantenservice", icon: "user-support" },
+  { href: "/klantenservice", label: "Klantenservice", icon: "customer_service" },
 ];
 
 const actionItems = [
   { href: "/account", label: "My account", icon: "user-circle", modifier: "account" },
-  { href: "/winkelwagen", label: "Winkelwagen", icon: "shopping-cart-1", modifier: "cart" },
-  { href: "/checkout", label: "Afrekenen", icon: "credit-card", modifier: "checkout" },
+  { href: "/winkelwagen", label: "Winkelwagen", icon: "shopping-basket", modifier: "cart" },
+  { href: "/checkout", label: "Afrekenen", icon: "creditcard", modifier: "checkout" },
 ];
 
 export function Header() {

@@ -10,7 +10,6 @@ export default async function CartPage() {
     <main className="business-page">
       <section className="container cart-page">
         <div>
-          <p className="business-hero__label">Winkelwagen</p>
           <h1>Jouw mand</h1>
           <p>Controleer je producten voordat je afrekent.</p>
         </div>

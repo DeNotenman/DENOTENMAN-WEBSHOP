@@ -78,7 +78,7 @@ export function ProductPurchaseForm({ product }: ProductPurchaseFormProps) {
           value="cart"
           disabled={isPending}
         >
-          <Icon name="shopping-cart-1" />
+          <Icon name="shopping-basket" />
           In winkelwagen
         </button>
         <button
@@ -88,7 +88,7 @@ export function ProductPurchaseForm({ product }: ProductPurchaseFormProps) {
           value="checkout"
           disabled={isPending}
         >
-          <Icon name="credit-card" />
+          <Icon name="creditcard" />
           Gelijk bestellen
         </button>
       </div>
@@ -107,7 +107,7 @@ export function ProductPurchaseForm({ product }: ProductPurchaseFormProps) {
       <div className="product-mobile-cta" aria-label="Mobiele bestelactie">
         <span>{getUnitPriceLabel(product)}</span>
         <button type="submit" name="intent" value="cart" disabled={isPending}>
-          <Icon name="shopping-cart-1" />
+          <Icon name="shopping-basket" />
           In winkelwagen
         </button>
       </div>

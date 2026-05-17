@@ -14,7 +14,7 @@ export function LoginForm() {
       </label>
 
       <button className="button button--primary" type="submit">
-        <Icon name="login-enter" />
+        <Icon name="my account" />
         Inloggen
       </button>
     </form>

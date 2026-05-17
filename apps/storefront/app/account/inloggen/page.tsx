@@ -2,7 +2,6 @@ export default function LoginPage() {
   return (
     <main className="business-page">
       <section className="container auth-card">
-        <p className="business-hero__label">Account</p>
         <h1>Inloggen</h1>
 
         <form className="auth-form">

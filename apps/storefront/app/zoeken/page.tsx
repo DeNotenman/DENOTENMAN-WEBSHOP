@@ -10,7 +10,6 @@ export default function SearchPage() {
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Zoeken</p>
           <h1>Zoeken</h1>
           <p>Zoek producten in de webshop.</p>
         </div>
@@ -22,7 +21,7 @@ export default function SearchPage() {
           </label>
 
           <button className="button button--primary" type="submit">
-            <Icon name="search-magnifier" />
+            <Icon name="search_loop" />
             Zoeken
           </button>
         </form>
@@ -32,7 +31,7 @@ export default function SearchPage() {
             <a key={product.name} href={product.href} className="dashboard-card">
               <h2>{product.name}</h2>
               <p className="product-card__price">
-                <Icon name="shopping-bag" />
+                <Icon name="medium_bag" />
                 {product.price}
               </p>
             </a>

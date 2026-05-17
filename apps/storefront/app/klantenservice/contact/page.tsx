@@ -2,7 +2,6 @@ export default function ContactPage() {
   return (
     <main className="business-page">
       <section className="container auth-card">
-        <p className="business-hero__label">Klantenservice</p>
         <h1>Contact</h1>
 
         <form className="auth-form">

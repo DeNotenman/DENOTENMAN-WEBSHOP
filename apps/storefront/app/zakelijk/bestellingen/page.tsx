@@ -18,7 +18,6 @@ export default function BusinessOrdersPage() {
     <main className="business-page">
       <section className="container list-page">
         <div>
-          <p className="business-hero__label">Zakelijke bestellingen</p>
           <h1>Bestellingen</h1>
           <p>Bekijk eerdere zakelijke bestellingen en actuele statussen.</p>
         </div>

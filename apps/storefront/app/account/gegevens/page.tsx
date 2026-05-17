@@ -2,7 +2,6 @@ export default function AccountDetailsPage() {
   return (
     <main className="business-page">
       <section className="container auth-card">
-        <p className="business-hero__label">Mijn account</p>
         <h1>Gegevens</h1>
 
         <form className="auth-form">
