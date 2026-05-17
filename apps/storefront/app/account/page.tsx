@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function AccountPage() {
   return (
     <main className="business-page">
@@ -8,25 +10,25 @@ export default function AccountPage() {
         </div>
 
         <div className="dashboard-grid">
-          <a href="/account/bestellingen" className="dashboard-card">
+          <Link href="/account/bestellingen" className="dashboard-card">
             <h2>Bestellingen</h2>
             <p>Bekijk eerdere bestellingen.</p>
-          </a>
+          </Link>
 
-          <a href="/account/adressen" className="dashboard-card">
+          <Link href="/account/adressen" className="dashboard-card">
             <h2>Adressen</h2>
             <p>Beheer bezorg- en factuuradressen.</p>
-          </a>
+          </Link>
 
-          <a href="/account/gegevens" className="dashboard-card">
+          <Link href="/account/gegevens" className="dashboard-card">
             <h2>Gegevens</h2>
             <p>Beheer persoonlijke gegevens.</p>
-          </a>
+          </Link>
 
-          <a href="/account/verlanglijst" className="dashboard-card">
+          <Link href="/account/verlanglijst" className="dashboard-card">
             <h2>Verlanglijst</h2>
             <p>Bekijk bewaarde producten.</p>
-          </a>
+          </Link>
         </div>
       </section>
     </main>

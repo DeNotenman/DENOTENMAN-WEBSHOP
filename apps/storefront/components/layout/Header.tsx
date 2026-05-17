@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getCart } from "../../lib/cart";
 import { Icon } from "../ui/Icon";
 
@@ -15,7 +16,7 @@ function HeaderCartAction({ itemCount }: { itemCount: number }) {
     : "Winkelwagen is leeg";
 
   return (
-    <a
+    <Link
       href="/winkelwagen"
       className={`site-header__action site-header__action--cart${hasItems ? " site-header__action--cart-active" : ""}`}
       aria-label={cartLabel}
@@ -23,7 +24,7 @@ function HeaderCartAction({ itemCount }: { itemCount: number }) {
     >
       <Icon name={hasItems ? "shopping-basket" : "Cart_empty"} />
       {itemCount >= 2 ? <span className="site-header__cart-badge">{itemCount}</span> : null}
-    </a>
+    </Link>
   );
 }
 
@@ -31,13 +32,13 @@ function MobileCartLink({ itemCount }: { itemCount: number }) {
   const hasItems = itemCount > 0;
 
   return (
-    <a href="/winkelwagen" className="mobile-menu__cart-link">
+    <Link href="/winkelwagen" className="mobile-menu__cart-link">
       <span className="mobile-menu__cart-icon">
         <Icon name={hasItems ? "shopping-basket" : "Cart_empty"} />
         {itemCount >= 2 ? <span className="site-header__cart-badge">{itemCount}</span> : null}
       </span>
       Winkelwagen
-    </a>
+    </Link>
   );
 }
 
@@ -47,37 +48,37 @@ export async function Header() {
 
   return (
     <header className="site-header">
-      <a href="/" className="site-header__brand" aria-label="De Notenman home">
+      <Link href="/" className="site-header__brand" aria-label="De Notenman home">
         <img className="site-header__logo-image" src="/Notenman_onlylogo.png" alt="De Notenman" />
-      </a>
+      </Link>
 
       <nav className="site-header__nav" aria-label="Hoofdnavigatie">
         {navItems.map((item) => (
-          <a key={item.href} href={item.href}>
+          <Link key={item.href} href={item.href}>
             <Icon name={item.icon} />
             {item.label}
-          </a>
+          </Link>
         ))}
       </nav>
 
       <div className="site-header__actions">
-        <a
+        <Link
           href="/account"
           className="site-header__action site-header__action--account"
           aria-label="Mijn account"
           title="Mijn account"
         >
           <Icon name="portrait" />
-        </a>
+        </Link>
         <HeaderCartAction itemCount={itemCount} />
-        <a
+        <Link
           href="/checkout"
           className="site-header__action site-header__action--checkout"
           aria-label="Afrekenen"
           title="Afrekenen"
         >
           <Icon name="checkout" />
-        </a>
+        </Link>
 
         <details className="mobile-menu">
           <summary className="mobile-menu__button" aria-label="Menu openen">
@@ -88,22 +89,22 @@ export async function Header() {
 
           <nav className="mobile-menu__panel" aria-label="Mobiele navigatie">
             <div className="mobile-menu__quick-actions" aria-label="Snelle acties">
-              <a href="/account">
+              <Link href="/account">
                 <Icon name="portrait" />
                 Mijn account
-              </a>
+              </Link>
               <MobileCartLink itemCount={itemCount} />
-              <a href="/checkout">
+              <Link href="/checkout">
                 <Icon name="checkout" />
                 Afrekenen
-              </a>
+              </Link>
             </div>
 
             {navItems.map((item) => (
-              <a key={item.href} href={item.href}>
+              <Link key={item.href} href={item.href}>
                 <Icon name={item.icon} />
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </details>

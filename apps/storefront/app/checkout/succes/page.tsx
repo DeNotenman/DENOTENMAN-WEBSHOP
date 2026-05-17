@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getOrderCheckoutStatus } from "../../../lib/orders";
 
 type CheckoutSuccessPageProps = {
@@ -49,9 +50,9 @@ export default async function CheckoutSuccessPage({ searchParams }: CheckoutSucc
           <p>Betaling is nog niet gestart omdat Mollie payments niet voor deze omgeving zijn ingeschakeld.</p>
         ) : null}
 
-        <a href="/winkel" className="button button--primary">
+        <Link href="/winkel" className="button button--primary">
           Verder winkelen
-        </a>
+        </Link>
       </section>
     </main>
   );

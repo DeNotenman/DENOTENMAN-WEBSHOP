@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
-    "lint": "echo lint"
+    "lint": "eslint src"
   },
   "devDependencies": {
     "typescript": "latest"

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function BrandDetailPage() {
   return (
     <main className="business-page">
@@ -8,15 +10,15 @@ export default function BrandDetailPage() {
         </div>
 
         <div className="list-grid">
-          <a href="/winkel/amandelen-ongezouten" className="dashboard-card">
+          <Link href="/winkel/amandelen-ongezouten" className="dashboard-card">
             <h2>Amandelen ongezouten</h2>
             <p>€ 14,95</p>
-          </a>
+          </Link>
 
-          <a href="/winkel/notenmix-luxe" className="dashboard-card">
+          <Link href="/winkel/notenmix-luxe" className="dashboard-card">
             <h2>Notenmix luxe</h2>
             <p>€ 18,95</p>
-          </a>
+          </Link>
         </div>
       </section>
     </main>

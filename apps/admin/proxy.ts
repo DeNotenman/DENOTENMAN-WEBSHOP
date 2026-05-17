@@ -51,11 +51,16 @@ function hasValidSessionSecret(secret?: string) {
   return secret.length >= MIN_ADMIN_SESSION_SECRET_LENGTH && !hasUnsafeProductionMarker(secret);
 }
 
-async function hasValidSession(request: NextRequest) {
+function getValidSessionSecret() {
   const secret = process.env.ADMIN_SESSION_SECRET;
+  return hasValidSessionSecret(secret) ? secret : null;
+}
+
+async function hasValidSession(request: NextRequest) {
+  const secret = getValidSessionSecret();
   const token = request.cookies.get(SESSION_COOKIE)?.value;
 
-  if (!hasValidSessionSecret(secret) || !token) {
+  if (!secret || !token) {
     return false;
   }
 

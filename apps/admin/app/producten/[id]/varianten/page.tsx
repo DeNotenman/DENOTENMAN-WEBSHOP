@@ -37,7 +37,7 @@ export default async function ProductVariantsPage({ params }: ProductVariantsPag
       <section className="admin-page-header">
         <p>Productvarianten</p>
         <h1>{product.name}</h1>
-        <span>Beheer gewichten, prijzen, SKU's en voorraadlabels.</span>
+        <span>Beheer gewichten, prijzen, SKU&apos;s en voorraadlabels.</span>
       </section>
 
       <section className="admin-grid admin-grid--two">

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function BusinessDashboardPage() {
   return (
     <main className="business-page">
@@ -27,25 +29,25 @@ export default function BusinessDashboardPage() {
         </div>
 
         <div className="dashboard-grid">
-          <a href="/zakelijk/bestellijsten" className="dashboard-card">
+          <Link href="/zakelijk/bestellijsten" className="dashboard-card">
             <h2>Bestellijsten</h2>
             <p>Bestel uit producten die voor jouw account zijn klaargezet.</p>
-          </a>
+          </Link>
 
-          <a href="/zakelijk/bestellingen" className="dashboard-card">
+          <Link href="/zakelijk/bestellingen" className="dashboard-card">
             <h2>Bestellingen</h2>
             <p>Bekijk eerdere bestellingen en actuele statussen.</p>
-          </a>
+          </Link>
 
-          <a href="/zakelijk/facturen" className="dashboard-card">
+          <Link href="/zakelijk/facturen" className="dashboard-card">
             <h2>Facturen</h2>
             <p>Bekijk en download zakelijke facturen.</p>
-          </a>
+          </Link>
 
-          <a href="/zakelijk/gegevens" className="dashboard-card">
+          <Link href="/zakelijk/gegevens" className="dashboard-card">
             <h2>Gegevens</h2>
             <p>Beheer bedrijfs-, factuur- en contactgegevens.</p>
-          </a>
+          </Link>
         </div>
       </section>
     </main>

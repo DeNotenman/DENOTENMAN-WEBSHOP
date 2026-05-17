@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { formatAdminPrice, listAdminProducts } from "../../lib/products";
 
 export default async function AdminProductsPage() {
@@ -12,14 +13,14 @@ export default async function AdminProductsPage() {
       </section>
 
       <div className="admin-actions">
-        <a href="/producten/nieuw" className="admin-button">
+        <Link href="/producten/nieuw" className="admin-button">
           Nieuw product
-        </a>
+        </Link>
       </div>
 
       <section className="admin-list">
         {products.map((product) => (
-          <a key={product.id} href={`/producten/${product.id}`} className="admin-list-row">
+          <Link key={product.id} href={`/producten/${product.id}`} className="admin-list-row">
             <div className="admin-product-summary">
               {product.image && <img src={product.image} alt="" />}
               <div>
@@ -30,7 +31,7 @@ export default async function AdminProductsPage() {
 
             <span>{formatAdminPrice(product.basePrice)}</span>
             <strong>{product.isActive ? "Actief" : "Verborgen"}</strong>
-          </a>
+          </Link>
         ))}
       </section>
     </main>

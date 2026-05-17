@@ -80,6 +80,18 @@ function hasValidAdminConfig(email?: string, password?: string, secret?: string)
   );
 }
 
+function getValidAdminConfig() {
+  const email = process.env.ADMIN_EMAIL;
+  const password = process.env.ADMIN_PASSWORD;
+  const secret = process.env.ADMIN_SESSION_SECRET;
+
+  if (!hasValidAdminConfig(email, password, secret)) {
+    return null;
+  }
+
+  return { email, password, secret };
+}
+
 function createSessionToken(email: string) {
   const payload = base64UrlEncode(
     JSON.stringify({
@@ -131,23 +143,21 @@ export async function requireAdmin() {
 }
 
 export async function loginAction(formData: FormData) {
-  const configuredEmail = process.env.ADMIN_EMAIL;
-  const configuredPassword = process.env.ADMIN_PASSWORD;
-  const configuredSecret = process.env.ADMIN_SESSION_SECRET;
+  const adminConfig = getValidAdminConfig();
 
-  if (!hasValidAdminConfig(configuredEmail, configuredPassword, configuredSecret)) {
+  if (!adminConfig) {
     redirect("/login?error=config");
   }
 
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
 
-  if (email !== configuredEmail.toLowerCase() || password !== configuredPassword) {
+  if (email !== adminConfig.email.toLowerCase() || password !== adminConfig.password) {
     redirect("/login?error=invalid");
   }
 
   const cookieStore = await cookies();
-  cookieStore.set(SESSION_COOKIE, createSessionToken(configuredEmail), {
+  cookieStore.set(SESSION_COOKIE, createSessionToken(adminConfig.email), {
     httpOnly: true,
     maxAge: SESSION_TTL_SECONDS,
     path: "/",

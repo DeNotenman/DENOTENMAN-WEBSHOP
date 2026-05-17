@@ -8,7 +8,7 @@ export default async function InventoryPage() {
       <section className="admin-page-header">
         <p>Voorraad</p>
         <h1>Voorraadoverzicht</h1>
-        <span>Actuele voorraadlabels en SKU's uit Supabase productvarianten.</span>
+        <span>Actuele voorraadlabels en SKU&apos;s uit Supabase productvarianten.</span>
       </section>
 
       <section className="admin-actions">

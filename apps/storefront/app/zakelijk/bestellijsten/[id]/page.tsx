@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const products = [
   {
     name: "Amandelen ongezouten",
@@ -42,9 +44,9 @@ export default function BusinessOrderListDetailPage() {
           ))}
         </div>
 
-        <a href="/zakelijk/betalen/vaste-bestellijst" className="button button--primary">
+        <Link href="/zakelijk/betalen/vaste-bestellijst" className="button button--primary">
           Bestelling afronden
-        </a>
+        </Link>
       </section>
     </main>
   );

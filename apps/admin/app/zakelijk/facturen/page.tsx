@@ -9,7 +9,7 @@ export default async function AdminBusinessInvoicesPage() {
       <section className="admin-page-header">
         <p>Zakelijk</p>
         <h1>Facturen</h1>
-        <span>Factuurbasis uit echte orders. Formele factuurnummers/PDF's volgen zodra factuur-opslag actief is.</span>
+        <span>Factuurbasis uit echte orders. Formele factuurnummers/PDF&apos;s volgen zodra factuur-opslag actief is.</span>
       </section>
 
       <section className="admin-list">

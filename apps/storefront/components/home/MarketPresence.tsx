@@ -47,26 +47,21 @@ function getAmsterdamDayIndex() {
   return WEEKDAY_TO_INDEX[weekday] ?? new Date().getDay();
 }
 
-export function MarketPresence() {
-  const [today, setToday] = useState(getAmsterdamDayIndex);
-  const [selectedName, setSelectedName] = useState<string | null>(null);
+function getActiveMarketLocation(dayIndex: number) {
+  return MARKET_LOCATIONS.find((location) => location.days.includes(dayIndex)) ?? null;
+}
 
-  const activeLocation = useMemo(
-    () => MARKET_LOCATIONS.find((location) => location.days.includes(today)) ?? null,
-    [today],
-  );
+export function MarketPresence() {
+  const [today] = useState(getAmsterdamDayIndex);
+  const [selectedName, setSelectedName] = useState(() => {
+    const currentLocation = getActiveMarketLocation(getAmsterdamDayIndex());
+    return currentLocation?.name ?? MARKET_LOCATIONS[0].name;
+  });
+
+  const activeLocation = useMemo(() => getActiveMarketLocation(today), [today]);
 
   const selectedLocation =
     MARKET_LOCATIONS.find((location) => location.name === selectedName) ?? activeLocation;
-
-  useEffect(() => {
-    const dayIndex = getAmsterdamDayIndex();
-    const currentLocation =
-      MARKET_LOCATIONS.find((location) => location.days.includes(dayIndex)) ?? null;
-
-    setToday(dayIndex);
-    setSelectedName(currentLocation?.name ?? MARKET_LOCATIONS[0].name);
-  }, []);
 
   return (
     <section className="landing-market-presence" aria-label="Marktlocaties van De Notenman">
@@ -102,21 +97,14 @@ export function MarketPresence() {
 
 export function MarketMapBlinkers() {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [today, setToday] = useState(getAmsterdamDayIndex);
+  const [today] = useState(getAmsterdamDayIndex);
   const [mapStyle, setMapStyle] = useState<CSSProperties>({
     "--market-map-position": "50% 50%",
     "--market-marker-x": "50%",
     "--market-marker-y": "50%",
   } as CSSProperties);
 
-  const activeLocation = useMemo(
-    () => MARKET_LOCATIONS.find((location) => location.days.includes(today)) ?? null,
-    [today],
-  );
-
-  useEffect(() => {
-    setToday(getAmsterdamDayIndex());
-  }, []);
+  const activeLocation = useMemo(() => getActiveMarketLocation(today), [today]);
 
   useEffect(() => {
     const mapElement = mapRef.current;

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const posts = [
   { title: "Waarom ongebrande noten populair zijn", category: "Noten", status: "Gepubliceerd" },
   { title: "Zakelijk noten bestellen", category: "Zakelijk", status: "Concept" },
@@ -14,14 +16,14 @@ export default function BlogPage() {
 
       <section className="admin-list">
         {posts.map((post) => (
-          <a key={post.title} href="/cms/blog/voorbeeld-artikel" className="admin-list-row">
+          <Link key={post.title} href="/cms/blog/voorbeeld-artikel" className="admin-list-row">
             <div>
               <h2>{post.title}</h2>
               <p>{post.category}</p>
             </div>
 
             <strong>{post.status}</strong>
-          </a>
+          </Link>
         ))}
       </section>
     </main>

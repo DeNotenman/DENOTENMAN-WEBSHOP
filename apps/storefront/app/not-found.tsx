@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function NotFoundPage() {
   return (
     <main className="business-page">
@@ -5,9 +7,9 @@ export default function NotFoundPage() {
         <h1>Pagina niet gevonden</h1>
         <p>De pagina die je zoekt bestaat niet of is verplaatst.</p>
 
-        <a href="/" className="button button--primary">
+        <Link href="/" className="button button--primary">
           Terug naar home
-        </a>
+        </Link>
       </section>
     </main>
   );

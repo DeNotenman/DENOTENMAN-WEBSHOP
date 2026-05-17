@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const pages = [
   { title: "Over ons", slug: "/over-ons", status: "Gepubliceerd" },
   { title: "Privacyverklaring", slug: "/privacyverklaring", status: "Gepubliceerd" },
@@ -15,14 +17,14 @@ export default function CmsPagesPage() {
 
       <section className="admin-list">
         {pages.map((page) => (
-          <a key={page.slug} href="/cms/paginas/over-ons" className="admin-list-row">
+          <Link key={page.slug} href="/cms/paginas/over-ons" className="admin-list-row">
             <div>
               <h2>{page.title}</h2>
               <p>{page.slug}</p>
             </div>
 
             <strong>{page.status}</strong>
-          </a>
+          </Link>
         ))}
       </section>
     </main>

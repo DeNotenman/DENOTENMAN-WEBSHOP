@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { listAdminCategories } from "../../lib/products";
 
 export default async function CategoriesPage() {
@@ -12,22 +13,22 @@ export default async function CategoriesPage() {
       </section>
 
       <section className="admin-actions">
-        <a href="/categorieen/nieuw" className="admin-button">
+        <Link href="/categorieen/nieuw" className="admin-button">
           Nieuwe categorie
-        </a>
+        </Link>
       </section>
 
       <section className="admin-list">
         {categories.length === 0 ? <p>Geen categorieen gevonden.</p> : null}
         {categories.map((category) => (
-          <a key={category.id} href={`/categorieen/${category.id}`} className="admin-list-row">
+          <Link key={category.id} href={`/categorieen/${category.id}`} className="admin-list-row">
             <div>
               <h2>{category.label}</h2>
               <p>Slug: {category.id}</p>
             </div>
             <span>{category.activeProductCount} actief</span>
             <strong>{category.productCount} producten</strong>
-          </a>
+          </Link>
         ))}
       </section>
     </main>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getAdminSession, logoutAction } from "../../lib/admin-auth";
 
 export async function AdminHeader() {
@@ -5,18 +6,18 @@ export async function AdminHeader() {
 
   return (
     <header className="admin-header">
-      <a href="/" className="admin-header__logo">
+      <Link href="/" className="admin-header__logo">
         De Notenman Admin
-      </a>
+      </Link>
 
       <nav className="admin-header__nav" aria-label="Admin navigatie">
-        <a href="/dashboard">Dashboard</a>
-        <a href="/producten">Producten</a>
-        <a href="/categorieen">Categorieën</a>
-        <a href="/bestellingen">Bestellingen</a>
-        <a href="/klanten">Klanten</a>
-        <a href="/zakelijk">Zakelijk</a>
-        <a href="/instellingen">Instellingen</a>
+        <Link href="/dashboard">Dashboard</Link>
+        <Link href="/producten">Producten</Link>
+        <Link href="/categorieen">Categorieën</Link>
+        <Link href="/bestellingen">Bestellingen</Link>
+        <Link href="/klanten">Klanten</Link>
+        <Link href="/zakelijk">Zakelijk</Link>
+        <Link href="/instellingen">Instellingen</Link>
       </nav>
 
       {session ? (
