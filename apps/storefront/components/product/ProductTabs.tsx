@@ -6,9 +6,13 @@ type ProductTabsProps = {
 
 function getDescription({ category, description, name }: ProductTabsProps) {
   return (
-    description ??
+    cleanProductText(description) ??
     `${name} van De Notenman hoort bij ${category.toLowerCase()} en is geselecteerd op smaak, versheid en kwaliteit. Bestel ${name.toLowerCase()} online in handige porties voor dagelijks gebruik, recepten, ontbijt, borrel of zakelijke voorraad.`
   );
+}
+
+function cleanProductText(text?: string | null) {
+  return text?.replace(/^\s*ingredienten?\s*:\s*/i, "").trim() || null;
 }
 
 function getIngredients(name: string) {
@@ -30,10 +34,10 @@ export function ProductTabs({ category, description, name }: ProductTabsProps) {
   return (
     <section className="product-tabs">
       {tabs.map((tab) => (
-        <article key={tab.title} className="dashboard-card">
-          <h2>{tab.title}</h2>
+        <details key={tab.title} className="product-disclosure" open={tab.title === "Omschrijving"}>
+          <summary>{tab.title}</summary>
           <p>{tab.text}</p>
-        </article>
+        </details>
       ))}
     </section>
   );

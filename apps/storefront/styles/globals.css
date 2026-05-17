@@ -4371,3 +4371,274 @@ body:has(.landing-page) .site-header__nav a .ui-icon {
 .product-card-shell.product-card .product-card__inspect span::after {
   display: none;
 }
+
+/* Icon pass: no circular icon containers, transparent commerce grids, larger readable assets. */
+.ui-icon {
+  width: 1.72em;
+  height: 1.72em;
+}
+
+.site-header__action,
+.mobile-menu__quick-actions a,
+.product-card__cart,
+.product-card-shell.product-card .product-card__inspect,
+.product-popout__close,
+.product-popout__related-card button,
+.product-mobile-cta span,
+.product-mobile-cta button {
+  border-radius: 0.32rem;
+}
+
+.site-header__action,
+.site-header__action--checkout,
+.site-header__action--cart-active,
+.product-card__cart,
+.product-card-shell.product-card .product-card__inspect,
+.product-popout__close {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.site-header__action:hover,
+.site-header__action:focus-visible,
+.product-card__cart:hover,
+.product-card__cart:focus-visible,
+.product-card-shell.product-card .product-card__inspect:hover,
+.product-card-shell.product-card .product-card__inspect:focus-visible,
+.product-popout__close:hover,
+.product-popout__close:focus-visible {
+  background: rgba(255, 253, 248, 0.58);
+  box-shadow: 0 0.55rem 1.1rem rgba(47, 79, 79, 0.1);
+  transform: translateY(-1px);
+}
+
+.site-header__action > .ui-icon {
+  width: clamp(2.7rem, 6.5vw, 3.25rem);
+  height: clamp(2.7rem, 6.5vw, 3.25rem);
+}
+
+.site-header__nav a .ui-icon,
+.site-footer__nav a .ui-icon {
+  width: clamp(2rem, 3.4vw, 2.55rem);
+  height: clamp(2rem, 3.4vw, 2.55rem);
+}
+
+.button .ui-icon,
+.product-buybox__ctas .ui-icon,
+.product-popout__ctas .ui-icon,
+.product-popout__related-card button .ui-icon {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.mobile-menu__panel .ui-icon {
+  width: 2.7rem;
+  height: 2.7rem;
+}
+
+.product-card,
+.product-card__media,
+.product-card .product-card-image,
+.product-card-shell.product-card > .product-card__media,
+.product-popout__media,
+.product-popout__related-image {
+  background: transparent;
+}
+
+.product-card__media,
+.product-card .product-card-image {
+  border-radius: 0.38rem;
+  box-shadow: none;
+}
+
+.product-card .product-card-image {
+  object-fit: contain;
+}
+
+.product-card:hover,
+.product-card:focus-within {
+  border-color: rgba(217, 166, 47, 0.55);
+  box-shadow: 0 1rem 2.4rem rgba(47, 79, 79, 0.1);
+  transform: translateY(-2px);
+}
+
+.product-card__cart {
+  width: 3rem;
+  height: 3rem;
+}
+
+.product-card__cart img,
+.product-card-shell.product-card .product-card__inspect-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.product-card-shell.product-card .product-card__inspect {
+  width: 3rem;
+  height: 3rem;
+}
+
+.product-detail-page {
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding-block: clamp(2rem, 5vw, 5rem);
+}
+
+.product-media-placeholder {
+  min-height: clamp(21rem, 42vw, 38rem);
+  border-radius: 0.75rem;
+  background: transparent;
+}
+
+.product-media-placeholder--image img {
+  min-height: clamp(20rem, 40vw, 36rem);
+}
+
+.product-detail-content {
+  align-content: start;
+  gap: 1.1rem;
+}
+
+.product-detail-content h1 {
+  max-width: 13ch;
+  font-size: clamp(2.4rem, 5vw, 5rem);
+}
+
+.product-detail-content > p {
+  max-width: 46rem;
+  color: rgba(47, 79, 79, 0.78);
+  font-size: clamp(1rem, 1.4vw, 1.12rem);
+  line-height: 1.65;
+}
+
+.product-detail-price {
+  color: var(--foreground);
+  font-size: clamp(2rem, 3.4vw, 3.1rem);
+}
+
+.product-trust-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.product-trust-list li {
+  background: rgba(255, 253, 248, 0.62);
+}
+
+.product-buybox {
+  border-radius: 0.65rem;
+  background: rgba(255, 253, 248, 0.84);
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.product-unit-tiles {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.product-unit-tile span {
+  min-height: 6.1rem;
+  place-items: center;
+  text-align: center;
+  border-radius: 0.55rem;
+  background: rgba(255, 253, 248, 0.68);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.product-unit-tile span .ui-icon {
+  width: clamp(2.5rem, 5vw, 3.45rem);
+  height: clamp(2.5rem, 5vw, 3.45rem);
+}
+
+.product-unit-tile:hover span,
+.product-unit-tile input:focus-visible + span {
+  border-color: rgba(122, 154, 122, 0.56);
+  background: rgba(122, 154, 122, 0.1);
+  transform: translateY(-1px);
+}
+
+.product-unit-tile input:checked + span {
+  border-color: rgba(217, 166, 47, 0.78);
+  background: rgba(217, 166, 47, 0.13);
+}
+
+.product-unit-tiles--compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.product-popout__slider {
+  grid-auto-flow: row;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  grid-auto-columns: unset;
+  overflow-x: visible;
+  padding-bottom: 0;
+}
+
+.product-popout__related-card {
+  min-width: 0;
+}
+
+.product-tabs {
+  padding-block: 0 2rem;
+}
+
+.product-detail-support {
+  display: grid;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+.product-disclosure {
+  border: 1px solid rgba(47, 79, 79, 0.14);
+  border-radius: 0.65rem;
+  background: rgba(255, 253, 248, 0.74);
+  padding: 0.95rem 1rem;
+}
+
+.product-disclosure summary {
+  cursor: pointer;
+  color: var(--foreground);
+  font-weight: 900;
+}
+
+.product-disclosure p {
+  margin: 0.7rem 0 0;
+  color: rgba(47, 79, 79, 0.78);
+  line-height: 1.65;
+}
+
+@media (min-width: 980px) {
+  .product-detail-page {
+    grid-template-columns: minmax(0, 6.5fr) minmax(24rem, 5.5fr);
+    align-items: start;
+  }
+
+  .product-detail-content {
+    position: static;
+  }
+
+  .product-buybox__ctas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .product-detail-page {
+    grid-template-columns: minmax(0, 7fr) minmax(28rem, 5fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .product-trust-list,
+  .product-unit-tiles,
+  .product-unit-tiles--compact {
+    grid-template-columns: 1fr;
+  }
+
+  .product-unit-tile span {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    min-height: 4.75rem;
+    text-align: left;
+  }
+}

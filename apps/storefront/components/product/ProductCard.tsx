@@ -16,7 +16,7 @@ function getStockLabel(product: StorefrontProduct) {
 
 function getSeoDescription(product: StorefrontProduct) {
   if (product.description) {
-    return product.description;
+    return cleanProductText(product.description);
   }
 
   return `${product.name} van De Notenman is zorgvuldig geselecteerd voor smaak, versheid en kwaliteit. Bestel ${product.name.toLowerCase()} eenvoudig online in handige besteleenheden voor thuis, horeca of zakelijke voorraad.`;
@@ -53,6 +53,17 @@ function getStartingUnitLabel(product: StorefrontProduct, weight: StorefrontProd
   }
 
   return `per ${product.unit ?? "stuk"}`;
+}
+
+function cleanProductText(text: string) {
+  return text.replace(/^\s*ingredienten?\s*:\s*/i, "").trim();
+}
+
+function getWeightIcon(index: number, total: number) {
+  if (total <= 1) return "Small_bowl";
+  if (index === 0) return "Small_bowl";
+  if (index === total - 1) return "bucket";
+  return "medium_bag";
 }
 
 export function ProductCard({ product, fallbackImage = null, relatedProducts }: ProductCardProps) {
@@ -166,31 +177,27 @@ export function ProductCard({ product, fallbackImage = null, relatedProducts }: 
 
           <form className="product-popout__order-form" action={addToCartAction}>
             <input type="hidden" name="slug" value={product.slug} />
-
-            {product.variants.length > 0 && (
-              <label className="form-field">
-                <span>Variant</span>
-                <select name="variantId" defaultValue={defaultVariant?.variantId}>
-                  {product.variants.map((variant) => (
-                    <option key={variant.id} value={variant.variantId}>
-                      {variant.name} - {variant.stockLabel}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            )}
+            {defaultVariant && <input type="hidden" name="variantId" value={defaultVariant.variantId} />}
 
             {product.weights.length > 0 && (
-              <label className="form-field">
-                <span>Besteleenheid</span>
-                <select name="weightId" defaultValue={defaultWeight?.id}>
-                  {product.weights.map((weight) => (
-                    <option key={weight.id} value={weight.id}>
-                      {weight.label} - {formatPrice(weight.price)}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <fieldset className="product-unit-tiles product-unit-tiles--compact">
+                <legend>Besteleenheid</legend>
+                {product.weights.map((weight, index) => (
+                  <label key={weight.id} className="product-unit-tile">
+                    <input
+                      type="radio"
+                      name="weightId"
+                      value={weight.id}
+                      defaultChecked={weight.id === defaultWeight?.id}
+                    />
+                    <span>
+                      <Icon name={getWeightIcon(index, product.weights.length)} />
+                      <strong>{weight.label}</strong>
+                      <small>{formatPrice(weight.price)}</small>
+                    </span>
+                  </label>
+                ))}
+              </fieldset>
             )}
 
             <label className="form-field">
@@ -204,7 +211,7 @@ export function ProductCard({ product, fallbackImage = null, relatedProducts }: 
                 In winkelwagen
               </button>
               <button className="button button--secondary" type="submit" formAction={buyNowAction}>
-                <Icon name="creditcard" />
+                <Icon name="checkout" />
                 Gelijk bestellen
               </button>
             </div>

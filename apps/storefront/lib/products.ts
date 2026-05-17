@@ -98,6 +98,10 @@ function toMoney(value: number | string) {
   return Number(value);
 }
 
+function cleanProductText(text: string | null) {
+  return text?.replace(/^\s*ingredienten?\s*:\s*/i, "").trim() || null;
+}
+
 function mapProduct(row: ProductRow): StorefrontProduct {
   return {
     id: row.id,
@@ -106,7 +110,7 @@ function mapProduct(row: ProductRow): StorefrontProduct {
     category: row.category,
     categoryLabel: row.category_label ?? row.category,
     image: row.image,
-    description: row.description,
+    description: cleanProductText(row.description),
     basePrice: toMoney(row.base_price),
     unit: row.unit,
     badge: row.badge,

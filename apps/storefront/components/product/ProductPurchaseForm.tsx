@@ -22,6 +22,13 @@ function getUnitPriceLabel(product: StorefrontProductDetail) {
   return formatPrice(firstWeight?.price ?? firstVariant?.price ?? product.basePrice);
 }
 
+function getWeightIcon(index: number, total: number) {
+  if (total <= 1) return "Small_bowl";
+  if (index === 0) return "Small_bowl";
+  if (index === total - 1) return "bucket";
+  return "medium_bag";
+}
+
 export function ProductPurchaseForm({ product }: ProductPurchaseFormProps) {
   const [state, formAction, isPending] = useActionState(inlineAddToCartAction, initialState);
   const defaultWeight = product.weights[0];
@@ -30,19 +37,7 @@ export function ProductPurchaseForm({ product }: ProductPurchaseFormProps) {
   return (
     <form className="product-buybox" action={formAction}>
       <input type="hidden" name="slug" value={product.slug} />
-
-      {product.variants.length > 0 && (
-        <label className="form-field">
-          <span>Variant</span>
-          <select name="variantId" defaultValue={defaultVariant?.variantId}>
-            {product.variants.map((variant) => (
-              <option key={variant.id} value={variant.variantId}>
-                {variant.name} - {variant.stockLabel}
-              </option>
-            ))}
-          </select>
-        </label>
-      )}
+      {defaultVariant && <input type="hidden" name="variantId" value={defaultVariant.variantId} />}
 
       {product.weights.length > 0 && (
         <fieldset className="product-unit-tiles">
@@ -56,7 +51,7 @@ export function ProductPurchaseForm({ product }: ProductPurchaseFormProps) {
                 defaultChecked={weight.id === defaultWeight?.id}
               />
               <span>
-                {index === 1 && <b>Meest gekozen</b>}
+                <Icon name={getWeightIcon(index, product.weights.length)} />
                 <strong>{weight.label}</strong>
                 <small>{formatPrice(weight.price)}</small>
               </span>
@@ -88,7 +83,7 @@ export function ProductPurchaseForm({ product }: ProductPurchaseFormProps) {
           value="checkout"
           disabled={isPending}
         >
-          <Icon name="creditcard" />
+          <Icon name="checkout" />
           Gelijk bestellen
         </button>
       </div>

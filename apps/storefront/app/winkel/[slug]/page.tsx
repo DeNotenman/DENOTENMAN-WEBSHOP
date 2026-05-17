@@ -35,6 +35,10 @@ function serializeJsonLd(data: Record<string, unknown>) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
+function cleanProductText(text?: string | null) {
+  return text?.replace(/^\s*ingredienten?\s*:\s*/i, "").trim() || null;
+}
+
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
@@ -45,7 +49,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
   const price = product.weights[0]?.price ?? product.variants[0]?.price ?? product.basePrice;
   const description =
-    product.description ??
+    cleanProductText(product.description) ??
     `Bestel ${product.name} online bij De Notenman. Dagvers geselecteerd, veilig betalen en snel geleverd.`;
 
   return {
@@ -75,6 +79,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   const relatedProducts = (await listProducts()).filter((item) => item.slug !== product.slug).slice(0, 8);
+  const description = cleanProductText(product.description);
   const lowestWeightPrice = product.weights[0]?.price;
   const displayPrice = formatPrice(lowestWeightPrice ?? product.basePrice);
   const stockLabel = product.variants[0]?.stockLabel ?? "Op voorraad";
@@ -85,7 +90,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     name: product.name,
     image: product.image ? [product.image] : [`${siteBaseUrl}/Notenman_onlylogo.png`],
     description:
-      product.description ??
+      description ??
       `${product.name} van De Notenman is dagvers geselecteerd en online te bestellen.`,
     brand: {
       "@type": "Brand",
@@ -132,13 +137,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </div>
       </section>
 
-      <section className="container">
+      <section className="container product-detail-support">
+        <RelatedProducts products={relatedProducts} />
         <ProductTabs
           category={product.categoryLabel}
           description={product.description}
           name={product.name}
         />
-        <RelatedProducts products={relatedProducts} />
       </section>
     </main>
   );

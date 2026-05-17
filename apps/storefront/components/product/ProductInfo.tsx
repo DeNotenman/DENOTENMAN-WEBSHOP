@@ -9,6 +9,10 @@ type ProductInfoProps = {
   stockLabel?: string;
 };
 
+function cleanProductText(text: string) {
+  return text.replace(/^\s*ingredienten?\s*:\s*/i, "").trim();
+}
+
 export function ProductInfo({
   description,
   name,
@@ -19,7 +23,7 @@ export function ProductInfo({
   return (
     <div className="product-detail-content">
       <h1>{name}</h1>
-      {description && <p>{description}</p>}
+      {description && <p>{cleanProductText(description)}</p>}
       {origin && <p>Herkomst: {origin}</p>}
 
       <ProductPrice price={price} />
