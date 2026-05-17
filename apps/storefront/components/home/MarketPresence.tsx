@@ -16,10 +16,10 @@ const MAP_SIZE = {
 } as const;
 
 const POIS = {
-  Haaren: { x: 84.57, y: 62.27, days: [0, 1, 2], label: "Zondag, maandag en dinsdag" },
-  Uden: { x: 66.87, y: 50.8, days: [3], label: "Woensdag" },
-  Hilvarenbeek: { x: 51.08, y: 54.41, days: [4], label: "Donderdag" },
-  Antwerpen: { x: 17.17, y: 36.77, days: [5, 6], label: "Vrijdag en zaterdag" },
+  Haaren: { x: 83.13, y: 64.4, days: [0, 1, 2], label: "Zondag, maandag en dinsdag" },
+  Uden: { x: 66.87, y: 53.45, days: [3], label: "Woensdag" },
+  Hilvarenbeek: { x: 51.2, y: 54.41, days: [4], label: "Donderdag" },
+  Antwerpen: { x: 17.46, y: 36.88, days: [5, 6], label: "Vrijdag en zaterdag" },
 } as const satisfies Record<string, Omit<MarketLocation, "name">>;
 
 const MARKET_LOCATIONS: MarketLocation[] = Object.entries(POIS).map(([name, location]) => ({
