@@ -1739,13 +1739,14 @@ textarea {
 .site-header__actions {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: clamp(0.35rem, 1vw, 0.55rem);
   flex: 0 0 auto;
 }
 
 .site-header__action {
-  width: 40px;
-  height: 40px;
+  position: relative;
+  width: clamp(44px, 9.8vw, 52px);
+  height: clamp(44px, 9.8vw, 52px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1772,9 +1773,32 @@ textarea {
   background: rgba(217, 166, 47, 0.16);
 }
 
+.site-header__action--cart-active {
+  border-color: rgba(122, 154, 122, 0.62);
+  background: rgba(122, 154, 122, 0.16);
+}
+
 .site-header__action .ui-icon {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: clamp(1.8rem, 5.2vw, 2.15rem);
+  height: clamp(1.8rem, 5.2vw, 2.15rem);
+}
+
+.site-header__cart-badge {
+  position: absolute;
+  right: -0.18rem;
+  bottom: -0.18rem;
+  min-width: 1.16rem;
+  height: 1.16rem;
+  display: grid;
+  place-items: center;
+  border: 2px solid #fffdf8;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--foreground);
+  padding-inline: 0.24rem;
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1;
 }
 
 .mobile-menu {
@@ -1846,6 +1870,7 @@ textarea {
 }
 
 .mobile-menu__quick-actions a {
+  position: relative;
   min-height: 4.4rem;
   flex-direction: column;
   justify-content: center;
@@ -1858,6 +1883,12 @@ textarea {
   text-align: center;
   font-size: 0.9rem;
   line-height: 1.1;
+}
+
+.mobile-menu__cart-icon {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
 }
 
 .mobile-menu__asset-note {
@@ -1887,8 +1918,8 @@ textarea {
 
   .site-header__action,
   .mobile-menu__button {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
 
   .site-header__actions {
@@ -1920,8 +1951,8 @@ textarea {
   }
 
   .site-header__action {
-    width: 44px;
-    height: 44px;
+    width: 54px;
+    height: 54px;
   }
 
   .mobile-menu {
@@ -1931,8 +1962,8 @@ textarea {
 
 @media (min-width: 1180px) {
   .site-header__action {
-    width: 46px;
-    height: 46px;
+    width: 56px;
+    height: 56px;
   }
 }
 .account-nav {
@@ -1976,8 +2007,13 @@ textarea {
 
 .button .ui-icon,
 .site-header__action .ui-icon {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.site-header__action > .ui-icon {
+  width: clamp(1.8rem, 5.2vw, 2.2rem);
+  height: clamp(1.8rem, 5.2vw, 2.2rem);
 }
 
 .site-header__brand {
@@ -2001,13 +2037,23 @@ textarea {
   min-height: 42px;
 }
 
+.site-header__nav a .ui-icon {
+  width: clamp(1.45rem, 2.6vw, 1.75rem);
+  height: clamp(1.45rem, 2.6vw, 1.75rem);
+}
+
 .mobile-menu__panel a {
   gap: 0.7rem;
 }
 
 .mobile-menu__panel .ui-icon {
-  width: 1.45rem;
-  height: 1.45rem;
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.site-footer__nav a .ui-icon {
+  width: clamp(1.45rem, 2.4vw, 1.75rem);
+  height: clamp(1.45rem, 2.4vw, 1.75rem);
 }
 
 .home-hero__usp {

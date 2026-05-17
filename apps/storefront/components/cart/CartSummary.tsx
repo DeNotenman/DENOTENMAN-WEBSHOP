@@ -9,7 +9,7 @@ export function CartSummary({ cart }: { cart: StorefrontCart }) {
       <CartTotals cart={cart} />
 
       <a href={cart.items.length > 0 ? "/checkout" : "/winkel"} className="button button--primary">
-        <Icon name={cart.items.length > 0 ? "credit-card" : "shopping-bag"} />
+        <Icon name={cart.items.length > 0 ? "checkout" : "medium_bag"} />
         {cart.items.length > 0 ? "Naar de kassa" : "Verder winkelen"}
       </a>
     </aside>

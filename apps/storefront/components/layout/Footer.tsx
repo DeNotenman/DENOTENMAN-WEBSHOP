@@ -11,9 +11,9 @@ export function Footer() {
 
         <nav className="site-footer__nav" aria-label="Footer navigatie">
           <a href="/klantenservice"><Icon name="customer_service" />Klantenservice</a>
-          <a href="/privacyverklaring"><Icon name="question-square" />Privacy</a>
-          <a href="/algemene-voorwaarden"><Icon name="Mail" />Voorwaarden</a>
-          <a href="/zakelijk"><Icon name="webshop" />Zakelijk</a>
+          <a href="/privacyverklaring"><Icon name="secure_icon" />Privacy</a>
+          <a href="/algemene-voorwaarden"><Icon name="terms" />Voorwaarden</a>
+          <a href="/zakelijk"><Icon name="bussines_icon" />Zakelijk</a>
         </nav>
       </div>
     </footer>

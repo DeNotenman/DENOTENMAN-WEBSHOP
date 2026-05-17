@@ -59,6 +59,7 @@ async function addCartItemFromForm(formData: FormData) {
   });
 
   await setCartItems(items);
+  revalidatePath("/", "layout");
   revalidatePath("/winkelwagen");
 }
 
@@ -119,6 +120,7 @@ export async function updateCartItemAction(formData: FormData) {
     .filter((item) => item.quantity > 0);
 
   await setCartItems(items);
+  revalidatePath("/", "layout");
   revalidatePath("/winkelwagen");
 }
 
@@ -137,5 +139,6 @@ export async function removeCartItemAction(formData: FormData) {
   );
 
   await setCartItems(items);
+  revalidatePath("/", "layout");
   revalidatePath("/winkelwagen");
 }

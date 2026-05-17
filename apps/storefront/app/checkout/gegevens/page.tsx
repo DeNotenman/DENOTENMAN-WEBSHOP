@@ -19,7 +19,7 @@ export default async function CheckoutDetailsPage() {
             <AddressForm checkout={checkout} />
 
             <button className="button button--primary" type="submit">
-              <Icon name="angle-double-right" />
+              <Icon name="checkout" />
               Verder naar verzending
             </button>
           </form>
