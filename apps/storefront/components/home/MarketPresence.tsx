@@ -2,41 +2,12 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-
-type MarketLocation = {
-  name: string;
-  x: number;
-  y: number;
-  days: readonly number[];
-  label: string;
-};
-
-const MAP_SIZE = {
-  width: 1672,
-  height: 941,
-} as const;
-
-const POIS = {
-  Haaren: { x: 83.13, y: 64.4, days: [0, 1, 2], label: "Zondag, maandag en dinsdag" },
-  Uden: { x: 66.87, y: 53.45, days: [3], label: "Woensdag" },
-  Hilvarenbeek: { x: 51.2, y: 54.41, days: [4], label: "Donderdag" },
-  Antwerpen: { x: 17.46, y: 36.88, days: [5, 6], label: "Vrijdag en zaterdag" },
-} as const satisfies Record<string, Omit<MarketLocation, "name">>;
-
-const MARKET_LOCATIONS: MarketLocation[] = Object.entries(POIS).map(([name, location]) => ({
-  name,
-  ...location,
-}));
-
-const WEEKDAY_TO_INDEX: Record<string, number> = {
-  Sun: 0,
-  Mon: 1,
-  Tue: 2,
-  Wed: 3,
-  Thu: 4,
-  Fri: 5,
-  Sat: 6,
-};
+import {
+  getActiveMarketLocation,
+  MAP_SIZE,
+  MARKET_LOCATIONS,
+  WEEKDAY_TO_INDEX,
+} from "../../lib/market-locations";
 
 function getAmsterdamDayIndex() {
   const weekday = new Intl.DateTimeFormat("en-US", {
@@ -45,10 +16,6 @@ function getAmsterdamDayIndex() {
   }).format(new Date());
 
   return WEEKDAY_TO_INDEX[weekday] ?? new Date().getDay();
-}
-
-function getActiveMarketLocation(dayIndex: number) {
-  return MARKET_LOCATIONS.find((location) => location.days.includes(dayIndex)) ?? null;
 }
 
 export function MarketPresence() {
