@@ -1,3 +1,5 @@
+import { AdminModuleStatus } from "../../../components/layout/AdminModuleStatus";
+
 export default function NewDiscountPage() {
   return (
     <main className="admin-main">
@@ -7,30 +9,15 @@ export default function NewDiscountPage() {
         <span>Maak een kortingscode of actie aan.</span>
       </section>
 
-      <form className="admin-form">
-        <label>
-          Kortingscode
-          <input type="text" name="code" placeholder="Bijvoorbeeld: WELKOM10" />
-        </label>
-
-        <label>
-          Type korting
-          <select name="type">
-            <option>Percentage</option>
-            <option>Vast bedrag</option>
-            <option>Gratis verzending</option>
-          </select>
-        </label>
-
-        <label>
-          Waarde
-          <input type="text" name="value" placeholder="Bijvoorbeeld: 10%" />
-        </label>
-
-        <button className="admin-button" type="submit">
-          Korting aanmaken
-        </button>
-      </form>
+      <AdminModuleStatus
+        title="Korting aanmaken is nog geblokkeerd"
+        description="Deze route wacht op een kortingsschema en checkout-koppeling, zodat een code pas beheerbaar wordt wanneer hij ook echt werkt."
+        items={[
+          "Definieer kortingsvelden en validatieregels.",
+          "Voeg een beveiligde saveDiscountAction toe.",
+          "Koppel de code aan cart- en checkoutberekening.",
+        ]}
+      />
     </main>
   );
 }

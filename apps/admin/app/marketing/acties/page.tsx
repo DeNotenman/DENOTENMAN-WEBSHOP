@@ -1,7 +1,4 @@
-const campaigns = [
-  { title: "Voorjaarsactie", period: "Mei 2026", status: "Actief" },
-  { title: "Zakelijke startkorting", period: "Q2 2026", status: "Concept" },
-];
+import { AdminModuleStatus } from "../../../components/layout/AdminModuleStatus";
 
 export default function MarketingActionsPage() {
   return (
@@ -9,21 +6,18 @@ export default function MarketingActionsPage() {
       <section className="admin-page-header">
         <p>Marketing</p>
         <h1>Acties</h1>
-        <span>Beheer tijdelijke acties, campagnes en commerciële blokken.</span>
+        <span>Beheer tijdelijke acties, campagnes en commerciele blokken.</span>
       </section>
 
-      <section className="admin-list">
-        {campaigns.map((campaign) => (
-          <article key={campaign.title} className="admin-list-row">
-            <div>
-              <h2>{campaign.title}</h2>
-              <p>{campaign.period}</p>
-            </div>
-
-            <strong>{campaign.status}</strong>
-          </article>
-        ))}
-      </section>
+      <AdminModuleStatus
+        title="Campagnebeheer ontbreekt nog"
+        description="Er worden geen voorbeeldacties meer getoond. Campagnes moeten straks vanuit echte marketingrecords worden opgebouwd."
+        items={[
+          "Maak campaign records met looptijd, status en gekoppelde contentblokken.",
+          "Koppel actieve campagnes aan storefront posities.",
+          "Voeg publicatie- en revalidatie-actions toe.",
+        ]}
+      />
     </main>
   );
 }

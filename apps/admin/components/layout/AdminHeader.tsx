@@ -17,6 +17,7 @@ export async function AdminHeader() {
         <Link href="/bestellingen">Bestellingen</Link>
         <Link href="/klanten">Klanten</Link>
         <Link href="/zakelijk">Zakelijk</Link>
+        <Link href="/marketing/qr-codes">QR-codes</Link>
         <Link href="/instellingen">Instellingen</Link>
       </nav>
 

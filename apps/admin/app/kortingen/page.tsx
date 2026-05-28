@@ -1,7 +1,4 @@
-const discounts = [
-  { code: "WELKOM10", type: "10%", status: "Actief" },
-  { code: "ZAKELIJK5", type: "5%", status: "Actief" },
-];
+import { AdminModuleStatus } from "../../components/layout/AdminModuleStatus";
 
 export default function DiscountsPage() {
   return (
@@ -12,18 +9,15 @@ export default function DiscountsPage() {
         <span>Beheer kortingscodes, acties en voorwaarden.</span>
       </section>
 
-      <section className="admin-list">
-        {discounts.map((discount) => (
-          <article key={discount.code} className="admin-list-row">
-            <div>
-              <h2>{discount.code}</h2>
-              <p>{discount.type}</p>
-            </div>
-
-            <strong>{discount.status}</strong>
-          </article>
-        ))}
-      </section>
+      <AdminModuleStatus
+        title="Kortingsbeheer ontbreekt nog"
+        description="Er worden geen voorbeeldkortingen meer getoond. Kortingscodes moeten eerst gekoppeld worden aan echte opslag en checkout-validatie."
+        items={[
+          "Maak een discounts tabel met code, type, waarde, looptijd en gebruikslimieten.",
+          "Valideer kortingsregels in de checkout totals.",
+          "Registreer gebruik per order om misbruik en dubbele toepassing te voorkomen.",
+        ]}
+      />
     </main>
   );
 }

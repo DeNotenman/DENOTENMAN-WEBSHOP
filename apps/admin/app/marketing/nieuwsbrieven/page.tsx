@@ -1,7 +1,4 @@
-const newsletters = [
-  { title: "Mei nieuwsbrief", audience: "Alle klanten", status: "Concept" },
-  { title: "Zakelijke klanten update", audience: "Zakelijke klanten", status: "Gepland" },
-];
+import { AdminModuleStatus } from "../../../components/layout/AdminModuleStatus";
 
 export default function NewslettersPage() {
   return (
@@ -12,18 +9,15 @@ export default function NewslettersPage() {
         <span>Beheer nieuwsbrieven, doelgroepen en verzendstatussen.</span>
       </section>
 
-      <section className="admin-list">
-        {newsletters.map((newsletter) => (
-          <article key={newsletter.title} className="admin-list-row">
-            <div>
-              <h2>{newsletter.title}</h2>
-              <p>{newsletter.audience}</p>
-            </div>
-
-            <strong>{newsletter.status}</strong>
-          </article>
-        ))}
-      </section>
+      <AdminModuleStatus
+        title="Nieuwsbriefbeheer ontbreekt nog"
+        description="Er worden geen voorbeeldnieuwsbrieven meer getoond. Verzenden moet pas beschikbaar worden na doelgroep-, consent- en e-mailintegratie."
+        items={[
+          "Koppel inschrijvingen en toestemming aan echte klantdata.",
+          "Maak concepten, segmenten en geplande verzendingen persistent.",
+          "Gebruik de worker voor gecontroleerde e-mailverzending.",
+        ]}
+      />
     </main>
   );
 }

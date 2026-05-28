@@ -10,10 +10,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@supabase/supabase-js": "latest",
+    "lucide-react": "^1.17.0",
     "next": "latest",
+    "qr-code-styling": "^1.9.2",
     "react": "latest",
-    "react-dom": "latest",
-    "@supabase/supabase-js": "latest"
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",

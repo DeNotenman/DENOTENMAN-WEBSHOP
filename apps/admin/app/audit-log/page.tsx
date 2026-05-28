@@ -1,8 +1,4 @@
-const logs = [
-  { action: "Product aangepast", user: "Fedor van Ravesteijn", date: "14-05-2026 20:12" },
-  { action: "Bestellijst aangemaakt", user: "Fedor van Ravesteijn", date: "14-05-2026 20:34" },
-  { action: "Factuur bekeken", user: "Dave Vera", date: "14-05-2026 21:02" },
-];
+import { AdminModuleStatus } from "../../components/layout/AdminModuleStatus";
 
 export default function AuditLogPage() {
   return (
@@ -13,18 +9,15 @@ export default function AuditLogPage() {
         <span>Bekijk belangrijke wijzigingen en beheeracties binnen de adminomgeving.</span>
       </section>
 
-      <section className="admin-list">
-        {logs.map((log) => (
-          <article key={`${log.action}-${log.date}`} className="admin-list-row">
-            <div>
-              <h2>{log.action}</h2>
-              <p>{log.user}</p>
-            </div>
-
-            <span>{log.date}</span>
-          </article>
-        ))}
-      </section>
+      <AdminModuleStatus
+        title="Audit logging ontbreekt nog"
+        description="Er worden geen voorbeeldlogs meer getoond. Beheeracties moeten eerst centraal worden vastgelegd voordat deze pagina als controlespoor kan dienen."
+        items={[
+          "Maak een audit_logs tabel met actor, actie, resource, metadata en timestamp.",
+          "Log wijzigingen vanuit product-, order-, settings- en content-actions.",
+          "Voeg filters toe op gebruiker, module en periode.",
+        ]}
+      />
     </main>
   );
 }

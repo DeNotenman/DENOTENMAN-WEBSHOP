@@ -1,32 +1,23 @@
-import Link from "next/link";
-
-const pages = [
-  { title: "Over ons", slug: "/over-ons", status: "Gepubliceerd" },
-  { title: "Privacyverklaring", slug: "/privacyverklaring", status: "Gepubliceerd" },
-  { title: "Retourbeleid", slug: "/retourbeleid", status: "Gepubliceerd" },
-];
+import { AdminModuleStatus } from "../../../components/layout/AdminModuleStatus";
 
 export default function CmsPagesPage() {
   return (
     <main className="admin-main">
       <section className="admin-page-header">
         <p>CMS</p>
-        <h1>Pagina’s</h1>
-        <span>Beheer vaste pagina’s, juridische content en SEO-inhoud.</span>
+        <h1>CMS paginas</h1>
+        <span>Beheer vaste contentroutes, juridische content en SEO-inhoud.</span>
       </section>
 
-      <section className="admin-list">
-        {pages.map((page) => (
-          <Link key={page.slug} href="/cms/paginas/over-ons" className="admin-list-row">
-            <div>
-              <h2>{page.title}</h2>
-              <p>{page.slug}</p>
-            </div>
-
-            <strong>{page.status}</strong>
-          </Link>
-        ))}
-      </section>
+      <AdminModuleStatus
+        title="CMS-pagina opslag ontbreekt nog"
+        description="De publieke content bestaat nu als vaste storefront-routes. Er is nog geen CMS-tabel of publicatieflow waarmee de admin deze content veilig kan opslaan."
+        items={[
+          "Maak een cms_pages tabel met slug, titel, inhoud, SEO-velden en publicatiestatus.",
+          "Koppel de adminlijst en detailroutes aan echte records via service-role actions.",
+          "Laat de storefront dezelfde gepubliceerde records server-side lezen.",
+        ]}
+      />
     </main>
   );
 }

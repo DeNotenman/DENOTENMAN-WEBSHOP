@@ -1,7 +1,4 @@
-const banners = [
-  { title: "Voorjaarsactie", position: "Homepage hero", status: "Actief" },
-  { title: "Zakelijk bestellen", position: "Zakelijke pagina", status: "Actief" },
-];
+import { AdminModuleStatus } from "../../../components/layout/AdminModuleStatus";
 
 export default function MarketingBannersPage() {
   return (
@@ -9,21 +6,18 @@ export default function MarketingBannersPage() {
       <section className="admin-page-header">
         <p>Marketing</p>
         <h1>Banners</h1>
-        <span>Beheer commerciële banners, posities en zichtbaarheid.</span>
+        <span>Beheer commerciele banners, posities en zichtbaarheid.</span>
       </section>
 
-      <section className="admin-list">
-        {banners.map((banner) => (
-          <article key={banner.title} className="admin-list-row">
-            <div>
-              <h2>{banner.title}</h2>
-              <p>{banner.position}</p>
-            </div>
-
-            <strong>{banner.status}</strong>
-          </article>
-        ))}
-      </section>
+      <AdminModuleStatus
+        title="Bannerbeheer ontbreekt nog"
+        description="Er worden geen voorbeeldbanners meer getoond. Bannerposities moeten eerst gekoppeld worden aan echte media en storefront-slots."
+        items={[
+          "Maak banner records met positie, afbeelding, link en publicatiestatus.",
+          "Hergebruik de bestaande media-upload flow voor bannerafbeeldingen.",
+          "Laat de storefront alleen actieve banners per positie ophalen.",
+        ]}
+      />
     </main>
   );
 }

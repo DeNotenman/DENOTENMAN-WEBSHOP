@@ -1,3 +1,5 @@
+import { AdminModuleStatus } from "../../../../components/layout/AdminModuleStatus";
+
 export default function NewCmsPage() {
   return (
     <main className="admin-main">
@@ -7,26 +9,15 @@ export default function NewCmsPage() {
         <span>Maak een nieuwe contentpagina aan.</span>
       </section>
 
-      <form className="admin-form">
-        <label>
-          Titel
-          <input type="text" name="title" placeholder="Bijvoorbeeld: Over ons" />
-        </label>
-
-        <label>
-          Slug
-          <input type="text" name="slug" placeholder="over-ons" />
-        </label>
-
-        <label>
-          Inhoud
-          <textarea name="content" placeholder="Pagina-inhoud" />
-        </label>
-
-        <button className="admin-button" type="submit">
-          Pagina aanmaken
-        </button>
-      </form>
+      <AdminModuleStatus
+        title="Pagina aanmaken is nog geblokkeerd"
+        description="Deze route toont geen formulier totdat CMS-opslag, validatie en publicatiegedrag zijn aangesloten."
+        items={[
+          "Voeg eerst cms.actions.ts toe met requireAdmin en server-side validatie.",
+          "Sla concepten en gepubliceerde pagina's op in Supabase.",
+          "Revalideer de bijbehorende storefront-route na publicatie.",
+        ]}
+      />
     </main>
   );
 }

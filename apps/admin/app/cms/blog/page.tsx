@@ -1,9 +1,4 @@
-import Link from "next/link";
-
-const posts = [
-  { title: "Waarom ongebrande noten populair zijn", category: "Noten", status: "Gepubliceerd" },
-  { title: "Zakelijk noten bestellen", category: "Zakelijk", status: "Concept" },
-];
+import { AdminModuleStatus } from "../../../components/layout/AdminModuleStatus";
 
 export default function BlogPage() {
   return (
@@ -11,21 +6,18 @@ export default function BlogPage() {
       <section className="admin-page-header">
         <p>CMS</p>
         <h1>Blog</h1>
-        <span>Beheer blogartikelen, categorieën en publicatiestatussen.</span>
+        <span>Beheer blogartikelen, categorieen en publicatiestatussen.</span>
       </section>
 
-      <section className="admin-list">
-        {posts.map((post) => (
-          <Link key={post.title} href="/cms/blog/voorbeeld-artikel" className="admin-list-row">
-            <div>
-              <h2>{post.title}</h2>
-              <p>{post.category}</p>
-            </div>
-
-            <strong>{post.status}</strong>
-          </Link>
-        ))}
-      </section>
+      <AdminModuleStatus
+        title="Blogopslag ontbreekt nog"
+        description="De admin toont geen voorbeeldartikelen meer. Blogbeheer wordt pas actief zodra er echte blogtabellen en publicatie-actions zijn."
+        items={[
+          "Maak blog_posts en blog_categories met publicatiestatus en SEO-velden.",
+          "Koppel lijst, detail en nieuw-artikel routes aan Supabase.",
+          "Laat storefront blogroutes alleen gepubliceerde artikelen tonen.",
+        ]}
+      />
     </main>
   );
 }
